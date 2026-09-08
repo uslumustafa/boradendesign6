@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {shapes,edgeControls,progressAt,servicePiece} from './puzzle.mjs';
 import {serviceMotionAt} from './public/service-motion.js';
+import {headerScrollState} from './public/app.js';
 import {render,routeList,safeURL} from './render.mjs';
 const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url))),L=JSON.parse(fs.readFileSync(new URL('data/legacy.json',import.meta.url)));
 test('service pieces preserve identity, isolate SVG ids and settle before reading',()=>{
@@ -48,11 +49,25 @@ test('intro can finish or skip safely, while repeat visits and reduced motion by
   return {classes,main,skip,overlay,events,run(ms){const timer=[...timers.values()].find(t=>t.ms===ms);assert.ok(timer);timer.fn();}};
  }
  for(const mode of [{seen:true},{reduce:true}])assert.equal(opening(mode).classes.has('intro-active'),false);
- const normal=opening();assert.equal(normal.main.inert,true);normal.run(4350);normal.run(550);assert.equal(normal.main.inert,false);assert.equal(normal.overlay.removed,true);
+ const normal=opening();assert.equal(normal.main.inert,true);normal.run(5200);normal.run(550);assert.equal(normal.main.inert,false);assert.equal(normal.overlay.removed,true);
  const replay=opening({seen:true,query:'?intro=1',storageFails:true});replay.skip.click();replay.run(100);assert.equal(replay.classes.has('intro-active'),false);
  const escape=opening();escape.events.keydown({key:'Escape'});escape.run(100);assert.equal(escape.main.inert,false);
- const failed=opening();failed.run(5500);failed.run(100);assert.equal(failed.main.inert,false);
+ const failed=opening();failed.run(5900);failed.run(100);assert.equal(failed.main.inert,false);
  assert.ok(render('/',D,L).html.includes('id="brand-intro"'));assert.ok(!render('/hizmetler/',D,L).html.includes('id="brand-intro"'));
+});
+test('header waits for intentional direction changes and expertise links remain paired',()=>{
+ let state={lastY:0,anchor:0,direction:0,hidden:false};
+ const move=(y,locked=false)=>(state=headerScrollState(state,y,locked)).hidden;
+ assert.equal(move(96),false);assert.equal(move(115),false);assert.equal(move(116),true);
+ assert.equal(move(110),true);assert.equal(move(97),true);assert.equal(move(96),false);
+ assert.equal(move(300),true);assert.equal(move(281),true);assert.equal(move(280),false);
+ assert.equal(move(500,true),false);assert.equal(move(519),false);assert.equal(move(520),true);
+ assert.equal(move(-30),false);
+ const html=render('/',D,L).html;
+ assert.ok(html.indexOf('class="expertise-puzzle"')<html.indexOf('class="expertise-grid"'));
+ assert.equal((html.match(/data-expertise-card=/g)||[]).length,6);
+ for(const [i,g] of D.groups.entries())assert.ok(html.includes(`data-expertise-card="${i}" id="alan-${g.id}" href="/hizmetler/alan/${g.id}/"`));
+ assert.ok(!html.includes('data-chapter='));assert.ok(!html.includes('motion-toggle'));
 });
 test('preserved calculator engine and important transferred content remain available',()=>{const context=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(new URL('public/calculator-core.js',import.meta.url),'utf8'),context);const calc=context.window.BoradenCalc;assert.equal(calc.vat(10000,20,false).total,12000);assert.equal(calc.vat(12000,20,true).net,10000);assert.throws(()=>calc.vat(-1,20,false));for(const s of D.services){const html=render('/hizmetler/'+s.id+'/',D,L).html;for(const n of s.needs||[])assert.ok(html.includes(n),s.id+': '+n);}assert.ok(render('/hesaplama/kdv/',D,L).html.includes('data-initial-calculator="vat"'));});
 test('every internal jigsaw edge interlocks exactly in reverse traversal',()=>{const pairs=new Map();for(const s of shapes)for(let i=0;i<s.points.length;i++){const p=s.points[i],q=s.points[(i+1)%s.points.length],key=[p.join(','),q.join(',')].sort().join('|');const coords=edgeControls(p,q);if(pairs.has(key))assert.deepEqual(coords,pairs.get(key).slice().reverse(),key);else pairs.set(key,coords);}assert.equal(shapes.length,7);assert.equal(progressAt(-10),0);assert.equal(progressAt(100),6);});

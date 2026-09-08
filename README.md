@@ -1,21 +1,33 @@
 # Boraden — Birlikte, bütüne.
 
-Second Boraden design exploration. Light palette and a progressive puzzle of six service disciplines around Boraden.
+Boraden’ın ikinci tasarım çalışması. Açık yüzeyler, Manrope ve italik Instrument Serif ile önceki 4173 tasarımının tipografisi korunur. Yapboz, özgün logonun mavi, kırmızı ve yeşil ailelerinden gelen altı tonu kullanır; beyaz etiketlerin okunabilirliği için parça renkleri koyulaştırılmıştır. SVG yüzeyleri, kenarlar, gölgeler ve CSS perspektifi derinlik sağlar.
 
-Run with Node.js: `npm run build`, then `npm start`. Open http://127.0.0.1:4174/. No package installation is needed. `npm test` checks puzzle geometry, transferred routes and calculator reuse.
+## Yerel önizleme
 
-Current direction: near-white surfaces, stronger navy/petrol puzzle faces and restrained original logo accents. Manrope and italic Instrument Serif retain the previous 4173 typography. Native SVG gradients, bevels, extrusion and CSS perspective give the puzzle depth without a 3D engine. Its center reads BORADEN from the start of assembly. Six service pieces drop into the sticky homepage puzzle as the reader reaches each discipline. All 47 service pages and six discipline pages carry their own labeled piece: visible on entry, descending on scroll, then blurred and faint behind the reading. Native navigation and search remain available throughout; hidden incoming puzzle links leave the keyboard tab order. Mobile homepage and reduced-motion use a completed static puzzle.
+Node.js ile `npm run build`, ardından `npm start` çalıştırın. Adres: http://127.0.0.1:4174/. Paket kurulumu gerekmez. `npm test`, yapboz geometrisini, aktarılan rotaları ve hesaplama araçlarının yeniden kullanımını kontrol eder.
 
-Motion reference reviewed visually on 9 September 2026: [Deloitte Türkiye homepage](https://www.deloitte.com/tr/tr.html), including its “2026 Y ve Z Kuşakları Araştırması” cover and the following scene rising over it. Boraden uses this transition principle for its own held puzzle hero and rising white expertise sheet; Deloitte copy and artwork were not transferred. The page keeps native scrolling, bounded transforms, reduced-motion fallbacks and the existing motion pause control.
+## Güncel akış
 
-Opening sequence: fullscreen black, six large service pieces assemble, then colored checks and a full-width BORADEN reveal with “Bağımsız Denetim ve Danışmanlık A.Ş.” underneath. Duration is about 4.9 seconds. This black intro explicitly supersedes the earlier no-black decision for the opening only. It plays on the first home-page visit per browser tab session. Skip or Escape enters directly; reduced-motion bypasses the intro. `/?intro=1` replays it for design review. Without JavaScript the page opens directly.
+“Her parça uzmanlık” hero alanı doğal kaydırmayla bütünüyle yukarı çıkar. Menü aşağı kaydırmada gizlenir, yukarı kaydırmada görünür; yön değişimi için 20 piksel eşik kullanılır. Sayfanın ilk 96 pikselinde, imleç üst kenara geldiğinde, menü/arama açıkken veya menü klavye odağı taşırken görünür kalır. Azaltılmış hareket tercihinde geçiş anlıktır.
 
-The homepage includes all 14 world perspectives with their existing reading/source links and portrait credits. The 1.5-second carousel pauses on hover, keyboard focus, hidden tabs, offscreen and reduced-motion; manual controls remain available. The approved exterior-to-office video is the final section before the footer. Its original visibility-based playback code is reused: lazy, muted, inline, offscreen pause, mobile/reduced-motion poster fallback.
+Uzmanlık bölümünde tamamlanmış, etkileşimli yapboz üstte; altı hizmet alanı kartı alttadır. Kartlar masaüstünde üç, tablette iki, mobilde tek sütuna yerleşir. Kartın veya parçanın üzerine gelmek ya da klavyeyle odaklanmak eşini vurgular; ikisi de doğrudan ilgili hizmet alanına açılır. Altı uzun bölüm ve kaydırmayla sırayla parça düşürme akışı kaldırılmıştır.
 
-The preserved first prototype is in `reference/`; the active content snapshot is in `data/`; media and all archived PDFs are in `public/assets/`. Archived source photos refer to the media in `public/assets` rather than being committed twice.
+47 hizmet sayfası ve altı hizmet alanı sayfasında, seçilen hizmetin kendi başlığını taşıyan parça korunur: girişte görünür, kaydırmayla yerleşir, okuma boyunca hafif ve bulanık bir arka plan olur. Mobil, azaltılmış hareket ve JavaScript olmadan kullanım için görünür içerik ve bağlantılar korunur.
 
-The legacy visual design does not bind this design. Company facts, editorial sources, dates, media attribution and limitations must be retained. No invented team members or client outcomes. Wagtail backend and delivery of career applications/email remain a later integration.
+Siyah açılış yaklaşık 5,75 saniyedir. Altı hizmet parçası birleşir; renkli işaretler, BORADEN ve “Bağımsız Denetim ve Danışmanlık A.Ş.” görünür. Açılış her tarayıcı sekmesi oturumundaki ilk ana sayfa ziyaretinde oynar. Geç veya Escape doğrudan sayfaya geçirir; azaltılmış hareket tercihi açılışı atlar. Tasarım incelemesi için `/?intro=1` tekrar oynatır. JavaScript yoksa sayfa doğrudan açılır.
 
-Local design preview; not a live production deployment. Source data migration is recorded in `data/migration.json`. Browser-local editor records are not in Git and are not copied by the snapshot.
+Ana sayfadaki 14 dünya perspektifinin okuma bağlantıları, özgün kaynakları ve portre künyeleri korunur. 1,5 saniyelik karusel; üzerine gelindiğinde, klavye odağında, sekme gizliyken, ekran dışında ve azaltılmış hareket tercihinde durur. Elle gezinme kontrolleri mevcuttur. Yayınlar ve iletişim çağrısı da akışta yer alır.
 
-The preview deliberately uses `noindex`. Wagtail, publication approvals, search indexing and production delivery are not implemented. Calculator logic and its dated scope/source notes are reused without changing financial parameters. The previous Boraden repository remains unchanged.
+Onaylanmış binadan ofise giriş filmi, footer öncesindeki son bölüm olarak korunur. Önceki görünürlük tabanlı oynatma motoru yeniden kullanılır: ihtiyaç anında yükleme, sessiz ve satır içi oynatma, ekran dışında durma, mobil ve azaltılmış hareket için poster görünümü.
+
+Yeni Türkiye temalı marka filmi henüz üretilmedi; 60 kredi kullanımı için onay bekleniyor. Planlanan yeri hero sonrasında, uzmanlık bölümünden öncedir.
+
+## İçerik ve kapsam
+
+İlk prototip `reference/`, aktif içerik kopyası `data/`, medya ve arşiv PDF’leri `public/assets/` içindedir. Arşiv kaynak fotoğrafları ikinci kez eklenmek yerine bu medya dosyalarına referans verir. İçerik aktarım kaydı `data/migration.json` dosyasındadır. Tarayıcıda yerel tutulan editör kayıtları Git’te değildir ve bu kopyaya dahil edilmez.
+
+Şirket bilgileri, yayın kaynakları, tarihler, medya atıfları ve kapsam notları korunmalıdır. Ekip üyesi veya müşteri sonucu uydurulmaz. Hesaplama mantığı, tarihli kaynakları ve kapsam notları finansal parametreler değiştirilmeden yeniden kullanılır.
+
+Bu çalışma yerel tasarım önizlemesidir; canlı yayın değildir ve bilinçli olarak `noindex` kullanır. Wagtail, yayın onayları, arama motoru indeksleme, kariyer başvurularının ve e-postaların teslimi sonraki entegrasyon kapsamındadır. Önceki Boraden deposu değiştirilmez.
+
+9 Eylül 2026 tarihli kaynaklı tasarım önerileri: [DESIGN_RECOMMENDATIONS.md](DESIGN_RECOMMENDATIONS.md).

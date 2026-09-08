@@ -1,0 +1,37 @@
+# Boraden için tasarım önerileri
+
+9 Eylül 2026
+
+Bu not, aşağıdaki altı seçili sitede doğrulanan içerik ve tasarım örüntülerini Boraden’ın mevcut içeriğine uyarlama önerisidir. Öneri sütunu tasarım yorumudur; kaynak sitelerin davranışlarıyla veya Boraden’da tamamlanmış özelliklerle karıştırılmamalıdır. Amaç az sayıda bölümle net yön bulma sağlamaktır.
+
+| Kaynak | Doğrulanmış örüntü | Boraden önerisi | Öncelik |
+| --- | --- | --- | --- |
+| [Deloitte Türkiye](https://www.deloitte.com/tr/tr.html) | 2026 Y ve Z Kuşakları Araştırması kapağı ve devamındaki video sahnesi görsel olarak incelendi. Editoryal giriş ile hareketli sahne ayrı görsel odaklar oluşturuyor. | Hero doğal akışta çıksın. Türkiye temalı marka filmi, hero sonrasında kısa ve bağımsız bir bölüm olsun; uzmanlık kartlarına geçişi geciktirmesin. | P1 — film onayından sonra |
+| [Dyson HushJet](https://www.dyson.com/air-treatment/air-purifiers/hushjet/white-silver) | Özellik bağlantıları, makro ürün görselleri ve videoyla mühendislik anlatımı. Videonun kaydırma konumuna bağlı kare kare ilerlemesi doğrulanmadı. | Yapbozun yüzeyini ve birleşmesini yakın planda anlatan kısa açılış; ardından açık hizmet bağlantıları. Hareket, uzmanlık seçimini desteklesin. | P2 |
+| [Accenture Reinvention Services](https://www.accenture.com/en/about/reinvention-services) | Entegre hizmetleri iş ihtiyaçlarıyla ilişkilendiren anlatı ve sektör ızgarası. | “Şirket kuruluşu”, “Değerleme”, “Denetim” ve “Bordro” ihtiyaç kısayollarını mevcut hizmetlere bağlayın. Sektör sayfalarında ilgili hizmetleri birlikte gösterin. | P1 |
+| [Sistem Global](https://www.sistemglobal.com.tr/) | Servisler, Dijital Ürünler ve Ekosistem ayrımı; bordro, değerleme, yurt dışında kuruluş gibi öne çıkan başlıklar; check-up ve rehber arşivi. | Altı uzmanlık alanının yanında az sayıda ihtiyaç kısayolu sunun. Mevcut rehber, sirküler ve hesaplama araçlarına açık girişler verin. Check-up ancak kapsamı tanımlanırsa ayrı bir çalışma olarak ele alınsın. | P1 |
+| [EY Insights](https://www.ey.com/en_gl/insights) | Konu odaklı editoryal merkez. | Yayınları konuya göre bulunabilir kılın; yayın/güncelleme tarihi, sorumlu kişi veya editoryal birim ve kaynakları görünür tutun. Mevcut kaynak temelli perspektif ayrımını koruyun. | P1 |
+| [BCG](https://www.bcg.com/) | Industries ve Capabilities üzerinden sektör ile yetkinlik için ayrı girişler. | “Hangi sektördeyim?” ve “Neye ihtiyacım var?” yollarını birbirine bağlayın. Doğrulanmış örnek olaylar hazır olduğunda ilgili sektör ve hizmet sayfalarında kullanın. | P2 |
+
+P1, mevcut içerikle öncelikli olarak somutlaştırılabilecek yön bulma ve yayın düzenlemelerini; P2, ek içerik veya görsel çalışma gerektiren geliştirmeleri gösterir. Film ayrıca kredi onayına bağlıdır.
+
+## İlk uygulanabilir adımlar
+
+- Dört ihtiyaç kısayolunu mevcut hizmet kayıtlarına bağlayın; yeni bir hizmet iddiası oluşturmayın.
+- Sektör ve hizmet ilişkilerini içerik üzerinden belirleyin. Kullanıcı ilgili hizmete bir bağlantıyla ulaşabilsin.
+- Her yayında tarih, sorumluluk ve kaynak alanlarını düzenli gösterin. Kaynak temelli özetleri doğrudan alıntı gibi sunmayın.
+- Örnek olayları yalnızca doğrulanmış kapsam ve sonuçlarla, yayın izni tamamlandıktan sonra ekleyin. Kanıt yoksa sonuç veya müşteri adı üretmeyin.
+
+Mevcut üst yapboz ve altı kart, ana uzmanlık girişini karşılar. Yeni öneriler, aynı bilgiyi tekrarlayan uzun bölümler eklemek yerine bu düzenin bağlantılarını güçlendirmelidir.
+
+## Marka filmi ve sonraki içerik yönetimi
+
+Türkiye temalı yeni film henüz üretilmedi; 60 kredi kullanımı için onay bekliyor. Yerleşim önerisi hero ile uzmanlık bölümü arasıdır. Onaylanmış en alttaki binadan ofise giriş filmi korunur.
+
+Film üzerindeki metin, görüntüye gömülmeden düzenlenebilir HTML olarak tutulabilir. Mevcut marka dilinden öneri:
+
+> İşinizin her parçasında. Bir bütün olarak yanınızda.
+
+Bağlantı metni: “Uzmanlıklarımızı keşfedin”; hedef: `#uzmanlik`. Bu öneri yeni bir şirket bilgisi veya sonuç iddiası eklemez.
+
+Wagtail entegrasyonu sonraki aşamadır. O aşamada film başlığı, açıklaması, bağlantı metni/hedefi, poster ve medya künyesi düzenlenebilir alanlar olarak tanımlanabilir; bu rapor backend’in hazır olduğunu ifade etmez.

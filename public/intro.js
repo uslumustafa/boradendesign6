@@ -35,7 +35,7 @@
   const onKey = event => { if (event.key === 'Escape') finish(true); };
   const onPreference = () => { if (reduced.matches) finish(true); };
   // Bounds the gate even if another page script fails before initialization.
-  const failsafe = setTimeout(() => finish(true), 5500);
+  const failsafe = setTimeout(() => finish(true), 5900);
   root.classList.add('intro-active');
   document.addEventListener('DOMContentLoaded', () => {
     if (done) return;
@@ -50,7 +50,7 @@
     root.classList.add('intro-running');
     overlay.setAttribute('tabindex', '-1');
     overlay.focus({preventScroll: true});
-    // 2.4s assembly, then the full-width brand lockup, with a short reading hold.
-    timer = setTimeout(() => finish(), 4350);
+    // Macro camera pulls back over assembly; the name then holds before release.
+    timer = setTimeout(() => finish(), 5200);
   }, {once: true});
 })();

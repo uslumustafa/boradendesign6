@@ -1,41 +1,54 @@
-/* A held opening gives way to the expertise sheet; native scrolling stays in charge. */
+/* Every section remains in the document flow; the opening leaves with the scroll. */
 .opening-scene{position:relative;background:var(--paper)}
-.expertise-sheet{position:relative;z-index:2;background:#fff;border-radius:36px 36px 0 0;border-top:1px solid var(--line);box-shadow:0 -18px 60px #1736490a}
+.expertise-sheet{position:relative;background:#fff;border-top:1px solid var(--line)}
 .expertise-sheet .orientation{border-top:0;padding-block:28px}
 .hero-art{perspective:1100px}
-.hero-art .puzzle-svg{transform:rotateX(15deg) rotateY(-12deg) rotateZ(-5deg);transform-origin:center;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-.hero-art::after{content:'';position:absolute;bottom:9%;left:20%;width:66%;height:9%;background:#15324624;filter:blur(20px);border-radius:50%;z-index:-1}
-.hero-art .piece-label,.assembly .piece-label{font-size:15px}
-.hero-art:focus-within .puzzle-svg{transform:rotateX(5deg) rotateY(-4deg)}
-.art-grid{opacity:.35}.art-note{font-size:10px}.note-bottom{font-size:12px}
-.journey-stage{isolation:isolate}
-.assembly{perspective:1200px}
-.assembly .puzzle-svg{transform:rotateX(12deg) rotateZ(-3deg)}
-.assembly::after{content:'';display:block;position:absolute;left:21%;right:21%;bottom:105px;height:24px;background:#1238471b;filter:blur(18px);border-radius:50%;z-index:-1}
-.js-motion .puzzle-assemble .puzzle-piece:not(.piece-center){transform:translate(calc(var(--ox)*1.3),-170px) rotate(calc(var(--turn)*2));opacity:0;pointer-events:none}
-.js-motion .puzzle-assemble .puzzle-piece.is-joined{transform:translate(0,0) rotate(0);opacity:1;pointer-events:auto}
-.puzzle-assemble .puzzle-piece{transition:transform .95s cubic-bezier(.16,.78,.2,1),opacity .4s ease}
-.puzzle-assemble .piece-current .piece-face{transform:translateY(-5px)}
-.stage-caption{font-size:15px}.stage-top>.eyebrow{font-size:10px}
-.stage-count{color:var(--ink)}
-.chapter{position:relative}
-.chapter-index>span{transition:background .4s,color .4s,padding .4s;border-left:0;padding:6px 0}
-.chapter.is-current .chapter-index>span{background:var(--ink);color:white;padding:6px 12px;border-radius:2px}
-.chapter-links>a>svg,.text-link svg{transition:transform .3s}
-.chapter-links>a:hover>svg,.text-link:hover svg{transform:translate(3px,-3px)}
-.home .world-perspectives,.home .journal,.home .completion,.home .sector-film{position:relative;z-index:2}
-.home .journal{background:var(--paper)}
-@media(min-width:851px) and (prefers-reduced-motion:no-preference){
- .opening-scene{height:calc(100svh - 88px + 44svh)}
- .opening-scene .hero{position:sticky;top:88px;min-height:calc(100svh - 88px);padding-block:55px 85px}
- .expertise-sheet{margin-top:-44svh}
- .hero-copy{transform:translateY(var(--hero-lift,0px))}
- .hero-art{transform:translateY(var(--art-lift,0px))}
- .js-motion .chapter>h3,.js-motion .chapter>p,.js-motion .chapter-links{transition:transform .65s cubic-bezier(.2,.7,.2,1)}
- .js-motion .chapter:not(.is-current)>h3,.js-motion .chapter:not(.is-current)>p{transform:translateY(12px)}
- .home .journal-card .image-arrow{transition:transform .3s,background .3s}
- .home .journal-card:hover .image-arrow{transform:rotate(45deg);background:#e0eceb}
+.hero-art .puzzle-svg{transform:rotateX(15deg) rotateY(-12deg) rotateZ(-5deg);transform-origin:center}
+.hero-art::after{content:'';position:absolute;z-index:-1;width:72%;height:12%;left:15%;bottom:8%;border-radius:50%;background:#153d5522;filter:blur(22px);transform:rotate(-7deg)}
+.hero-art .piece-label{font-size:15px}
+.expertise-overview{padding-block:85px 100px}
+.expertise-heading{text-align:center;max-width:850px;margin-inline:auto}
+.expertise-heading>.eyebrow{margin-bottom:22px}
+.expertise-heading h2{font-size:clamp(36px,4vw,58px);line-height:1.18}
+.expertise-heading>p:last-child{font-size:16px;color:var(--muted);line-height:1.85;margin-top:25px}
+.expertise-puzzle{position:relative;isolation:isolate;max-width:580px;margin:42px auto 46px;text-align:center}
+.expertise-puzzle>.eyebrow{font-size:10px;letter-spacing:.18em}
+.expertise-puzzle>.puzzle-svg{display:block;max-height:490px;margin-inline:auto}
+.expertise-puzzle::before{content:'';position:absolute;z-index:-1;inset:12% -12% 7%;background:radial-gradient(ellipse,#edf3f6,transparent 67%);pointer-events:none}
+.expertise-puzzle>p{font-size:12px;color:var(--muted);margin-top:2px}
+.expertise-puzzle .piece-label{font-size:16px}
+.expertise-puzzle .puzzle-piece.is-selected .piece-face{transform:translateY(-9px) scale(1.055)}
+.expertise-puzzle .puzzle-piece.is-selected .piece-outline{stroke:#fff;stroke-width:2}
+.expertise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.expertise-card{position:relative;display:flex;flex-direction:column;min-width:0;min-height:290px;padding:28px;border:1px solid var(--line);border-top:3px solid var(--card-tone);border-radius:8px;background:#fbfcfd;color:var(--ink);transition:transform .28s ease,background .28s ease,color .28s ease,border-color .28s ease,box-shadow .28s ease;scroll-margin-top:115px}
+.expertise-card-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:26px}
+.expertise-card-number{font-size:28px;font-weight:400;letter-spacing:-.06em;color:var(--card-tone)}
+.expertise-card-symbol{width:76px;height:58px;margin-left:auto;perspective:400px}
+.expertise-card-symbol>.service-piece-svg{width:100%;height:100%;overflow:visible;transform:rotateX(18deg) rotateZ(-10deg);transition:transform .3s ease}
+.expertise-card.is-selected .expertise-card-symbol>.service-piece-svg{transform:rotateX(0) rotateZ(0) scale(1.08)}
+.expertise-card-count{font-size:11px;color:var(--muted)}
+.expertise-card h3{font-family:Manrope,sans-serif;font-size:clamp(22px,2vw,29px);font-weight:500;line-height:1.3;letter-spacing:-.045em;max-width:20ch}
+.expertise-card>p{font-size:14px;line-height:1.8;color:var(--muted);margin:17px 0 26px}
+.expertise-card-link{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:auto;padding-top:20px;border-top:1px solid var(--line);font-size:12px;font-weight:500}
+.expertise-card-link>svg{width:19px;height:19px;flex-shrink:0;transition:transform .28s ease}
+.expertise-card:is(:focus-visible,.is-selected){background:var(--card-tone);color:#fff;border-color:var(--card-tone);box-shadow:0 18px 35px #082c411a;transform:translateY(-8px) scale(1.02)}
+.expertise-card:is(:focus-visible,.is-selected) :is(.expertise-card-number,.expertise-card-count),.expertise-card:is(:focus-visible,.is-selected)>p{color:#fff}
+.expertise-card:is(:focus-visible,.is-selected) .expertise-card-link{border-color:#ffffff55}
+.expertise-card:is(:focus-visible,.is-selected) .expertise-card-link>svg{transform:translate(2px,-2px)}
+@media(hover:hover){
+ .expertise-card:hover{background:var(--card-tone);color:#fff;border-color:var(--card-tone);box-shadow:0 18px 35px #082c411a;transform:translateY(-8px) scale(1.02)}
+ .expertise-card:hover :is(.expertise-card-number,.expertise-card-count),.expertise-card:hover>p{color:#fff}
+ .expertise-card:hover .expertise-card-link{border-color:#ffffff55}
+ .expertise-card:hover .expertise-card-link>svg{transform:translate(2px,-2px)}
 }
-@media(max-width:850px){.expertise-sheet{border-radius:22px 22px 0 0}.hero-art .puzzle-svg{transform:rotateX(9deg) rotateZ(-4deg)}.stage-caption{font-size:12px}.stage-top>.eyebrow{font-size:8px}}
-@media(max-width:600px){.expertise-sheet .orientation{padding-block:25px}.hero-art .puzzle-svg{max-height:355px}.assembly .puzzle-svg{transform:none}.assembly::after{display:none}.chapter-index>span{font-size:10px}.stage-caption{font-size:13px}}
-@media(prefers-reduced-motion:reduce){.hero-art .puzzle-svg,.hero-art:focus-within .puzzle-svg,.assembly .puzzle-svg{transform:none}.js-motion .puzzle-assemble .puzzle-piece:not(.piece-center){opacity:1;transform:none;pointer-events:auto}.puzzle-assemble .piece-current .piece-face{transform:none}}
+.home .journal{background:var(--paper)}
+@media(max-width:1050px){.expertise-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.expertise-card{min-height:285px}.expertise-overview{padding-block:65px 80px}.expertise-puzzle{max-width:530px}}
+@media(max-width:600px){
+ .hero-art .puzzle-svg{transform:rotateX(9deg) rotateY(-7deg) rotateZ(-3deg)}
+ .expertise-overview{padding-block:52px 58px}
+ .expertise-heading{text-align:left}.expertise-heading>.eyebrow{font-size:10px;margin-bottom:20px}.expertise-heading h2{font-size:35px;line-height:1.22}.expertise-heading>p:last-child{font-size:15px;margin-top:21px}
+ .expertise-puzzle{margin-block:35px;max-width:390px}.expertise-puzzle>.eyebrow{font-size:9px}.expertise-puzzle>.puzzle-svg{max-height:355px}.expertise-puzzle>p{font-size:11px}
+ .expertise-puzzle::before{inset-inline:0}
+ .expertise-grid{grid-template-columns:1fr;gap:16px}.expertise-card{min-height:260px;padding:24px}.expertise-card-top{margin-bottom:21px}.expertise-card h3{font-size:27px}.expertise-card>p{font-size:15px;margin-bottom:24px}
+}
+@media(prefers-reduced-motion:reduce){.hero-art .puzzle-svg,.expertise-card-symbol>.service-piece-svg{transform:none!important}.expertise-card,.expertise-card-link>svg,.expertise-puzzle .piece-face{transition:none!important}.expertise-card:is(:hover,:focus-visible,.is-selected),.expertise-card .expertise-card-link>svg,.expertise-puzzle .puzzle-piece.is-selected .piece-face{transform:none}}

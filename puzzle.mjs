@@ -1,5 +1,6 @@
 // Shared edges use the same control points in either direction, so every tab fits.
-export const palette=['#315e7e','#234965','#426e79','#3c6a63','#47747c','#556985'];
+// The three original checkmark colours, deepened where white type needs contrast.
+export const palette=['#00547c','#c74328','#177e32','#086993','#c5482c','#197d36'];
 export const shapes=[
   {id:'vergi',points:[[0,0],[1,0],[2,0],[2,1],[1,1],[0,1]],center:[1,.5],label:['Vergi & Mali','Müşavirlik'],offset:[-19,-27],rotation:-4},
   {id:'denetim',points:[[2,0],[3,0],[3,1],[2,1]],center:[2.5,.5],label:['Denetim &','Raporlama'],offset:[27,-18],rotation:5},
@@ -33,11 +34,11 @@ export const progressAt=(index,total=6)=>Math.min(total,Math.max(0,Math.floor(in
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const svgID=id=>String(id).replace(/[^a-zA-Z0-9_-]/g,'-')||'puzzle';
 function materialDefs(id){return `<defs>
-  <filter id="${id}-shadow" x="-40%" y="-40%" width="180%" height="190%"><feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#142a3c" flood-opacity=".24"/></filter>
-  <linearGradient id="${id}-surface" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#071522" stop-opacity=".24"/></linearGradient>
-  <linearGradient id="${id}-bevel" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".45" stop-color="#d8e7f1" stop-opacity=".2"/><stop offset="1" stop-color="#071827" stop-opacity=".5"/></linearGradient>
+  <filter id="${id}-shadow" x="-40%" y="-40%" width="180%" height="190%"><feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#142a3c" flood-opacity=".27"/></filter>
+  <linearGradient id="${id}-surface" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".28" stop-color="#fff" stop-opacity="0"/><stop offset=".65" stop-color="#071522" stop-opacity=".07"/><stop offset="1" stop-color="#071522" stop-opacity=".32"/></linearGradient>
+  <linearGradient id="${id}-bevel" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".18" stop-color="#fff" stop-opacity=".45"/><stop offset=".48" stop-color="#d8e7f1" stop-opacity=".12"/><stop offset="1" stop-color="#071827" stop-opacity=".65"/></linearGradient>
   </defs>`;}
-function surface(s,id){const d=shapePath(s);return `<path class="piece-depth" d="${d}" transform="translate(0 7)"/><path class="piece-rim" d="${d}" transform="translate(0 3)"/><path class="piece-outline" d="${d}"/><path class="piece-surface" d="${d}" fill="url(#${id}-surface)"/><path class="piece-shine" d="${d}" style="stroke:url(#${id}-bevel)"/>`;}
+function surface(s,id){const d=shapePath(s);return `<path class="piece-depth" d="${d}" transform="translate(0 9)"/><path class="piece-rim" d="${d}" transform="translate(0 4.5)"/><path class="piece-outline" d="${d}"/><path class="piece-surface" d="${d}" fill="url(#${id}-surface)"/><path class="piece-shine" d="${d}" style="stroke:url(#${id}-bevel)"/>`;}
 export function puzzle({mode='complete',selected='',id='puzzle',interactive=true}={}){
   id=svgID(id);
   return `<svg class="puzzle-svg puzzle-${mode}" viewBox="0 0 550 550" role="${interactive?'group':'img'}" aria-label="Boraden uzmanlık yapbozu; altı hizmet alanı bir bütün oluşturur" xmlns="http://www.w3.org/2000/svg">

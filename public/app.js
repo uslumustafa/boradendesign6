@@ -1,3 +1,14 @@
+// A reversal must travel 20px before it changes the header; the first 96px stay visible.
+export function headerScrollState(state,y,locked=false){
+ y=Math.max(0,y);
+ if(locked||y<=96)return {lastY:y,anchor:y,direction:0,hidden:false};
+ const direction=Math.sign(y-state.lastY);
+ if(!direction)return state;
+ const anchor=direction===state.direction?state.anchor:state.lastY;
+ return {lastY:y,anchor,direction,hidden:Math.abs(y-anchor)>=20?direction>0:state.hidden};
+}
+
+if(typeof document!=='undefined'){
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const norm=s=>String(s||'').toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replaceAll('ı','i').trim();
 // Native links and server-rendered content are the baseline. JS adds wayfinding.
@@ -14,15 +25,46 @@ const serviceInput=$('#service-search');
 serviceInput?.addEventListener('input',()=>{const term=norm(serviceInput.value);let count=0;$$('[data-filter-group]').forEach(group=>{let groupCount=0;group.querySelectorAll('[data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden){groupCount++;count++;}});group.hidden=!groupCount;});$('#service-count').textContent=count?`${count} hizmet`:'Sonuç bulunamadı. Başka bir terim deneyin.';});
 $('#archive-search')?.addEventListener('input',event=>{const term=norm(event.target.value);let count=0;$$('.archive-list [data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden)count++;});$('.archive-count').textContent=`${count} belge`;});
 
-const chapters=$$('[data-chapter]'),assembly=$('.assembly'),pieces=$$('.puzzle-assemble [data-piece]'),motionButton=$('.motion-toggle');
-const reduced=matchMedia('(prefers-reduced-motion: reduce)'),small=matchMedia('(max-width: 600px)');
-let paused=false,frame=0,current=-1;
-function draw(index){if(index===current)return;current=index;pieces.forEach((piece,i)=>{piece.classList.toggle('is-joined',i<=index||i===6);piece.classList.toggle('piece-current',i===index);if(piece.tagName.toLowerCase()==='a'){piece.setAttribute('tabindex',i<=index?'0':'-1');piece.setAttribute('aria-hidden',String(i>index));}});chapters.forEach((chapter,i)=>chapter.classList.toggle('is-current',i===index));if(chapters.length){$('.stage-name').textContent=chapters[index].querySelector('h3').textContent;$('.stage-count').textContent=String(index+1).padStart(2,'0');$('.stage-progress i').style.width=`${(index+1)/6*100}%`;assembly.dataset.assembled=String(index+1);}}
-function updateJourney(){frame=0;if(!assembly)return;const still=paused||reduced.matches||small.matches;document.documentElement.classList.toggle('js-motion',!still);const heroProgress=still?0:Math.min(1,scrollY/innerHeight);document.documentElement.style.setProperty('--hero-lift',`${-heroProgress*35}px`);document.documentElement.style.setProperty('--art-lift',`${-heroProgress*14}px`);if(still){draw(5);$('.stage-name').textContent='Bir bütün olarak Boraden.';return;}
- let index=0;const checkpoint=innerHeight*.52;chapters.forEach((chapter,i)=>{if(chapter.getBoundingClientRect().top<=checkpoint)index=i;});draw(index);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+const header=$('.header');
+if(header){
+ let state={lastY:window.scrollY,anchor:window.scrollY,direction:0,hidden:false},frame=0,atTopEdge=false,overHeader=false;
+ function updateHeader(){
+  frame=0;
+  const y=Math.max(0,Math.min(window.scrollY,document.documentElement.scrollHeight-window.innerHeight));
+  const locked=atTopEdge||overHeader||header.contains(document.activeElement)||!!header.querySelector('details[open]')||!!dialog?.open;
+  state=headerScrollState(state,y,locked);
+  header.classList.toggle('is-hidden',state.hidden);
+ }
+ function scheduleHeader(){if(!frame)frame=requestAnimationFrame(updateHeader);}
+ window.addEventListener('scroll',scheduleHeader,{passive:true});
+ window.addEventListener('resize',scheduleHeader,{passive:true});
+ document.addEventListener('pointermove',event=>{if(event.pointerType==='touch')return;const near=event.clientY<=16;if(near!==atTopEdge){atTopEdge=near;scheduleHeader();}},{passive:true});
+ document.addEventListener('pointerleave',()=>{atTopEdge=false;overHeader=false;scheduleHeader();});
+ header.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'){overHeader=true;scheduleHeader();}});
+ header.addEventListener('pointerleave',()=>{overHeader=false;scheduleHeader();});
+ document.addEventListener('focusin',scheduleHeader);
+ document.addEventListener('focusout',scheduleHeader);
+ header.querySelectorAll('details').forEach(menu=>menu.addEventListener('toggle',scheduleHeader));
+ dialog?.addEventListener('close',scheduleHeader);
+ dialog?.addEventListener('toggle',scheduleHeader);
+ scheduleHeader();
 }
-function schedule(){if(!frame)frame=requestAnimationFrame(updateJourney);}
-if(assembly){window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',()=>{current=-1;schedule();},{passive:true});reduced.addEventListener('change',()=>{current=-1;schedule();});small.addEventListener('change',()=>{current=-1;schedule();});motionButton.addEventListener('click',()=>{paused=!paused;motionButton.setAttribute('aria-pressed',String(paused));motionButton.setAttribute('aria-label',paused?'Yapboz hareketini sürdür':'Yapboz hareketini durdur');motionButton.textContent=paused?'▷':'Ⅱ';current=-1;schedule();});schedule();}
+
+const expertise=$('[data-expertise]');
+if(expertise){
+ const cards=[...expertise.querySelectorAll('[data-expertise-card]')],pieces=[...expertise.querySelectorAll('.expertise-puzzle a[data-piece]')];
+ const items=[...cards,...pieces];
+ const indexOf=item=>Number(item.dataset.expertiseCard??item.dataset.piece);
+ function select(index){items.forEach(item=>item.classList.toggle('is-selected',indexOf(item)===index));}
+ function selectFocused(){const focused=items.find(item=>item.contains(document.activeElement));select(focused?indexOf(focused):-1);}
+ items.forEach(item=>{
+  item.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')select(indexOf(item));});
+  item.addEventListener('pointerleave',selectFocused);
+  item.addEventListener('focusin',()=>select(indexOf(item)));
+  item.addEventListener('focusout',()=>requestAnimationFrame(selectFocused));
+ });
+}
 
 const world=$('.world-perspectives'),slides=$$('[data-perspective-slide]');
 if(world&&slides.length){
@@ -41,4 +83,6 @@ if(world&&slides.length){
  document.addEventListener('visibilitychange',schedule);reduced.addEventListener('change',schedule);
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule();},{threshold:.2}).observe(world);
  show(0);schedule();
+}
+
 }
