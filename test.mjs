@@ -5,6 +5,14 @@ import vm from 'node:vm';
 import {shapes,edgeControls,progressAt} from './puzzle.mjs';
 import {render,routeList,safeURL} from './render.mjs';
 const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url))),L=JSON.parse(fs.readFileSync(new URL('data/legacy.json',import.meta.url)));
+test('home retains all perspective destinations and loads the approved video only on demand',()=>{
+ const html=render('/',D,L).html;
+ assert.equal((html.match(/data-perspective-slide/g)||[]).length,14);
+ for(const t of D.thinkers){assert.ok(D.perspectives.some(p=>p.id===t.perspective));assert.ok(html.includes('href="/perspektifler/'+t.perspective+'/"'));}
+ const videos=html.match(/<video\b[^>]*>/g);assert.equal(videos.length,1);assert.ok(!/\ssrc=/.test(videos[0]));assert.ok(videos[0].includes('data-src="/assets/sector-entry-office.mp4"'));assert.ok(videos[0].includes('preload="none"'));
+ assert.ok(html.indexOf('id="sektorel-bakis"')>html.indexOf('class="completion"'));
+ assert.ok(html.includes('Bağımsız Denetim ve Danışmanlık A.Ş.'));
+});
 test('intro can finish or skip safely, while repeat visits and reduced motion bypass it',()=>{
  const source=fs.readFileSync(new URL('public/intro.js',import.meta.url),'utf8');
  function opening({seen=false,reduce=false,query='',storageFails=false}={}){
@@ -19,7 +27,7 @@ test('intro can finish or skip safely, while repeat visits and reduced motion by
   return {classes,main,skip,overlay,events,run(ms){const timer=[...timers.values()].find(t=>t.ms===ms);assert.ok(timer);timer.fn();}};
  }
  for(const mode of [{seen:true},{reduce:true}])assert.equal(opening(mode).classes.has('intro-active'),false);
- const normal=opening();assert.equal(normal.main.inert,true);normal.run(3400);normal.run(650);assert.equal(normal.main.inert,false);assert.equal(normal.overlay.removed,true);
+ const normal=opening();assert.equal(normal.main.inert,true);normal.run(4350);normal.run(550);assert.equal(normal.main.inert,false);assert.equal(normal.overlay.removed,true);
  const replay=opening({seen:true,query:'?intro=1',storageFails:true});replay.skip.click();replay.run(100);assert.equal(replay.classes.has('intro-active'),false);
  const escape=opening();escape.events.keydown({key:'Escape'});escape.run(100);assert.equal(escape.main.inert,false);
  const failed=opening();failed.run(5500);failed.run(100);assert.equal(failed.main.inert,false);

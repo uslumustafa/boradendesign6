@@ -26,3 +26,22 @@ if(assembly){window.addEventListener('scroll',schedule,{passive:true});window.ad
 
 // Decorative detail piece drifts locally; reading content never moves with it.
 const detail=$('[data-detail-piece]');if(detail){let detailFrame=0;const move=()=>{detailFrame=0;detail.style.transform=reduced.matches||small.matches?'':`translateY(${Math.min(scrollY*.09,48)}px)`;};const scheduleDetail=()=>{if(!detailFrame)detailFrame=requestAnimationFrame(move);};addEventListener('scroll',scheduleDetail,{passive:true});reduced.addEventListener('change',scheduleDetail);small.addEventListener('change',scheduleDetail);}
+
+const world=$('.world-perspectives'),slides=$$('[data-perspective-slide]');
+if(world&&slides.length){
+ const picker=$('[data-perspective-select]'),pause=$('[data-perspective-pause]');
+ let index=0,manualPause=false,visible=false,hovered=false,timeout;
+ $('.perspective-controls').hidden=false;
+ function show(next){index=(next+slides.length)%slides.length;slides.forEach((slide,i)=>slide.hidden=i!==index);picker.value=String(index);$('[data-perspective-count]').textContent=`${String(index+1).padStart(2,'0')} / ${slides.length}`;}
+ function schedule(){clearTimeout(timeout);pause.disabled=reduced.matches;pause.setAttribute('aria-pressed',String(manualPause));pause.setAttribute('aria-label',manualPause?'Otomatik geçişi başlat':'Otomatik geçişi durdur');pause.textContent=manualPause?'▷':'Ⅱ';if(!visible||manualPause||reduced.matches||document.hidden||hovered||world.contains(document.activeElement))return;timeout=setTimeout(()=>{show(index+1);schedule();},1500);}
+ $('[data-perspective-prev]').addEventListener('click',()=>{show(index-1);schedule();});
+ $('[data-perspective-next]').addEventListener('click',()=>{show(index+1);schedule();});
+ picker.addEventListener('change',()=>{show(Number(picker.value));schedule();});
+ pause.addEventListener('click',()=>{manualPause=!manualPause;schedule();});
+ world.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){hovered=true;schedule();}});
+ world.addEventListener('pointerleave',()=>{hovered=false;schedule();});
+ world.addEventListener('focusin',schedule);world.addEventListener('focusout',()=>setTimeout(schedule,0));
+ document.addEventListener('visibilitychange',schedule);reduced.addEventListener('change',schedule);
+ new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule();},{threshold:.2}).observe(world);
+ show(0);schedule();
+}

@@ -1,5 +1,5 @@
 // Shared edges use the same control points in either direction, so every tab fits.
-export const palette=['#cfdfd2','#d4e3ed','#e1dbe9','#efdfd1','#d7e5df','#ebe7d1'];
+export const palette=['#cbdfea','#c4d2e7','#d6e5db','#eedbd7','#d5e5e7','#e1e6ee'];
 export const shapes=[
   {id:'vergi',points:[[0,0],[1,0],[2,0],[2,1],[1,1],[0,1]],center:[1,.5],label:['Vergi & Mali','Müşavirlik'],offset:[-19,-27],rotation:-4},
   {id:'denetim',points:[[2,0],[3,0],[3,1],[2,1]],center:[2.5,.5],label:['Denetim &','Raporlama'],offset:[27,-18],rotation:5},
@@ -36,6 +36,6 @@ export function puzzle({mode='complete',selected='',id='puzzle',interactive=true
   <defs><filter id="${id}-shadow" x="-40%" y="-40%" width="180%" height="190%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#536d67" flood-opacity=".12"/></filter></defs>
   ${shapes.map((s,i)=>{const [cx,cy]=pos(s.center),central=i===6,tag=central||!interactive?'g':'a';const attrs=tag==='a'?`href="/hizmetler/alan/${s.id}/" aria-label="${esc(s.label.join(' '))} hizmetleri"`:'';
   return `<${tag} ${attrs} class="puzzle-piece ${central?'piece-center':''} ${s.id===selected?'piece-selected':''}" data-piece="${i}" style="--piece-order:${i};--piece-fill:${central?'#ffffff':palette[i]};--ox:${s.offset[0]}px;--oy:${s.offset[1]}px;--turn:${s.rotation}deg;--cx:${cx}px;--cy:${cy}px" ${!interactive?'aria-hidden="true"':''}><g class="piece-face" filter="url(#${id}-shadow)"><path class="piece-outline" d="${shapePath(s)}"/><path class="piece-shine" d="${shapePath(s)}"/>
-  ${central?`<g class="puzzle-check"><path d="M${cx-34} ${cy-24}l8 8 22-25" style="stroke:#438b96"/><path d="M${cx-17} ${cy-24}l8 8 22-25" style="stroke:#d98370"/><path d="M${cx} ${cy-24}l8 8 22-25" style="stroke:#6d9a77"/></g><text x="${cx}" y="${cy+13}" class="piece-brand">BORADEN</text><text x="${cx}" y="${cy+30}" class="piece-subtitle">BİRLİKTE, BÜTÜNE.</text>`:`<text x="${cx}" y="${cy-22}" class="piece-number">0${i+1}</text><text class="piece-label">${s.label.map((line,j)=>`<tspan x="${cx}" y="${cy+1+j*18}">${esc(line)}</tspan>`).join('')}</text><circle cx="${cx}" cy="${cy+43}" r="2" class="piece-dot"/>`}
+  ${central?`<g class="puzzle-check"><path d="M${cx-34} ${cy-24}l8 8 22-25" style="stroke:#00547c"/><path d="M${cx-17} ${cy-24}l8 8 22-25" style="stroke:#e94d2a"/><path d="M${cx} ${cy-24}l8 8 22-25" style="stroke:#259e3c"/></g><text x="${cx}" y="${cy+13}" class="piece-brand">BORADEN</text><text x="${cx}" y="${cy+30}" class="piece-subtitle">BİRLİKTE, BÜTÜNE.</text>`:`<text x="${cx}" y="${cy-22}" class="piece-number">0${i+1}</text><text class="piece-label">${s.label.map((line,j)=>`<tspan x="${cx}" y="${cy+1+j*18}">${esc(line)}</tspan>`).join('')}</text><circle cx="${cx}" cy="${cy+43}" r="2" class="piece-dot"/>`}
   </g></${tag}>`;}).join('')}</svg>`;
 }

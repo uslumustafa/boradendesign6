@@ -30,7 +30,7 @@
         main?.focus({preventScroll: true});
       }
     };
-    setTimeout(cleanup, immediate ? 100 : 650);
+    setTimeout(cleanup, immediate ? 100 : 550);
   }
   const onKey = event => { if (event.key === 'Escape') finish(true); };
   const onPreference = () => { if (reduced.matches) finish(true); };
@@ -50,6 +50,7 @@
     root.classList.add('intro-running');
     overlay.setAttribute('tabindex', '-1');
     overlay.focus({preventScroll: true});
-    timer = setTimeout(() => finish(), 3400);
+    // 2.4s assembly, then the full-width brand lockup, with a short reading hold.
+    timer = setTimeout(() => finish(), 4350);
   }, {once: true});
 })();
