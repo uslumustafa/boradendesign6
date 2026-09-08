@@ -51,3 +51,14 @@
 
 .sector-film.film-inside .sector-feature-copy:focus-within{opacity:1;transform:none;visibility:visible}
 .sector-film:has(.sector-feature-copy:focus-within) .sector-shade{background:linear-gradient(90deg,#0a1c30bb,transparent 85%),linear-gradient(0deg,#0a1c3099,transparent 40%)}
+
+/* The brand film keeps its lower caption visible through the entire edit. */
+.brand-film .sector-film-stage{height:clamp(540px,75svh,820px);min-height:0;max-height:none}
+.brand-film-shade{position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,#071926ed,#07192680 38%,transparent 78%);pointer-events:none}
+.brand-film-caption{position:absolute;z-index:3;left:0;right:0;bottom:123px;color:#fff}
+.brand-film-caption>.eyebrow{font-size:11px;color:#e4ecf2;margin-bottom:18px}
+.brand-film-message{font-size:clamp(36px,4.2vw,64px);font-weight:500;letter-spacing:-.045em;line-height:1.18;min-height:2.36em;max-width:24ch;text-shadow:0 2px 22px #07192655}
+.brand-film-caption>.text-link{font-size:13px;color:#fff;border-color:#ffffff80;margin-top:18px}
+.brand-film-caption>.text-link:hover{border-color:#fff}
+.sector-film.video-static .sector-film-video,.sector-film.video-static .sector-film-progress{display:none}
+@media(max-width:600px){.brand-film .sector-film-stage{height:540px}.brand-film-shade{background:linear-gradient(0deg,#071926ed,#071926b3 45%,#07192670)}.brand-film-caption{bottom:115px}.brand-film-caption>.eyebrow{font-size:12px;margin-bottom:16px}.brand-film-message{font-size:34px;max-width:20ch;min-height:3.54em}.brand-film-caption>.text-link{font-size:12px;margin-top:16px}}

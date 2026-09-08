@@ -20,7 +20,7 @@ Ana sayfadaki 14 dünya perspektifinin okuma bağlantıları, özgün kaynaklar�
 
 Onaylanmış binadan ofise giriş filmi, footer öncesindeki son bölüm olarak korunur. Önceki görünürlük tabanlı oynatma motoru yeniden kullanılır: ihtiyaç anında yükleme, sessiz ve satır içi oynatma, ekran dışında durma, mobil ve azaltılmış hareket için poster görünümü.
 
-Yeni Türkiye temalı marka filmi henüz üretilmedi; 60 kredi kullanımı için onay bekleniyor. Planlanan yeri hero sonrasında, uzmanlık bölümünden öncedir.
+Türkiye temalı iş hayatı filmi, hero ile uzmanlık bölümü arasındadır. Flow/Veo 3.1 Fast ile üretilen üç klipten 20 saniyelik sessiz, 720p kurgu hazırlandı. İstanbul siluetindeki belirgin coğrafi hata nedeniyle ilk dört saniye kullanılmadı. Film temsili yapay zekâ görüntüleridir; gerçek Boraden çalışanlarını/ofislerini veya doğrulanmış şehir çekimlerini göstermez. Alt kısımdaki beş HTML mesajı video süresine göre değişir; görüntüye yakılmamıştır. Mevcut paketten 60 kredi kullanıldı (900 → 840), ek satın alma yapılmadı. Ayrıntılar: [BRAND_FILM_BRIEF.md](BRAND_FILM_BRIEF.md).
 
 ## İçerik ve kapsam
 

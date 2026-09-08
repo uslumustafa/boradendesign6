@@ -1,28 +1,28 @@
 # Boraden — Türkiye iş dünyası filmi
 
-9 Eylül 2026 · Üretim öncesi revize kurgu
+9 Eylül 2026 · Yerel tasarım ön izlemesi
 
-**Durum:** Flow planı hazır. Veo 3.1 Fast, 3 × 8 saniye, 16:9; toplam 60 mevcut kredi. Kredi kullanımına açık onay bekleniyor; bu film henüz üretilmedi. Ek paket satın alınmayacak. Mevcut ofise giriş filmi korunacak.
+**Üretim:** Flow / Veo 3.1 Fast, üç adet 8 saniyelik 16:9 klip. Kullanıcı ek ödeme olmaması şartıyla onayladı; mevcut 900 krediden 60 kullanıldı, kalan bakiye 840 olarak doğrulandı. Ek paket, abonelik veya ücretli yükseltme satın alınmadı.
 
-## Kurgu
+**Son kurgu:** 20 saniye, 1280×720, 24 fps, sessiz MP4. İlk klibin İstanbul sahnesi Boğaz arkasına gerçeğe uymayan gökdelenler yerleştirdiği için ilk dört saniye çıkarıldı. İstenen beş bölgenin doğru coğrafi temsilinin tamamlandığı iddia edilmez. Klipler gerçek Boraden ofisleri, çalışanları veya şubeleri değildir; site üzerinde temsili yapay zekâ sahneleri olarak belirtilir.
 
-Tarım ana konu değildir. Türkiye’deki iş hayatı; şehir, üretim, lojistik ve iş ortaklığı anlatılır. Turistik kolaj veya birbirine dönüşen binalar kullanılmaz.
-
-| Süre | Görüntü | Alt bölümde Boraden mesajı |
+| Süre | Kullanılan sahne | Düzenlenebilir alt mesaj |
 |---|---|---|
-| 0–4 sn | İstanbul Boğazı ve iş merkezleri; kontrollü kamera | Farklı ihtiyaçlar. |
-| 4–8 sn | Ankara Söğütözü; çağdaş iş ortamı | Birbirini tamamlayan uzmanlıklar. |
-| 8–12 sn | İzmir limanı; deniz taşımacılığı ve ticaret | İşinize yakından bakıyoruz. |
-| 12–16 sn | Karadeniz kıyısında liman ve lojistik; yeşil tepeler | Büyük resmi birlikte görüyoruz. |
-| 16–20 sn | Doğu Anadolu; dağlar önünde sanayi ve lojistik | Parçadan bütüne. |
-| 20–24 sn | Doğal bir iş ortaklığı toplantısı | Birlikte, Boraden. |
+| 0–4 sn | İş merkezinde yürüyen profesyoneller | Farklı ihtiyaçlar. Birbirini tamamlayan uzmanlıklar. |
+| 4–8 sn | Liman ve deniz lojistiği | İşinize yakından bakıyoruz. |
+| 8–12 sn | Limanda iş görüşmesi | Büyük resmi birlikte görüyoruz. |
+| 12–16 sn | Dağlık çevrede sanayi ve lojistik | Parçadan bütüne. |
+| 16–20 sn | Ofiste iş ortaklığı toplantısı | Birlikte, Boraden. |
 
-Yerler arasında temiz kurgu kesmeleri; bina/insan dönüşümü yok. Aynı doğal ışık, kontrollü renk ve kamera dili. Temsili sahneler, gerçek Boraden ofisleri/çalışanları veya bu bölgelerde şube bulunduğu iddiası olarak sunulmaz. Yeni şirket bilgisi eklenmez.
+## Dosyalar ve kullanım
 
-## Sayfada kullanım
+- `public/assets/boraden-turkiye-business.mp4`: yayıma hazır olduğu iddia edilmeyen yerel tasarım kurgusu.
+- `public/assets/boraden-turkiye-business.jpg`: filmin açılış karesinden çıkarılmış poster.
+- Kaynak klipler yerel `.agent/turkiye-film/` klasöründe; Flow projesi: https://flow.google.com/project/3500d74c-1576-4b1a-b47a-e86cd2acfd26
+- Kurgu macOS AVFoundation ile yapıldı; kaynak dosyalar korunur. İlk klipten 4–8 sn, sonraki iki klibin tamamı, temiz kesmelerle birleştirildi. Üretilen ses kanalları site kurgusuna alınmadı.
+- Hero sonrasında, uzmanlık haritasından önce görünür olunca sessiz oynar; ekran dışında durur. Mouse ile ilerletme yok. Alt mesajlar HTML’dir, videoya yakılmamıştır; Wagtail bağlantısı henüz uygulanmadı.
+- Mobil, azaltılmış hareket ve veri tasarrufunda poster kullanılır. Oynatma/durdurma kontrolü vardır. Mevcut en alttaki ofise giriş filmi korunur.
 
-- Giriş hero’sundan sonra, uzmanlık haritasından önce tek geniş film alanı.
-- Boraden metni videoya yakılmayacak; alt kısımda okunabilir HTML katmanı olacak. Zaman aralıklarıyla eşleşecek, Wagtail aşamasında ayrıca düzenlenebilecek.
-- Görünür olduğunda sessiz oynatma; ekran dışına çıkınca duraklatma. Mouse ile video ilerletme yok.
-- Durdurma/oynatma kontrolü; mobil, veri tasarrufu ve azaltılmış hareket için poster seçeneği.
-- Üretim sonrası tüm klipler mimari süreklilik, el/yüz bozulmaları ve kurgu açısından izlenmeden siteye alınmayacak.
+## Yayın öncesi açık konu
+
+Belirli şehirlerin doğru coğrafi karşılıkları bu üretimle doğrulanmadı. Gerçek İstanbul/Ankara/İzmir/Karadeniz/Doğu Anadolu görünümü kesin gereklilikse lisanslı gerçek çekim veya doğrulanmış referans karelerle ayrı bir üretim gerekir. Mevcut kredi sınırını aşan yeni üretim yapılmadı.
