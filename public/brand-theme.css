@@ -1,10 +1,10 @@
 /* Boraden's three checks guide the colour. The page remains light and readable. */
 @font-face{font-family:Instrument;src:url('/assets/font-0.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
-:root{--paper:#f7f9fc;--ink:#273e63;--muted:#586b80;--line:#d6e0e9;--sage:#d9e8e0;--blue:#287693;--green:#4b876b;--red:#be645c}
+:root{--paper:#f6f8fa;--ink:#203e58;--muted:#54677a;--line:#d5dfe6;--sage:#c7d8d3;--blue:#1f617f;--green:#356f60;--red:#b34d42}
 body{font-family:Manrope,Arial,sans-serif}
 #main:focus{outline:none}
-em{font-family:Instrument,Georgia,serif;font-style:italic;color:#457996}
-.header{background:#f7f9fcf2}
+em{font-family:Instrument,Georgia,serif;font-style:italic;color:#2b6680}
+.header{background:#f6f8faf2}
 .brand-dot,.status-dot{color:var(--green)}
 .status-dot{background:var(--green)}
 .button{background:var(--ink);border-color:var(--ink);font-size:14px}
@@ -37,10 +37,18 @@ em{font-family:Instrument,Georgia,serif;font-style:italic;color:#457996}
 .stage-progress{background:#dce5ed}.stage-progress i{background:var(--blue)}
 .stage-caption>span:last-child,.stage-help{color:#62768b}
 .stage-help{font-size:12px}
-.piece-outline{stroke:#6b879255}
-.piece-label,.piece-brand{fill:var(--ink)}
-.piece-number,.piece-subtitle{fill:#5b758e}.piece-dot{fill:var(--blue)}
-.puzzle-assemble .piece-current .piece-outline,.puzzle-svg a:hover .piece-outline,.puzzle-svg a:focus-visible .piece-outline{stroke:var(--blue)}
+.mini-piece,.category-nav a>span{color:#fff}
+.piece-outline{fill:var(--piece-fill);stroke:#142d3e;stroke-width:.8}
+.piece-depth{fill:#173548;stroke:#102a3c;stroke-width:1;stroke-linejoin:round}
+.piece-rim{fill:#345469;stroke:#183649;stroke-width:.8;stroke-linejoin:round}
+.piece-shine{fill:none;stroke-width:2.7;transform:none;stroke-linejoin:round}
+.piece-surface{stroke:none;pointer-events:none}
+.piece-label{fill:#fff;font-weight:500}
+.piece-brand{fill:var(--ink);font-weight:700}
+.piece-number{fill:#d3e3ed}.piece-subtitle{fill:#456174}.piece-dot{fill:#cbdfe7}
+.piece-face,.puzzle-assemble .piece-face,.detail-puzzle .piece-face{filter:var(--piece-shadow)}
+.puzzle-exploded{transform:perspective(1000px) rotateX(6deg) rotateY(-7deg) rotateZ(-2deg)}
+.puzzle-assemble .piece-current .piece-outline,.puzzle-svg a:hover .piece-outline,.puzzle-svg a:focus-visible .piece-outline{stroke:#b8d0e0;stroke-width:1.5}
 .journal-card h3{font-size:clamp(27px,2.15vw,33px)}
 .journal-card p{font-size:15px}.card-meta{font-size:11px}
 .completion{background:#e9f0f6;border-color:#d7e2eb}
@@ -58,16 +66,17 @@ em{font-family:Instrument,Georgia,serif;font-style:italic;color:#457996}
 
 /* One opening sequence: assemble, pull back, reveal the name, release the page. */
 .intro-active .brand-intro{background:#06080c;color:#fff;padding:0;transition:opacity .55s ease,transform .55s ease}
-.intro-active .brand-intro::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#20324966,transparent 63%);pointer-events:none}
+.intro-active .brand-intro::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#29405677,transparent 63%);pointer-events:none}
 .intro-kicker{top:max(30px,6vh);font-size:11px;color:#b9c8d5;letter-spacing:.25em;z-index:2}
 .intro-puzzle{position:absolute;top:50%;left:50%;width:min(98vw,105svh,1040px);margin:0;transform:translate(-50%,-50%);will-change:transform,opacity}
-.intro-puzzle .piece-face{filter:none}
-.intro-puzzle .piece-outline{stroke:#071523;stroke-width:1.25}
-.intro-puzzle .piece-center .piece-outline{fill:#edf3fa}
-.intro-puzzle .piece-shine{stroke:#ffffff80;stroke-width:1}
-.intro-puzzle .piece-label{font-size:17px;fill:#223d5a;font-weight:600}
-.intro-puzzle .piece-number{fill:#4e6a82}
-.intro-puzzle .piece-center .puzzle-check,.intro-puzzle .piece-center .piece-brand{animation:none!important;opacity:0}
+.intro-puzzle .piece-face{filter:var(--piece-shadow)}
+.intro-puzzle .piece-outline{stroke:#071523;stroke-width:.85}
+.intro-puzzle .piece-center .piece-outline{fill:#f0f3f6}
+.intro-puzzle .piece-shine{stroke-width:2.7}
+.intro-puzzle .piece-label{font-size:17px;fill:#fff;font-weight:500}
+.intro-puzzle .piece-number{fill:#d3e3ed}
+.intro-puzzle .piece-center .puzzle-check,.intro-puzzle .piece-center .piece-brand{animation:none!important;opacity:1}
+.intro-puzzle .piece-center .piece-brand{font-size:23px;fill:#193b57}
 .intro-running .puzzle-intro .puzzle-piece:not(.piece-center){animation:brand-join 1.05s cubic-bezier(.16,.76,.12,1) calc(.12s + var(--piece-order)*.16s) both}
 .intro-running .intro-puzzle{animation:brand-puzzle-recede .7s cubic-bezier(.4,0,.1,1) 2.4s both}
 .intro-running .intro-kicker{animation:brand-kicker-out .4s ease 2.4s both}

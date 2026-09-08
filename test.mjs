@@ -2,9 +2,30 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {shapes,edgeControls,progressAt} from './puzzle.mjs';
+import {shapes,edgeControls,progressAt,servicePiece} from './puzzle.mjs';
+import {serviceMotionAt} from './public/service-motion.js';
 import {render,routeList,safeURL} from './render.mjs';
 const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url))),L=JSON.parse(fs.readFileSync(new URL('data/legacy.json',import.meta.url)));
+test('service pieces preserve identity, isolate SVG ids and settle before reading',()=>{
+ for(const service of D.services){
+  const html=render('/hizmetler/'+service.id+'/',D,L).html;
+  assert.equal((html.match(/class="service-piece-svg"/g)||[]).length,1);
+  const piece=servicePiece({group:service.group,title:service.title});
+  assert.equal((piece.match(/class="piece-outline"/g)||[]).length,1);
+  assert.ok(piece.includes('aria-hidden="true"'));
+ }
+ assert.ok(servicePiece({group:'denetim',title:'<script> & "test"'}).includes('&lt;script&gt;'));
+ for(const route of ['/',...D.groups.map(g=>'/hizmetler/alan/'+g.id+'/')]){
+  const html=render(route,D,L).html,ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+  assert.equal(new Set(ids).size,ids.length,route);
+  for(const [,id] of html.matchAll(/url\(#([^)]+)\)/g))assert.ok(ids.includes(id),id);
+ }
+ const start=serviceMotionAt(0,778);assert.ok(start.arrival<1&&start.opacity>.5);
+ const end=serviceMotionAt(373,778);assert.equal(end.depth,1);assert.ok(Math.abs(end.opacity-.13)<.001);
+ assert.deepEqual(serviceMotionAt(-100,778),start);
+ assert.deepEqual(serviceMotionAt(0,778,true),serviceMotionAt(5000,778,true));
+ for(const h of [320,778,1800])for(const y of [0,40,200,1000]){const s=serviceMotionAt(y,h);assert.ok(s.arrival>=0&&s.arrival<=1.1&&s.depth>=0&&s.depth<=1&&s.opacity>=0&&s.opacity<=1);}
+});
 test('home retains all perspective destinations and loads the approved video only on demand',()=>{
  const html=render('/',D,L).html;
  assert.equal((html.match(/data-perspective-slide/g)||[]).length,14);

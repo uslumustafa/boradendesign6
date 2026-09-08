@@ -1,0 +1,48 @@
+/* One page-owned piece: it arrives beside the hero, then recedes behind the reading. */
+.service-experience{position:relative;isolation:isolate;overflow:clip}
+.service-experience>.page-hero,.service-experience>.detail-layout,.service-experience>.detail-body,.service-experience>.related{position:relative;z-index:1;background:transparent}
+.service-experience>.page-hero{min-height:clamp(460px,73svh,730px);overflow:visible}
+.service-backdrop{
+  --service-arrival:1;
+  --service-depth:0;
+  --service-opacity:.24;
+  --service-size:clamp(340px,45vw,740px);
+  --service-drop:72svh;
+  --service-shift:-5vw;
+  position:absolute;inset:0;z-index:0;pointer-events:none;user-select:none;
+}
+.service-backdrop>svg{
+  display:block;position:sticky;top:clamp(115px,17svh,185px);
+  width:var(--service-size);height:auto;max-height:70svh;
+  margin-left:auto;margin-right:clamp(12px,5vw,110px);
+  overflow:visible;opacity:var(--service-opacity);
+  transform-origin:50% 45%;
+  transform:translate3d(calc(var(--service-depth)*var(--service-shift)),calc((1 - var(--service-arrival))*var(--service-drop)*-1 + var(--service-depth)*35px),0) rotate(calc((1 - var(--service-arrival))*-13deg + var(--service-depth)*-5deg)) scale(calc(.94 + var(--service-depth)*.24));
+}
+.service-backdrop .puzzle-piece{transition:none}
+.service-backdrop .piece-label{fill:#fff;opacity:calc(1 - var(--service-depth)*.65);filter:blur(calc(var(--service-depth)*2.8px))}
+.service-experience .detail-content,.service-experience>.page-hero .page-hero-copy{position:relative;isolation:isolate}
+.service-experience .detail-content::before,.service-experience>.detail-body::before{
+  content:'';position:absolute;inset:-28px -18px;z-index:-1;pointer-events:none;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--paper) 96%,transparent),color-mix(in srgb,var(--paper) 75%,transparent) 75%,transparent);
+}
+.service-experience>.page-hero .page-hero-copy::before{
+  content:'';position:absolute;inset:-24px -30px;z-index:-1;pointer-events:none;
+  background:linear-gradient(90deg,var(--paper) 20%,color-mix(in srgb,var(--paper) 92%,transparent) 77%,transparent);
+}
+.service-experience .detail-content>.sources,.service-experience .detail-content blockquote{background:color-mix(in srgb,var(--paper) 89%,#d4e2ed)}
+@media(max-width:850px){
+  .service-experience>.detail-layout{gap:28px}
+  .service-backdrop{--service-size:clamp(300px,51vw,540px);--service-shift:-3vw}
+  .service-backdrop>svg{margin-right:-3vw;top:125px}
+  .service-experience>.page-hero{min-height:560px}
+}
+@media(max-width:600px){
+  .service-backdrop{--service-size:min(92vw,440px);--service-drop:48svh;--service-shift:-8vw}
+  .service-backdrop>svg{margin-right:-18vw;top:145px;opacity:calc(var(--service-opacity)*.48)}
+  .service-experience>.page-hero{min-height:440px;padding-block:55px 65px}
+  .service-experience>.page-hero .page-hero-copy{max-width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-backdrop>svg{transform:none;opacity:.13}
+}
