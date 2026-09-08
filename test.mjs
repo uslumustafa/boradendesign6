@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {shapes,edgeControls,progressAt} from './puzzle.mjs';
+import {render,routeList,safeURL} from './render.mjs';
+const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url))),L=JSON.parse(fs.readFileSync(new URL('data/legacy.json',import.meta.url)));
+test('preserved calculator engine and important transferred content remain available',()=>{const context=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(new URL('public/calculator-core.js',import.meta.url),'utf8'),context);const calc=context.window.BoradenCalc;assert.equal(calc.vat(10000,20,false).total,12000);assert.equal(calc.vat(12000,20,true).net,10000);assert.throws(()=>calc.vat(-1,20,false));for(const s of D.services){const html=render('/hizmetler/'+s.id+'/',D,L).html;for(const n of s.needs||[])assert.ok(html.includes(n),s.id+': '+n);}assert.ok(render('/hesaplama/kdv/',D,L).html.includes('data-initial-calculator="vat"'));});
+test('every internal jigsaw edge interlocks exactly in reverse traversal',()=>{const pairs=new Map();for(const s of shapes)for(let i=0;i<s.points.length;i++){const p=s.points[i],q=s.points[(i+1)%s.points.length],key=[p.join(','),q.join(',')].sort().join('|');const coords=edgeControls(p,q);if(pairs.has(key))assert.deepEqual(coords,pairs.get(key).slice().reverse(),key);else pairs.set(key,coords);}assert.equal(shapes.length,7);assert.equal(progressAt(-10),0);assert.equal(progressAt(100),6);});
+test('all preserved services and editorial routes render, unsafe URL rejected',()=>{const routes=routeList(D);assert.equal(new Set(routes).size,routes.length);for(const route of routes)assert.equal(render(route,D,L).status,200,route);assert.equal(render('/not-a-page/',D,L).status,404);assert.equal(D.services.length,47);assert.equal(L.documents.length,247);assert.equal(safeURL('javascript:alert(1)'),'#');assert.equal(safeURL('//untrusted.example'),'#');});
