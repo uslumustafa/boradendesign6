@@ -70,6 +70,35 @@ if(header){
  scheduleHeader();
 }
 
+const openingArt=$('.opening-art');
+if(openingArt){
+ let tiltFrame=0,targetX=0,targetY=0,currentX=0,currentY=0;
+ function updateTilt(){
+  tiltFrame=0;
+  currentX+=(targetX-currentX)*0.08;
+  currentY+=(targetY-currentY)*0.08;
+  const svg=openingArt.querySelector('.puzzle-complete')||openingArt.querySelector('.puzzle-opening');
+  if(svg&&!reduced.matches){
+   svg.style.transform=`rotateX(${28-currentY*9}deg) rotateY(${-6+currentX*9}deg) rotateZ(-2deg)`;
+  }
+  if(Math.abs(targetX-currentX)>0.001||Math.abs(targetY-currentY)>0.001){
+   tiltFrame=requestAnimationFrame(updateTilt);
+  }
+ }
+ window.addEventListener('pointermove',event=>{
+  if(event.pointerType==='touch'||reduced.matches)return;
+  const w=window.innerWidth,h=window.innerHeight;
+  if(window.scrollY>h)return;
+  targetX=(event.clientX/w-0.5)*2;
+  targetY=(event.clientY/h-0.5)*2;
+  if(!tiltFrame)tiltFrame=requestAnimationFrame(updateTilt);
+ },{passive:true});
+ window.addEventListener('pointerleave',()=>{
+  targetX=0;targetY=0;
+  if(!tiltFrame)tiltFrame=requestAnimationFrame(updateTilt);
+ });
+}
+
 const expertise=$('[data-expertise]');
 if(expertise){
  const cards=[...expertise.querySelectorAll('[data-expertise-card]')],pieces=[...expertise.querySelectorAll('.expertise-puzzle a[data-piece]')];
@@ -152,4 +181,47 @@ if(world&&slides.length){
  show(0);schedule();
 }
 
+const needChips=$$('[data-need-index]');
+if(needChips.length){
+ const expCards=$$('[data-expertise-card]');
+ const expPieces=$$('.expertise-puzzle a[data-piece]');
+ const needToast=$('#need-status');
+ const needText=needToast?.querySelector('.need-status-text');
+ const needMessages={
+  0:'01 Vergi & Mevzuat: Tam Tasdik, Vergi Danışmanlığı, KDV İadesi ve Transfer Fiyatlandırması çözümleri.',
+  1:'02 Bağımsız Denetim: SPK, KGK, BDDK ve TFRS/UFRS standartlarında güvence ve denetim raporlaması.',
+  2:'03 Şirket Değerleme & M&A: Birleşme, devralma, finansal değerleme ve durum tespiti (Due Diligence).',
+  3:'04 Bordro & İK: 3.500+ personel operasyonu, SGK teşvik optimizasyonu ve dış kaynak yönetimi.',
+  4:'05 Sistem & Raporlama: ERP danışmanlığı, finansal süreç analizi ve yönetici iş zekâsı panelleri (BI).',
+  5:'06 Boraden Akademi: Mevzuat güncellemeleri, mali eğitimler ve kurumsal finans seminerleri.'
+ };
+ needChips.forEach(chip=>{
+  chip.addEventListener('click',()=>{
+   needChips.forEach(c=>c.classList.toggle('is-active',c===chip));
+   const idx=Number(chip.dataset.needIndex);
+   if(idx>=0){
+    expCards.forEach((c,i)=>c.classList.toggle('is-selected',i===idx));
+    expPieces.forEach(p=>{
+     const pIdx=Number(p.dataset.piece);
+     p.classList.toggle('is-selected',pIdx===idx);
+    });
+    if(needToast&&needText){
+     needText.textContent=needMessages[idx]||'Seçilen uzmanlık alanı vurgulandı.';
+     needToast.classList.add('is-visible');
+    }
+    const targetCard=expCards[idx];
+    if(targetCard)targetCard.scrollIntoView({behavior:'smooth',block:'nearest'});
+   }else{
+    expCards.forEach(c=>c.classList.remove('is-selected'));
+    expPieces.forEach(p=>p.classList.remove('is-selected'));
+    if(needToast&&needText){
+     needText.textContent='Tüm uzmanlık alanları aktif.';
+     needToast.classList.remove('is-visible');
+    }
+   }
+  });
+ });
 }
+
+}
+

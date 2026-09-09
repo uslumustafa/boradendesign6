@@ -34,9 +34,9 @@ export const progressAt=(index,total=6)=>Math.min(total,Math.max(0,Math.floor(in
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const svgID=id=>String(id).replace(/[^a-zA-Z0-9_-]/g,'-')||'puzzle';
 function materialDefs(id){return `<defs>
-  <filter id="${id}-shadow" x="-40%" y="-40%" width="180%" height="190%"><feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#142a3c" flood-opacity=".27"/></filter>
-  <linearGradient id="${id}-surface" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".28" stop-color="#fff" stop-opacity="0"/><stop offset=".65" stop-color="#071522" stop-opacity=".07"/><stop offset="1" stop-color="#071522" stop-opacity=".32"/></linearGradient>
-  <linearGradient id="${id}-bevel" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".18" stop-color="#fff" stop-opacity=".45"/><stop offset=".48" stop-color="#d8e7f1" stop-opacity=".12"/><stop offset="1" stop-color="#071827" stop-opacity=".65"/></linearGradient>
+  <filter id="${id}-shadow" x="-45%" y="-45%" width="190%" height="200%"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#010710" flood-opacity=".52"/><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity=".35"/></filter>
+  <linearGradient id="${id}-surface" x1="0" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset=".24" stop-color="#fff" stop-opacity=".08"/><stop offset=".62" stop-color="#05101a" stop-opacity=".05"/><stop offset="1" stop-color="#020912" stop-opacity=".48"/></linearGradient>
+  <linearGradient id="${id}-bevel" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".18" stop-color="#fff" stop-opacity=".65"/><stop offset=".48" stop-color="#cbe3f7" stop-opacity=".22"/><stop offset="1" stop-color="#020a14" stop-opacity=".85"/></linearGradient>
   </defs>`;}
 function surface(s,id){const d=shapePath(s);return `<path class="piece-depth" d="${d}" transform="translate(0 9)"/><path class="piece-rim" d="${d}" transform="translate(0 4.5)"/><path class="piece-outline" d="${d}"/><path class="piece-surface" d="${d}" fill="url(#${id}-surface)"/><path class="piece-shine" d="${d}" style="stroke:url(#${id}-bevel)"/>`;}
 export function puzzle({mode='complete',selected='',id='puzzle',interactive=true}={}){

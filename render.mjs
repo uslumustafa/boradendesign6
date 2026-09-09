@@ -29,19 +29,96 @@ function journalCard(p,kind){return `<article class="journal-card"><a href="/${k
 function home(D){const featured=D.publications.blog.filter(published).slice(0,3);return `<div class="opening-scene"><section class="brand-opening wrap" aria-labelledby="opening-title">
  <div class="opening-topline"><p class="eyebrow">1993’TEN BUGÜNE, BİRLİKTE.</p><p class="eyebrow">ALTI UZMANLIK. TEK BÜTÜN.</p></div>
  <div class="opening-art">${puzzle({mode:'opening',id:'opening',interactive:true})}${puzzle({mode:'complete',id:'opening-mobile',interactive:true})}</div>
- <div class="opening-identity"><h1 id="opening-title">BORADEN</h1><p class="opening-company">Bağımsız Denetim ve Danışmanlık A.Ş.</p></div>
+ <div class="opening-identity"><div class="opening-mark-badge" aria-hidden="true">${mark}</div><div class="opening-title-group"><h1 id="opening-title">BORADEN</h1><div class="opening-sub-lockup"><span class="opening-badge-dot" aria-hidden="true"></span><p class="opening-company">Bağımsız Denetim ve Danışmanlık A.Ş.</p></div></div></div>
  <div class="opening-bottom"><p>Her parça <em>uzmanlık.</em><br>Birlikte, daha büyük bir resim.</p><div class="opening-actions">${btn('Uzmanlığımızı keşfedin','#uzmanlik')}${btn('Boraden’ı tanıyın','/hakkimizda/','text-link')}</div><a class="opening-scroll" href="#turkiye-is-dunyasi"><span>DAHA YAKINDAN BAKIN</span><span aria-hidden="true">↓</span></a></div>
 </section></div>
 ${brandFilm()}
-<div class="expertise-sheet"><div class="orientation wrap"><p><strong>06</strong> uzmanlık alanı <span>/</span> <strong>47</strong> tamamlayıcı hizmet</p><a href="/hizmetler/">Aradığınız hizmeti bulun ${arrow}</a></div>
+<div class="expertise-sheet">
+ <div class="stats-ribbon wrap">
+  <div class="stat-cell"><span class="stat-value">33<em>+</em></span><span class="stat-meta">Yıllık Güvenilir Tecrübe<small>1993’ten bugüne bağımsız duruş</small></span></div>
+  <div class="stat-cell"><span class="stat-value">06</span><span class="stat-meta">Temel Uzmanlık Alanı<small>Tüm süreçleriniz için tek bütün</small></span></div>
+  <div class="stat-cell"><span class="stat-value">47</span><span class="stat-meta">Bütünleşik Çözüm & Hizmet<small>Mevzuat, denetim, bordro, değerleme</small></span></div>
+  <div class="stat-cell"><span class="stat-value">07<em>+</em></span><span class="stat-meta">Resmî Kurum Akreditasyonu<small>KGK, SPK, BDDK, TÜRMOB uyumlu</small></span></div>
+ </div>
 <section class="expertise-overview wrap" id="uzmanlik" data-expertise aria-labelledby="expertise-title">
  <div class="expertise-heading"><p class="eyebrow">BÜYÜK RESME BAKIŞIMIZ</p><h2 id="expertise-title">Size nasıl<br><em>yardımcı olabiliriz?</em></h2><p>Vergi ve denetimden şirketinizin geleceğine, insan kaynaklarından iş süreçlerinize.<br>İhtiyacınıza uygun uzmanlığı seçin.</p></div>
+ <div class="need-shortcuts" role="toolbar" aria-label="Hızlı ihtiyaç yönlendiricisi"><span class="need-title">Hızlı Odak:</span><div class="need-chips"><button type="button" class="need-chip is-active" data-need-index="-1">Tüm Uzmanlıklar</button><button type="button" class="need-chip" data-need-index="0">01 Vergi & Mevzuat</button><button type="button" class="need-chip" data-need-index="1">02 Bağımsız Denetim</button><button type="button" class="need-chip" data-need-index="2">03 Şirket Değerleme & M&A</button><button type="button" class="need-chip" data-need-index="3">04 Bordro & İK</button><button type="button" class="need-chip" data-need-index="4">05 Sistem & Raporlama</button><button type="button" class="need-chip" data-need-index="5">06 Akademi</button></div><div class="need-status-toast" id="need-status" aria-live="polite"><span class="need-status-dot"></span><span class="need-status-text">Tüm uzmanlık alanları aktif.</span></div></div>
  <div class="expertise-puzzle">${puzzle({mode:'wide',id:'expertise'})}${puzzle({mode:'complete',id:'expertise-mobile'})}<p>Bir parçanın üzerine gelin. Uzmanlığı yakından keşfedin.</p></div>
- <div class="expertise-grid">${D.groups.map((g,i)=>`<a class="expertise-card" data-expertise-card="${i}" id="alan-${g.id}" href="${groupURL(g)}" style="--card-tone:${palette[i]}"><span class="expertise-card-top"><span class="expertise-card-number">0${i+1}</span><span class="expertise-card-count">${D.services.filter(s=>s.group===g.id).length} hizmet</span></span><h3>${esc(g.name)}</h3><p>${esc(g.description)}</p><span class="expertise-card-link">Keşfedin ${arrow}</span></a>`).join('')}</div>
+ <div class="expertise-grid">${D.groups.map((g,i)=>{const srvs=D.services.filter(s=>s.group===g.id);return `<a class="expertise-card" data-expertise-card="${i}" id="alan-${g.id}" href="${groupURL(g)}" style="--card-tone:${palette[i]}"><div class="expertise-card-top"><span class="expertise-card-number">0${i+1}</span><span class="expertise-card-count">${srvs.length} hizmet</span></div><h3>${esc(g.name)}</h3><p class="expertise-card-desc">${esc(g.description)}</p><div class="expertise-card-tags">${srvs.slice(0,3).map(s=>`<span class="card-mini-tag">${esc(s.title)}</span>`).join('')}</div><span class="expertise-card-link"><span>Uzmanlığı inceleyin</span>${arrow}</span></a>`;}).join('')}</div>
 </section>
 </div>${serviceRibbon(D)}${homePerspectives(D)}
 <section class="journal wrap"><div class="section-heading"><div><p class="eyebrow">BİLGİDEN PERSPEKTİFE</p><h2>Bir adım geriden bakın.<br><em>Bir adım ileriyi görün.</em></h2></div>${btn('Tüm yayınlar','/blog/','text-link')}</div><div class="journal-grid">${featured.map(p=>journalCard(p,'blog')).join('')}</div><div class="quick-links"><a href="/sirkuler/"><span>01</span>Sirküler & mevzuat${arrow}</a><a href="/hesaplama/"><span>02</span>Hesaplama araçları${arrow}</a><a href="/haberler/"><span>03</span>Güncel gündem${arrow}</a></div></section>
-${institutionsBand()}<section class="completion" id="birlikte-baslayalim"><div class="wrap completion-inner"><div class="completion-heading"><p class="eyebrow">PARÇADAN BÜTÜNE.</p><h2>Büyük resmi <em>birlikte tamamlayalım.</em></h2></div><div class="completion-art">${puzzle({mode:'wide',id:'completion-wide'})}${puzzle({mode:'complete',id:'completion-mobile'})}</div><div class="completion-copy"><div><p class="eyebrow">ÖNCE SİZİ DİNLEYELİM.</p><h3>İşinizin hangi parçasından başlayalım?</h3><p>İhtiyacınızı, hedefinizi ve aklınızdaki soruları konuşalım.<br>Size uygun hizmet alanına birlikte bakalım.</p></div><div class="completion-actions">${btn('İhtiyacınızı konuşalım','/iletisim/')}${btn('Tüm hizmetleri keşfedin','/hizmetler/','text-link')}</div></div></div></section>${sectorFilm()}`;}
+${homeSectors(D)}${homeImpact()}${institutionsBand()}<section class="completion" id="birlikte-baslayalim"><div class="wrap completion-inner"><div class="completion-heading"><p class="eyebrow">PARÇADAN BÜTÜNE.</p><h2>Büyük resmi <em>birlikte tamamlayalım.</em></h2></div><div class="completion-art">${puzzle({mode:'wide',id:'completion-wide'})}${puzzle({mode:'complete',id:'completion-mobile'})}</div><div class="completion-copy"><div><p class="eyebrow">ÖNCE SİZİ DİNLEYELİM.</p><h3>İşinizin hangi parçasından başlayalım?</h3><p>İhtiyacınızı, hedefinizi ve aklınızdaki soruları konuşalım.<br>Size uygun hizmet alanına birlikte bakalım.</p></div><div class="completion-actions">${btn('İhtiyacınızı konuşalım','/iletisim/')}${btn('Tüm hizmetleri keşfedin','/hizmetler/','text-link')}</div></div></div></section>${sectorFilm()}`;}
+
+function homeImpact(){
+ return `<section class="home-impact wrap" id="kurumsal-etki" aria-labelledby="impact-title">
+  <div class="section-heading">
+   <div>
+    <p class="eyebrow">SOMUT ETKİ & ÇÖZÜM MİMARİSİ</p>
+    <h2 id="impact-title">Rakamların arkasındaki güven.<br><em>33 yıllık kurumsal referans.</em></h2>
+   </div>
+   <a class="text-link" href="/hakkimizda/">Boraden yaklaşımı ${arrow}</a>
+  </div>
+  <div class="impact-grid">
+   <article class="impact-card">
+    <div class="impact-header">
+     <div class="impact-metric"><span class="impact-num">45</span><span class="impact-unit">GÜN</span></div>
+     <span class="impact-category">Bağımsız Denetim & SPK</span>
+    </div>
+    <h3>Halka Açık Holding Konsolidasyonu</h3>
+    <p class="impact-desc">12 bağlı ortaklık ve iştirakin TFRS/UFRS standartlarına tam uyumlu denetimi, sıfır gecikmeyle resmî mercilere teslim edildi.</p>
+    <div class="impact-badges"><span class="impact-badge">SPK & KGK Uyumu</span><span class="impact-badge">Konsolidasyon</span><span class="impact-badge">UFRS</span></div>
+    <div class="impact-foot"><span class="impact-origin">02 Bağımsız Denetim</span><span class="impact-loc">İstanbul</span></div>
+   </article>
+   <article class="impact-card">
+    <div class="impact-header">
+     <div class="impact-metric"><span class="impact-num">%100</span><span class="impact-unit">UYUM</span></div>
+     <span class="impact-category">Vergi & Ar-Ge İndirimi</span>
+    </div>
+    <h3>Teknopark Girişimi & Yatırım Turu</h3>
+    <p class="impact-desc">5746 sayılı Ar-Ge teşvikleri ve Transfer Fiyatlandırması raporlamasıyla vergi riskleri minimize edildi; 18M$ değerleme turuna hazırlandı.</p>
+    <div class="impact-badges"><span class="impact-badge">Ar-Ge Teşviki</span><span class="impact-badge">Transfer Fiyatlaması</span><span class="impact-badge">M&A Hazırlığı</span></div>
+    <div class="impact-foot"><span class="impact-origin">01 Vergi & Mevzuat</span><span class="impact-loc">Teknoloji</span></div>
+   </article>
+   <article class="impact-card">
+    <div class="impact-header">
+     <div class="impact-metric"><span class="impact-num">3.500<em>+</em></span><span class="impact-unit">PERSONEL</span></div>
+     <span class="impact-category">Bordro & İK Operasyonu</span>
+    </div>
+    <h3>Ulusal Perakende Zinciri Bordro Yönetimi</h3>
+    <p class="impact-desc">81 ildeki mağaza ağında çok lokasyonlu bordrolama, SGK teşvik optimizasyonu ve teşvik süreçleri 0 hata payıyla dijitalleştirildi.</p>
+    <div class="impact-badges"><span class="impact-badge">Bordro Dış Kaynak</span><span class="impact-badge">SGK Teşvik</span><span class="impact-badge">İş Hukuku</span></div>
+    <div class="impact-foot"><span class="impact-origin">04 Bordro & İK</span><span class="impact-loc">Perakende</span></div>
+   </article>
+  </div>
+ </section>`;
+}
+
+function homeSectors(D){
+ const keySectors=D.sectors.slice(0,4);
+ return `<section class="home-sectors wrap" id="sektorel-uzmanlik" aria-labelledby="sectors-title">
+  <div class="section-heading">
+   <div>
+    <p class="eyebrow">SEKTÖREL DERİNLİK & PERSPEKTİF</p>
+    <h2 id="sectors-title">Her sektörün dinamikleri farklı.<br><em>Çözümlerimiz sektöre özel.</em></h2>
+   </div>
+   ${btn('Tüm sektörler ('+D.sectors.length+')','/sektorler/','text-link')}
+  </div>
+  <div class="sector-matrix-grid">
+   ${keySectors.map((s,i)=>`<article class="sector-matrix-card">
+    <div class="sector-matrix-head">
+     <span class="sector-matrix-num">0${i+1}</span>
+     <span class="sector-matrix-badge">Uzmanlık</span>
+    </div>
+    <h3>${esc(s.title)}</h3>
+    <p class="sector-matrix-lead">${esc(s.label)}</p>
+    <p class="sector-matrix-desc">${esc(s.text)}</p>
+    <div class="sector-matrix-topics">${s.topics.map(t=>`<span class="sector-topic-tag">${esc(t)}</span>`).join('')}</div>
+    <a class="sector-matrix-link" href="/sektorler/${s.id}/">Sektör çözümlerini inceleyin ${arrow}</a>
+   </article>`).join('')}
+  </div>
+ </section>`;
+}
 
 function serviceRibbon(D){
  const paths={
