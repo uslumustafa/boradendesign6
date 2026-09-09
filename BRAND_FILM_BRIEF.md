@@ -2,6 +2,8 @@
 
 9 Eylül 2026 · Yerel tasarım ön izlemesi
 
+**Kalıcı ses kuralı:** Mevcut ve gelecekteki tüm site videoları sessiz olacak. Müzik, konuşma veya ortam sesi kullanılmayacak; siteye aktarılan dosyalarda ses kanalı bulunmayacak.
+
 **Üretim:** Flow / Veo 3.1 Fast, üç adet 8 saniyelik 16:9 klip. Kullanıcı ek ödeme olmaması şartıyla onayladı; mevcut 900 krediden 60 kullanıldı, kalan bakiye 840 olarak doğrulandı. Ek paket, abonelik veya ücretli yükseltme satın alınmadı.
 
 **Son kurgu:** 20 saniye, 1280×720, 24 fps, sessiz MP4. İlk klibin İstanbul sahnesi Boğaz arkasına gerçeğe uymayan gökdelenler yerleştirdiği için ilk dört saniye çıkarıldı. İstenen beş bölgenin doğru coğrafi temsilinin tamamlandığı iddia edilmez. Klipler gerçek Boraden ofisleri, çalışanları veya şubeleri değildir; site üzerinde temsili yapay zekâ sahneleri olarak belirtilir.

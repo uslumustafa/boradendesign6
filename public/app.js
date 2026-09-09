@@ -26,6 +26,24 @@ serviceInput?.addEventListener('input',()=>{const term=norm(serviceInput.value);
 $('#archive-search')?.addEventListener('input',event=>{const term=norm(event.target.value);let count=0;$$('.archive-list [data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden)count++;});$('.archive-count').textContent=`${count} belge`;});
 
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+const opening=$('.opening-art');
+if(opening){
+ opening.classList.add('is-ready');
+ let visible=false,active=false;
+ function syncOpening(){
+  const next=visible&&!document.hidden&&!reduced.matches;
+  for(const animation of opening.getAnimations({subtree:true})){
+   if(!animation.animationName?.startsWith('opening-'))continue;
+   if(next&&!active){animation.currentTime=0;animation.play();}
+   else if(!next)animation.pause();
+  }
+  active=next;
+ }
+ new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.5;syncOpening();},{threshold:.5}).observe(opening);
+ document.addEventListener('visibilitychange',syncOpening);
+ reduced.addEventListener('change',syncOpening);
+ window.addEventListener('pageshow',event=>{if(event.persisted){active=false;syncOpening();}});
+}
 const header=$('.header');
 if(header){
  let state={lastY:window.scrollY,anchor:window.scrollY,direction:0,hidden:false},frame=0,atTopEdge=false,overHeader=false;
@@ -54,9 +72,28 @@ if(header){
 const expertise=$('[data-expertise]');
 if(expertise){
  const cards=[...expertise.querySelectorAll('[data-expertise-card]')],pieces=[...expertise.querySelectorAll('.expertise-puzzle a[data-piece]')];
- const items=[...cards,...pieces];
+ const items=[...cards,...pieces],overlay=expertise.querySelector('[data-piece-overlay]');
  const indexOf=item=>Number(item.dataset.expertiseCard??item.dataset.piece);
- function select(index){items.forEach(item=>item.classList.toggle('is-selected',indexOf(item)===index));}
+ let activeIndex=-1,overlayAnimation;
+ const raised='translateY(-12px) scale(1.28)';
+ function select(index){
+  if(index===activeIndex)return;
+  activeIndex=index;
+  items.forEach(item=>item.classList.toggle('is-selected',indexOf(item)===index));
+  const piece=pieces.find(item=>indexOf(item)===index&&item.id);
+  overlayAnimation?.cancel();overlayAnimation=null;
+  if(overlay){
+   overlay.style.removeProperty('transform');
+   if(piece){
+    overlay.style.setProperty('--cx',piece.style.getPropertyValue('--cx'));
+    overlay.style.setProperty('--cy',piece.style.getPropertyValue('--cy'));
+    overlay.setAttribute('href','#'+piece.id);
+    if(reduced.matches)overlay.style.transform=raised;
+    else overlayAnimation=overlay.animate([{transform:'translateY(0) scale(1)'},{transform:raised}],{duration:300,easing:'cubic-bezier(.16,.8,.2,1)',fill:'both'});
+   }else overlay.removeAttribute('href');
+  }
+ }
+ reduced.addEventListener('change',()=>{if(reduced.matches&&overlayAnimation){overlayAnimation.cancel();overlayAnimation=null;overlay.style.transform=raised;}});
  function selectFocused(){const focused=items.find(item=>item.contains(document.activeElement));select(focused?indexOf(focused):-1);}
  items.forEach(item=>{
   item.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')select(indexOf(item));});
@@ -65,6 +102,35 @@ if(expertise){
   item.addEventListener('focusout',()=>requestAnimationFrame(selectFocused));
  });
 }
+
+const motionBands=$$('[data-motion-band]');
+motionBands.forEach(band=>{
+ const windowEl=band.querySelector('.motion-window'),button=band.querySelector('[data-band-pause]');
+ if(!windowEl||!button)return;
+ band.classList.add('is-ready');
+ let visible=false,manualPause=false,focused=false,running=false;
+ function syncBand(){
+  const active=visible&&!document.hidden&&!reduced.matches;
+  const nextRunning=active&&!manualPause&&!focused;
+  if(nextRunning&&!running)windowEl.scrollLeft=0;
+  running=nextRunning;
+  band.classList.toggle('is-active',active);
+  band.classList.toggle('is-paused',manualPause);
+  band.classList.toggle('is-focused',focused);
+  band.classList.toggle('is-static',reduced.matches);
+  button.hidden=reduced.matches;button.disabled=reduced.matches;
+  button.setAttribute('aria-pressed',String(manualPause));
+  button.setAttribute('aria-label',`${button.dataset.label}: ${manualPause?'Başlat':'Durdur'}`);
+  button.textContent=manualPause?'▷':'Ⅱ';
+ }
+ button.addEventListener('click',()=>{manualPause=!manualPause;syncBand();});
+ windowEl.addEventListener('focusin',event=>{focused=event.target.matches(':focus-visible');syncBand();if(focused)requestAnimationFrame(()=>{if(document.activeElement===event.target)event.target.scrollIntoView({behavior:'instant',block:'nearest',inline:'nearest'});});});
+ windowEl.addEventListener('focusout',()=>requestAnimationFrame(()=>{focused=windowEl.contains(document.activeElement)&&document.activeElement.matches(':focus-visible');syncBand();}));
+ document.addEventListener('visibilitychange',syncBand);
+ reduced.addEventListener('change',syncBand);
+ new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;syncBand();},{threshold:0}).observe(band);
+ syncBand();
+});
 
 const world=$('.world-perspectives'),slides=$$('[data-perspective-slide]');
 if(world&&slides.length){

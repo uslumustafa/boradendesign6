@@ -10,13 +10,15 @@ Node.js ile `npm run build`, ardından `npm start` çalıştırın. Adres: http:
 
 “Her parça uzmanlık” hero alanı doğal kaydırmayla bütünüyle yukarı çıkar. Menü aşağı kaydırmada gizlenir, yukarı kaydırmada görünür; yön değişimi için 20 piksel eşik kullanılır. Sayfanın ilk 96 pikselinde, imleç üst kenara geldiğinde, menü/arama açıkken veya menü klavye odağı taşırken görünür kalır. Azaltılmış hareket tercihinde geçiş anlıktır.
 
-Uzmanlık bölümünde tamamlanmış, etkileşimli yapboz üstte; altı hizmet alanı kartı alttadır. Kartlar masaüstünde üç, tablette iki, mobilde tek sütuna yerleşir. Kartın veya parçanın üzerine gelmek ya da klavyeyle odaklanmak eşini vurgular; ikisi de doğrudan ilgili hizmet alanına açılır. Altı uzun bölüm ve kaydırmayla sırayla parça düşürme akışı kaldırılmıştır.
+Uzmanlık bölümünde geniş, etkileşimli yapboz üstte; altı hizmet alanı kartı alttadır. Kartlar masaüstünde altı, tablette üç, mobilde iki sütuna yerleşir. Kartın veya parçanın üzerine gelmek ya da klavyeyle odaklanmak eşini vurgular; ikisi de doğrudan ilgili hizmet alanına açılır. Merkezdeki BORADEN, Hakkımızda sayfasına açılır. Altı uzun bölüm ve kaydırmayla sırayla parça düşürme akışı kaldırılmıştır.
 
 47 hizmet sayfası ve altı hizmet alanı sayfasında, seçilen hizmetin kendi başlığını taşıyan parça korunur: girişte görünür, kaydırmayla yerleşir, okuma boyunca hafif ve bulanık bir arka plan olur. Mobil, azaltılmış hareket ve JavaScript olmadan kullanım için görünür içerik ve bağlantılar korunur.
 
-Siyah açılış yaklaşık 5,75 saniyedir. Altı hizmet parçası birleşir; renkli işaretler, BORADEN ve “Bağımsız Denetim ve Danışmanlık A.Ş.” görünür. Açılış her tarayıcı sekmesi oturumundaki ilk ana sayfa ziyaretinde oynar. Geç veya Escape doğrudan sayfaya geçirir; azaltılmış hareket tercihi açılışı atlar. Tasarım incelemesi için `/?intro=1` tekrar oynatır. JavaScript yoksa sayfa doğrudan açılır.
+Açılış ana sayfanın ilk bölümüdür; ayrı siyah bekleme ekranı kaldırılmıştır. Altı hizmet parçası merkezdeki BORADEN çevresinde yaklaşık üç saniyede birleşir. Altında BORADEN ve “Bağımsız Denetim ve Danışmanlık A.Ş.” görünür. Animasyon, bölüm gerçekten görünür olduğunda başlar; sekmeye veya açılışa dönüldüğünde yeniden oynar. Azaltılmış hareket tercihinde ve JavaScript olmadan tamamlanmış yapboz gösterilir. Menü, bağlantılar ve kaydırma her zaman kullanılabilir.
 
 Ana sayfadaki 14 dünya perspektifinin okuma bağlantıları, özgün kaynakları ve portre künyeleri korunur. 1,5 saniyelik karusel; üzerine gelindiğinde, klavye odağında, sekme gizliyken, ekran dışında ve azaltılmış hareket tercihinde durur. Elle gezinme kontrolleri mevcuttur. Yayınlar ve iletişim çağrısı da akışta yer alır.
+
+Perspektifler daha kompakt sunulur; alttaki iletişim bölümünde geniş yapboz ve ihtiyaca göre yönlendirme bulunur. Hizmet adları ile yedi resmî kurum/meslek kuruluşu ayrı, durdurulabilir şeritlerde akar. TSPB logosu ve bağlantısı eklenmiştir.
 
 Onaylanmış binadan ofise giriş filmi, footer öncesindeki son bölüm olarak korunur. Önceki görünürlük tabanlı oynatma motoru yeniden kullanılır: ihtiyaç anında yükleme, sessiz ve satır içi oynatma, ekran dışında durma, mobil ve azaltılmış hareket için poster görünümü.
 
@@ -29,5 +31,11 @@ Türkiye temalı iş hayatı filmi, hero ile uzmanlık bölümü arasındadır. 
 Şirket bilgileri, yayın kaynakları, tarihler, medya atıfları ve kapsam notları korunmalıdır. Ekip üyesi veya müşteri sonucu uydurulmaz. Hesaplama mantığı, tarihli kaynakları ve kapsam notları finansal parametreler değiştirilmeden yeniden kullanılır.
 
 Bu çalışma yerel tasarım önizlemesidir; canlı yayın değildir ve bilinçli olarak `noindex` kullanır. Wagtail, yayın onayları, arama motoru indeksleme, kariyer başvurularının ve e-postaların teslimi sonraki entegrasyon kapsamındadır. Önceki Boraden deposu değiştirilmez.
+
+## Devam notu — 9 Eylül 2026
+
+Hizmet sonlarındaki sorumlu kişi alanı hazırdır. `data/service-contacts.json` içindeki isim, unvan, e-posta ve fotoğraf alanları kullanıcıdan gelecek; şimdilik genel iletişim çağrısı gösterilir. Hizmet özelinde kayıtlar `services` altında tanımlanabilir. Kontrol: `node --test test.mjs service-contact.test.mjs`.
+
+Son görsel durum: daha belirgin açık zeminler, geniş uzmanlık ve kapanış yapbozları, kompakt perspektifler, hizmet renginde arka plan geçişleri ve görünürlükle başlayan açılış birleşmesi. Yeni müşteri geri bildirimleri buradan sürdürülecek; gerçek kişi bilgileri ve canlı Wagtail bağlantısı henüz tamamlanmış değildir.
 
 9 Eylül 2026 tarihli kaynaklı tasarım önerileri: [DESIGN_RECOMMENDATIONS.md](DESIGN_RECOMMENDATIONS.md).

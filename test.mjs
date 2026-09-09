@@ -2,11 +2,64 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {shapes,edgeControls,progressAt,servicePiece} from './puzzle.mjs';
+import {shapes,palette,edgeControls,progressAt,servicePiece,puzzle} from './puzzle.mjs';
 import {serviceMotionAt} from './public/service-motion.js';
 import {headerScrollState} from './public/app.js';
 import {render,routeList,safeURL} from './render.mjs';
 const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url))),L=JSON.parse(fs.readFileSync(new URL('data/legacy.json',import.meta.url)));
+test('homepage bands pause independently, expose focused links and resume without scroll drift',()=>{
+ const target=extra=>Object.assign({events:{},addEventListener(n,fn){(this.events[n]??=[]).push(fn);},fire(n,event){for(const fn of this.events[n]||[])fn(event);}},extra);
+ const doc=target({hidden:false,activeElement:null}),reduced=target({matches:false}),observers=[];
+ const bands=['Hizmet akışı','Kurum akışı'].map(label=>{
+  const window=target({scrollLeft:90,contains:el=>el?.owner===window}),button=target({dataset:{label},hidden:true,attrs:{},setAttribute(n,v){this.attrs[n]=v;}}),names=new Set();
+  const band={classList:{add:n=>names.add(n),toggle(n,on){on?names.add(n):names.delete(n);},contains:n=>names.has(n)},querySelector:s=>s==='.motion-window'?window:button};
+  return {band,window,button};
+ });
+ const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');
+ vm.runInNewContext(app.slice(app.indexOf('const motionBands='),app.indexOf('const world=')),{$$:()=>bands.map(b=>b.band),document:doc,reduced,requestAnimationFrame:fn=>fn(),IntersectionObserver:class{constructor(callback){this.callback=callback;observers.push(this);}observe(target){this.target=target;}show(on){this.callback([{target:this.target,isIntersecting:on}]);}}});
+ const [a,b]=bands;for(const item of bands)assert.equal(item.band.classList.contains('is-ready'),true);observers.forEach(o=>o.show(true));assert.equal(a.window.scrollLeft,0);assert.equal(a.band.classList.contains('is-active'),true);
+ a.button.fire('click');assert.equal(a.band.classList.contains('is-paused'),true);assert.equal(b.band.classList.contains('is-paused'),false);assert.equal(a.button.attrs['aria-pressed'],'true');assert.equal(a.button.attrs['aria-label'],'Hizmet akışı: Başlat');
+ a.window.scrollLeft=210;a.button.fire('click');assert.equal(a.window.scrollLeft,0);
+ doc.activeElement={owner:a.window,matches:()=>false};a.window.fire('focusin',{target:doc.activeElement});assert.equal(a.band.classList.contains('is-focused'),false);
+ let focusedScroll;doc.activeElement={owner:a.window,matches:()=>true,scrollIntoView:options=>{focusedScroll=options;}};a.window.fire('focusin',{target:doc.activeElement});assert.equal(a.band.classList.contains('is-focused'),true);assert.equal(focusedScroll.inline,'nearest');assert.equal(focusedScroll.behavior,'instant');
+ a.window.scrollLeft=170;doc.activeElement={owner:a.window,matches:()=>true};a.window.fire('focusout');assert.equal(a.window.scrollLeft,170);assert.equal(a.band.classList.contains('is-focused'),true);
+ doc.activeElement=a.button;a.window.fire('focusout');assert.equal(a.band.classList.contains('is-focused'),false);assert.equal(a.window.scrollLeft,0);
+ b.button.fire('click');doc.hidden=true;doc.fire('visibilitychange');for(const item of bands)assert.equal(item.band.classList.contains('is-active'),false);
+ doc.hidden=false;doc.fire('visibilitychange');assert.equal(b.band.classList.contains('is-paused'),true);assert.equal(a.band.classList.contains('is-active'),true);
+ reduced.matches=true;reduced.fire('change');for(const item of bands){assert.equal(item.band.classList.contains('is-static'),true);assert.equal(item.band.classList.contains('is-active'),false);assert.equal(item.button.hidden,true);assert.equal(item.button.disabled,true);}
+ reduced.matches=false;reduced.fire('change');assert.equal(a.button.hidden,false);assert.equal(a.band.classList.contains('is-active'),true);assert.equal(b.band.classList.contains('is-paused'),true);
+ observers[0].show(false);assert.equal(a.band.classList.contains('is-active'),false);assert.equal(b.band.classList.contains('is-active'),true);
+});
+test('wide expertise keeps labels unscaled and paints selection above a stable link order',()=>{
+ const wide=puzzle({mode:'wide',id:'expertise'}),ordinary=puzzle({mode:'complete',id:'ordinary'});
+ assert.ok(wide.includes('viewBox="0 0 1182.5 341"'));assert.ok(ordinary.includes('viewBox="0 0 550 550"'));
+ assert.equal((wide.match(/class="piece-wide-surface" transform="scale\(2.15 .62\)"/g)||[]).length,7);
+ assert.equal((wide.match(/<a\s/g)||[]).length,7);assert.ok(!wide.includes('class="piece-number"'));assert.ok(ordinary.includes('class="piece-number"'));
+ for(const svg of [wide,ordinary])assert.match(svg,/<a\s+href="\/hakkimizda\/"[^>]+class="puzzle-piece piece-center[^>]+data-piece="6"/);
+ assert.equal((puzzle({interactive:false}).match(/<a\s/g)||[]).length,0);
+ assert.equal((puzzle({mode:'wide',interactive:false}).match(/<a\s/g)||[]).length,0);
+ for(const [,surface] of wide.matchAll(/<g class="piece-wide-surface"[^>]*>([^]*?)<\/g>/g))assert.ok(!surface.includes('<text'));
+ assert.ok(wide.endsWith('<use class="puzzle-selection-overlay" data-piece-overlay pointer-events="none" aria-hidden="true" focusable="false"/></svg>'));
+ const ids=[...wide.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(ids.length,new Set(ids).size);
+ const item=(index,card)=>({id:card?'card-'+index:'expertise-piece-'+shapes[index].id,dataset:card?{expertiseCard:String(index)}:{piece:String(index)},style:{getPropertyValue:n=>(n==='--cx'?100+index*50:200)+'px'},events:{},classList:{toggle(_,on){this.selected=on;}},addEventListener(name,fn){this.events[name]=fn;},contains(active){return active===this;}});
+ const animations=[],reduced={matches:false,addEventListener(_,fn){this.change=fn;}};
+ const cards=shapes.slice(0,6).map((_,i)=>item(i,true)),pieces=shapes.map((_,i)=>item(i,false)),overlay={attrs:{},style:{setProperty(n,v){this[n]=v;},removeProperty(n){delete this[n];}},setAttribute(name,value){this.attrs[name]=value;},removeAttribute(name){delete this.attrs[name];},animate(frames,options){const a={frames,options,cancelled:false,cancel(){this.cancelled=true;}};animations.push(a);return a;}};
+ const mobile=shapes.map((_,i)=>Object.assign(item(i,false),{id:''}));
+ const expertise={querySelectorAll:s=>s==='[data-expertise-card]'?cards:[...mobile,...pieces],querySelector:()=>overlay},document={activeElement:null};
+ const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');vm.runInNewContext(app.slice(app.indexOf("const expertise="),app.indexOf("const motionBands=")),{$:()=>expertise,document,reduced,requestAnimationFrame:fn=>fn()});
+ const order=pieces.map(p=>p.id);
+ cards[3].events.pointerenter({pointerType:'mouse'});assert.equal(overlay.attrs.href,'#'+pieces[3].id);assert.equal(cards[3].classList.selected,true);assert.equal(pieces[3].classList.selected,true);
+ assert.equal(overlay.style['--cx'],'250px');assert.equal(overlay.style['--cy'],'200px');assert.equal(animations[0].frames[1].transform,'translateY(-12px) scale(1.28)');assert.equal(animations[0].options.duration,300);
+ cards[3].events.pointerenter({pointerType:'mouse'});assert.equal(animations.length,1);
+ cards[3].events.pointerleave();assert.equal(overlay.attrs.href,undefined);assert.equal(animations[0].cancelled,true);
+ document.activeElement=pieces[1];pieces[1].events.focusin();cards[0].events.pointerleave();assert.equal(overlay.attrs.href,'#'+pieces[1].id);
+ document.activeElement=null;pieces[1].events.focusout();assert.equal(overlay.attrs.href,undefined);assert.deepEqual(pieces.map(p=>p.id),order);
+ cards[2].events.focusin();reduced.matches=true;reduced.change();assert.equal(animations.at(-1).cancelled,true);assert.equal(overlay.style.transform,'translateY(-12px) scale(1.28)');
+ const count=animations.length;cards[4].events.focusin();assert.equal(animations.length,count);assert.equal(overlay.attrs.href,'#'+pieces[4].id);assert.equal(overlay.style.transform,'translateY(-12px) scale(1.28)');
+ pieces[6].events.pointerenter({pointerType:'mouse'});assert.equal(overlay.attrs.href,'#expertise-piece-boraden');assert.ok(cards.every(card=>!card.classList.selected));assert.equal(pieces[6].classList.selected,true);
+ document.activeElement=pieces[6];pieces[6].events.focusin();pieces[6].events.pointerleave();assert.equal(overlay.attrs.href,'#expertise-piece-boraden');
+ document.activeElement=null;pieces[6].events.focusout();assert.equal(overlay.attrs.href,undefined);assert.deepEqual(pieces.map(p=>p.id),order);
+});
 test('service pieces preserve identity, isolate SVG ids and settle before reading',()=>{
  for(const service of D.services){
   const html=render('/hizmetler/'+service.id+'/',D,L).html;
@@ -14,18 +67,37 @@ test('service pieces preserve identity, isolate SVG ids and settle before readin
   const piece=servicePiece({group:service.group,title:service.title});
   assert.equal((piece.match(/class="piece-outline"/g)||[]).length,1);
   assert.ok(piece.includes('aria-hidden="true"'));
+  assert.ok(html.includes('--service-color:'+palette[shapes.findIndex(s=>s.id===service.group)]));
+  assert.equal((html.match(/class="service-contact"/g)||[]).length,1);
+  assert.ok(html.includes('/service-contact.css'));
  }
  assert.ok(servicePiece({group:'denetim',title:'<script> & "test"'}).includes('&lt;script&gt;'));
  for(const route of ['/',...D.groups.map(g=>'/hizmetler/alan/'+g.id+'/')]){
   const html=render(route,D,L).html,ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+  if(route!=='/'){
+   assert.ok(html.includes('--service-color:'+palette[shapes.findIndex(s=>route.endsWith('/'+s.id+'/'))]));
+   assert.equal((html.match(/class="service-contact"/g)||[]).length,1);
+  }
   assert.equal(new Set(ids).size,ids.length,route);
   for(const [,id] of html.matchAll(/url\(#([^)]+)\)/g))assert.ok(ids.includes(id),id);
  }
  const start=serviceMotionAt(0,778);assert.ok(start.arrival<1&&start.opacity>.5);
- const end=serviceMotionAt(373,778);assert.equal(end.depth,1);assert.ok(Math.abs(end.opacity-.13)<.001);
+ const end=serviceMotionAt(373,778);assert.equal(end.depth,1);assert.ok(Math.abs(end.opacity-.3)<.001);
+ assert.equal(start.tint,0);
  assert.deepEqual(serviceMotionAt(-100,778),start);
  assert.deepEqual(serviceMotionAt(0,778,true),serviceMotionAt(5000,778,true));
- for(const h of [320,778,1800])for(const y of [0,40,200,1000]){const s=serviceMotionAt(y,h);assert.ok(s.arrival>=0&&s.arrival<=1.1&&s.depth>=0&&s.depth<=1&&s.opacity>=0&&s.opacity<=1);}
+ for(const h of [320,778,1800])for(const travel of [-100,0,800,6000]){
+  const span=Math.max(280,Math.min(520,h*.46)),stop=Math.max(span+h,travel);
+  assert.equal(serviceMotionAt(span,h,false,travel).tint,1);
+  let previous=1;
+  for(let i=0;i<=10;i++){
+   const s=serviceMotionAt(span+(stop-span)*i/10,h,false,travel);
+   assert.ok(s.arrival>=0&&s.arrival<=1.1&&s.depth>=0&&s.depth<=1&&s.opacity>=.29&&s.opacity<=1);
+   assert.ok(s.tint>=.19&&s.tint<=previous);previous=s.tint;
+  }
+  assert.ok(Math.abs(serviceMotionAt(stop,h,false,travel).tint-.2)<.001);
+  assert.deepEqual(serviceMotionAt(stop+10000,h,false,travel),serviceMotionAt(stop,h,false,travel));
+ }
 });
 test('home retains perspectives and places both films with lazy media and editable brand cues',()=>{
  const html=render('/',D,L).html;
@@ -43,25 +115,44 @@ test('home retains perspectives and places both films with lazy media and editab
  assert.ok(html.indexOf('id="sektorel-bakis"')>html.indexOf('class="completion"'));
  assert.ok(html.includes('Bağımsız Denetim ve Danışmanlık A.Ş.'));
 });
-test('intro can finish or skip safely, while repeat visits and reduced motion bypass it',()=>{
- const source=fs.readFileSync(new URL('public/intro.js',import.meta.url),'utf8');
- function opening({seen=false,reduce=false,query='',storageFails=false}={}){
-  const classes=new Set(),events={},timers=new Map();let n=0;
-  const main={inert:false,setAttribute(){},focus(){doc.activeElement=this;}};
-  const skip={addEventListener(name,fn){this[name]=fn;}};
-  const overlay={removed:false,inert:false,setAttribute(){},contains(el){return el===this||el===skip;},remove(){this.removed=true;},focus(){doc.activeElement=this;}};
-  const doc={documentElement:{classList:{add(...names){names.forEach(n=>classes.add(n));},remove(...names){names.forEach(n=>classes.delete(n));}}},body:{children:[overlay,main]},getElementById(id){return {'brand-intro':overlay,'intro-skip':skip,main}[id];},addEventListener(n,fn){events[n]=fn;},removeEventListener(n){delete events[n];}};
-  const media={matches:reduce,addEventListener(){},removeEventListener(){}};
-  const context={document:doc,matchMedia:()=>media,location:{search:query},URLSearchParams,sessionStorage:{getItem(){if(storageFails)throw Error();return seen?'1':null;},setItem(){if(storageFails)throw Error();seen=true;}},setTimeout(fn,ms){timers.set(++n,{fn,ms});return n;},clearTimeout(id){timers.delete(id);}};
-  vm.runInNewContext(source,context);events.DOMContentLoaded?.();
-  return {classes,main,skip,overlay,events,run(ms){const timer=[...timers.values()].find(t=>t.ms===ms);assert.ok(timer);timer.fn();}};
- }
- for(const mode of [{seen:true},{reduce:true}])assert.equal(opening(mode).classes.has('intro-active'),false);
- const normal=opening();assert.equal(normal.main.inert,true);normal.run(5200);normal.run(550);assert.equal(normal.main.inert,false);assert.equal(normal.overlay.removed,true);
- const replay=opening({seen:true,query:'?intro=1',storageFails:true});replay.skip.click();replay.run(100);assert.equal(replay.classes.has('intro-active'),false);
- const escape=opening();escape.events.keydown({key:'Escape'});escape.run(100);assert.equal(escape.main.inert,false);
- const failed=opening();failed.run(5900);failed.run(100);assert.equal(failed.main.inert,false);
- assert.ok(render('/',D,L).html.includes('id="brand-intro"'));assert.ok(!render('/hizmetler/',D,L).html.includes('id="brand-intro"'));
+test('opening waits for a visible page, replays on return and honours reduced motion',()=>{
+ const target=extra=>Object.assign({events:{},addEventListener(n,fn){this.events[n]=fn;},fire(n,event){this.events[n]?.(event);}},extra);
+ const document=target({hidden:true}),window=target({}),reduced=target({matches:false});
+ const animation=name=>({animationName:name,currentTime:100,plays:0,pauses:0,play(){this.plays++;},pause(){this.pauses++;}});
+ const join=animation('opening-join'),camera=animation('opening-camera'),hover=animation('unrelated-hover');
+ const opening={classList:{add(){}},getAnimations:()=>reduced.matches?[]:[join,camera,hover]};let observe;
+ const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');
+ vm.runInNewContext(app.slice(app.indexOf('const opening='),app.indexOf('const header=')),{$:()=>opening,document,window,reduced,IntersectionObserver:class{constructor(callback){observe=ratio=>callback([{isIntersecting:ratio>0,intersectionRatio:ratio}]);}observe(){}}});
+ observe(1);assert.equal(join.plays,0,'Hidden-tab loading must not consume the intro');
+ document.hidden=false;document.fire('visibilitychange');assert.equal(join.plays,1);assert.equal(join.currentTime,0);assert.equal(camera.plays,1);
+ join.currentTime=1100;observe(.8);assert.equal(join.plays,1);assert.equal(join.currentTime,1100,'Repeated visibility updates must not restart playback');
+ document.hidden=true;document.fire('visibilitychange');assert.ok(join.pauses>0);
+ document.hidden=false;document.fire('visibilitychange');assert.equal(join.plays,2);assert.equal(join.currentTime,0);
+ observe(.2);document.fire('visibilitychange');assert.equal(join.plays,2);
+ observe(.9);assert.equal(join.plays,3,'Returning to the opening replays the assembly');
+ reduced.matches=true;reduced.fire('change');observe(1);window.fire('pageshow',{persisted:true});assert.equal(join.plays,3);
+ reduced.matches=false;reduced.fire('change');assert.equal(join.plays,4);
+ window.fire('pageshow',{persisted:false});assert.equal(join.plays,4);
+ window.fire('pageshow',{persisted:true});assert.equal(join.plays,5,'History restoration must replay the opening');
+ assert.equal(hover.plays,0);assert.equal(hover.pauses,0);
+});
+test('opening is a directly usable branded hero with optional CSS assembly',()=>{
+ const html=render('/',D,L).html,opening=html.match(/<section class="brand-opening wrap"[^>]*>([^]*?)<\/section>/)?.[1];
+ assert.ok(opening,'Homepage has an in-flow brand opening');
+ assert.equal((opening.match(/class="puzzle-piece\b/g)||[]).length,7);
+ assert.match(opening,/<h1\b[^>]*id="opening-title"[^>]*>BORADEN<\/h1>/);
+ assert.ok(opening.includes('Bağımsız Denetim ve Danışmanlık A.Ş.'));
+ for(const g of D.groups)assert.ok(opening.includes('href="/hizmetler/alan/'+g.id+'/"'));
+ for(const href of ['#uzmanlik','/hakkimizda/','#turkiye-is-dunyasi'])assert.ok(opening.includes('href="'+href+'"'));
+ assert.ok(html.includes('<header'));assert.ok(html.includes('class="desktop-nav"'));
+ assert.ok(html.includes('class="sector-film brand-film"'));assert.equal((html.match(/data-expertise-card=/g)||[]).length,6);
+ assert.ok(!html.includes('id="brand-intro"'));assert.ok(!html.includes('/intro.js'));assert.ok(!opening.includes('inert'));
+ assert.equal(fs.existsSync(new URL('public/intro.js',import.meta.url)),false);
+ const css=fs.readFileSync(new URL('public/home-motion.css',import.meta.url),'utf8');
+ assert.match(css,/@keyframes\s+opening-join\b/);
+ const reduced=[...css.matchAll(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{((?:[^{}]|\{[^{}]*\})*)\}/g)].map(m=>m[1]);
+ assert.ok(reduced.some(block=>/\.opening-art\s+\.puzzle-piece[^{]*\{[^}]*animation\s*:\s*none/.test(block)),'Opening assembly has a scoped reduced-motion fallback');
+ assert.ok(!render('/hizmetler/',D,L).html.includes('class="brand-opening wrap"'));
 });
 test('header waits for intentional direction changes and expertise links remain paired',()=>{
  let state={lastY:0,anchor:0,direction:0,hidden:false};
