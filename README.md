@@ -14,7 +14,7 @@ Uzmanlık bölümünde geniş, etkileşimli yapboz üstte; altı hizmet alanı k
 
 47 hizmet sayfası ve altı hizmet alanı sayfasında, seçilen hizmetin kendi başlığını taşıyan parça korunur: girişte görünür, kaydırmayla yerleşir, okuma boyunca hafif ve bulanık bir arka plan olur. Mobil, azaltılmış hareket ve JavaScript olmadan kullanım için görünür içerik ve bağlantılar korunur.
 
-Açılış ana sayfanın ilk bölümüdür; ayrı siyah bekleme ekranı kaldırılmıştır. Altı hizmet parçası merkezdeki BORADEN çevresinde yaklaşık üç saniyede birleşir. Altında BORADEN ve “Bağımsız Denetim ve Danışmanlık A.Ş.” görünür. Animasyon, bölüm gerçekten görünür olduğunda başlar; sekmeye veya açılışa dönüldüğünde yeniden oynar. Azaltılmış hareket tercihinde ve JavaScript olmadan tamamlanmış yapboz gösterilir. Menü, bağlantılar ve kaydırma her zaman kullanılabilir.
+Açılış ana sayfanın ilk bölümüdür; ayrı siyah bekleme ekranı kaldırılmıştır. Masaüstünde yatay ve geniş, mobilde kare yapboz kullanılır; yüzeyler genişlerken hizmet etiketleri gerilmez. Altı hizmet parçası ekranın sol, sağ, üst ve alt köşelerinden merkezdeki BORADEN çevresine gelir. Yaklaşık 3,7 saniyelik akışın sonunda şirket kimliği belirir. Animasyon, bölüm gerçekten görünür olduğunda başlar; sekmeye, açılışa veya farklı ekran düzenine geçildiğinde yeniden oynar. Azaltılmış hareket tercihinde ve JavaScript olmadan tamamlanmış yapboz gösterilir. Menü, bağlantılar ve kaydırma her zaman kullanılabilir.
 
 Ana sayfadaki 14 dünya perspektifinin okuma bağlantıları, özgün kaynakları ve portre künyeleri korunur. 1,5 saniyelik karusel; üzerine gelindiğinde, klavye odağında, sekme gizliyken, ekran dışında ve azaltılmış hareket tercihinde durur. Elle gezinme kontrolleri mevcuttur. Yayınlar ve iletişim çağrısı da akışta yer alır.
 

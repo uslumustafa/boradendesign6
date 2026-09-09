@@ -28,7 +28,7 @@ function search(D){return `<dialog id="search-dialog" class="search-dialog" aria
 function journalCard(p,kind){return `<article class="journal-card"><a href="/${kindPaths[kind]}/${p.id}/"><div class="journal-image">${p.cover?`<img src="/${esc(p.cover.replace(/^\//,''))}" alt="" loading="lazy" width="640" height="420">`:'<span class="editorial-symbol">↗</span>'}<span class="image-arrow">${arrow}</span></div><div class="card-meta"><span>${esc(p.category||kindNames[kind])}</span><time datetime="${esc(p.date)}">${date(p.date)}</time></div><h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p></a></article>`;}
 function home(D){const featured=D.publications.blog.filter(published).slice(0,3);return `<div class="opening-scene"><section class="brand-opening wrap" aria-labelledby="opening-title">
  <div class="opening-topline"><p class="eyebrow">1993’TEN BUGÜNE, BİRLİKTE.</p><p class="eyebrow">ALTI UZMANLIK. TEK BÜTÜN.</p></div>
- <div class="opening-art">${puzzle({mode:'complete',id:'opening',interactive:true})}</div>
+ <div class="opening-art">${puzzle({mode:'opening',id:'opening',interactive:true})}${puzzle({mode:'complete',id:'opening-mobile',interactive:true})}</div>
  <div class="opening-identity"><h1 id="opening-title">BORADEN</h1><p class="opening-company">Bağımsız Denetim ve Danışmanlık A.Ş.</p></div>
  <div class="opening-bottom"><p>Her parça <em>uzmanlık.</em><br>Birlikte, daha büyük bir resim.</p><div class="opening-actions">${btn('Uzmanlığımızı keşfedin','#uzmanlik')}${btn('Boraden’ı tanıyın','/hakkimizda/','text-link')}</div><a class="opening-scroll" href="#turkiye-is-dunyasi"><span>DAHA YAKINDAN BAKIN</span><span aria-hidden="true">↓</span></a></div>
 </section></div>

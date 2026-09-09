@@ -117,12 +117,12 @@ test('home retains perspectives and places both films with lazy media and editab
 });
 test('opening waits for a visible page, replays on return and honours reduced motion',()=>{
  const target=extra=>Object.assign({events:{},addEventListener(n,fn){this.events[n]=fn;},fire(n,event){this.events[n]?.(event);}},extra);
- const document=target({hidden:true}),window=target({}),reduced=target({matches:false});
+ const document=target({hidden:true}),window=target({}),reduced=target({matches:false}),mobile=target({matches:false});
  const animation=name=>({animationName:name,currentTime:100,plays:0,pauses:0,play(){this.plays++;},pause(){this.pauses++;}});
  const join=animation('opening-join'),camera=animation('opening-camera'),hover=animation('unrelated-hover');
  const opening={classList:{add(){}},getAnimations:()=>reduced.matches?[]:[join,camera,hover]};let observe;
  const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');
- vm.runInNewContext(app.slice(app.indexOf('const opening='),app.indexOf('const header=')),{$:()=>opening,document,window,reduced,IntersectionObserver:class{constructor(callback){observe=ratio=>callback([{isIntersecting:ratio>0,intersectionRatio:ratio}]);}observe(){}}});
+ vm.runInNewContext(app.slice(app.indexOf('const opening='),app.indexOf('const header=')),{$:()=>opening,document,window,reduced,matchMedia:()=>mobile,IntersectionObserver:class{constructor(callback){observe=ratio=>callback([{isIntersecting:ratio>0,intersectionRatio:ratio}]);}observe(){}}});
  observe(1);assert.equal(join.plays,0,'Hidden-tab loading must not consume the intro');
  document.hidden=false;document.fire('visibilitychange');assert.equal(join.plays,1);assert.equal(join.currentTime,0);assert.equal(camera.plays,1);
  join.currentTime=1100;observe(.8);assert.equal(join.plays,1);assert.equal(join.currentTime,1100,'Repeated visibility updates must not restart playback');
@@ -134,12 +134,23 @@ test('opening waits for a visible page, replays on return and honours reduced mo
  reduced.matches=false;reduced.fire('change');assert.equal(join.plays,4);
  window.fire('pageshow',{persisted:false});assert.equal(join.plays,4);
  window.fire('pageshow',{persisted:true});assert.equal(join.plays,5,'History restoration must replay the opening');
+ mobile.matches=true;mobile.fire('change');assert.equal(join.plays,6,'The newly displayed mobile map must not remain paused at its scattered frame');
  assert.equal(hover.plays,0);assert.equal(hover.pauses,0);
 });
 test('opening is a directly usable branded hero with optional CSS assembly',()=>{
  const html=render('/',D,L).html,opening=html.match(/<section class="brand-opening wrap"[^>]*>([^]*?)<\/section>/)?.[1];
  assert.ok(opening,'Homepage has an in-flow brand opening');
- assert.equal((opening.match(/class="puzzle-piece\b/g)||[]).length,7);
+ assert.equal((opening.match(/class="puzzle-piece\b/g)||[]).length,14,'Separate fitted desktop and mobile maps; CSS exposes one');
+ for(const mode of ['opening','complete']){
+  const svg=puzzle({mode,id:'opening-check'});
+  assert.equal((svg.match(/<a\s/g)||[]).length,7);
+  for(const g of D.groups)assert.ok(svg.includes('href="/hizmetler/alan/'+g.id+'/"'));
+  assert.ok(svg.includes('href="/hakkimizda/"'));
+ }
+ const wideOpening=puzzle({mode:'opening'});
+ assert.ok(wideOpening.includes('viewBox="145 25 1150 425"'));
+ assert.equal((wideOpening.match(/class="piece-opening-surface" transform="scale\(2.6 0.85\)"/g)||[]).length,7);
+ for(const [,surface] of wideOpening.matchAll(/<g class="piece-opening-surface"[^>]*>([^]*?)<\/g>/g))assert.ok(!surface.includes('<text'),'Labels must not stretch with the surface');
  assert.match(opening,/<h1\b[^>]*id="opening-title"[^>]*>BORADEN<\/h1>/);
  assert.ok(opening.includes('Bağımsız Denetim ve Danışmanlık A.Ş.'));
  for(const g of D.groups)assert.ok(opening.includes('href="/hizmetler/alan/'+g.id+'/"'));

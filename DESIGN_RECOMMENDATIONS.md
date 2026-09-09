@@ -2,6 +2,19 @@
 
 9 Eylül 2026
 
+## Son tasarım yönü ve öneriler
+
+Açılış, ekran kenarlarından gelen parçaların geniş bir bütüne yerleştiği marka sahnesi olarak güncellendi. Aşağıdaki dört fikir henüz uygulanmadı; mevcut içerik üzerinden tasarım önerileridir. Bu ek için yeni dış kaynak taraması yapılmadı.
+
+1. **İşinizin hangi parçası?** “Şirket kuruyorum”, “Şirketimin değerini öğrenmek istiyorum”, “Denetime hazırlanıyorum” ve “Bordromu yönetmek istiyorum” kısayolları ilgili yapboz parçasını vurgulasın ve mevcut hizmete açılış sağlasın. Öncelik: ziyaretçinin doğru hizmeti bulması.
+2. **Bir parçadan hizmetin içine.** Seçilen parça büyüyüp hizmet başlığına dönüşsün; mevcut sayfa arka planındaki parçayla görsel devamlılık kursun. Desteklemeyen cihazlarda normal bağlantı, azaltılmış harekette doğrudan geçiş kalsın.
+3. **Sektörünüzün hizmet haritası.** Her sektörün mevcut, doğrulanmış hizmet ilişkileri küçük bir yapboz haritasında gösterilsin. İlgisiz parçalar sakinleşsin, ilgili uzmanlıklar öne çıksın; yeni bir şirket iddiası eklenmesin.
+4. **Bilgiden eyleme.** Mevcut yayın bölümünde bir konu; tarihli/kaynaklı okuma, ilgili hesaplama aracı veya hizmet ve doğru iletişim çağrısıyla birlikte sunulsun. Yeni uzun bölümler eklemek yerine mevcut kartların işlevi güçlendirilsin.
+
+Önerilen öncelik ilk iki maddedir: etkili açılışın ardından hızlı hizmet keşfi ve aynı görsel fikri sürdüren sayfa geçişi.
+
+## Önceki kaynak incelemeleri
+
 Bu not, aşağıdaki altı seçili sitede doğrulanan içerik ve tasarım örüntülerini Boraden’ın mevcut içeriğine uyarlama önerisidir. Öneri sütunu tasarım yorumudur; kaynak sitelerin davranışlarıyla veya Boraden’da tamamlanmış özelliklerle karıştırılmamalıdır. Amaç az sayıda bölümle net yön bulma sağlamaktır.
 
 | Kaynak | Doğrulanmış örüntü | Boraden önerisi | Öncelik |

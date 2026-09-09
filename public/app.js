@@ -26,7 +26,7 @@ serviceInput?.addEventListener('input',()=>{const term=norm(serviceInput.value);
 $('#archive-search')?.addEventListener('input',event=>{const term=norm(event.target.value);let count=0;$$('.archive-list [data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden)count++;});$('.archive-count').textContent=`${count} belge`;});
 
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const opening=$('.opening-art');
+const opening=$('.brand-opening');
 if(opening){
  opening.classList.add('is-ready');
  let visible=false,active=false;
@@ -42,6 +42,7 @@ if(opening){
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.5;syncOpening();},{threshold:.5}).observe(opening);
  document.addEventListener('visibilitychange',syncOpening);
  reduced.addEventListener('change',syncOpening);
+ matchMedia('(max-width: 600px)').addEventListener('change',()=>{active=false;syncOpening();});
  window.addEventListener('pageshow',event=>{if(event.persisted){active=false;syncOpening();}});
 }
 const header=$('.header');
