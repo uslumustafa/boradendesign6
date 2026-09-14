@@ -1,0 +1,29 @@
+.world{position:relative;overflow:hidden;background:#02060c;color:#f7f9fa;padding:70px 6vw 45px;isolation:isolate}
+.world:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 75% 48%,#10355033,transparent 62%)}
+.world-layout{display:grid;grid-template-columns:.78fr 1.22fr;align-items:center;gap:3vw;max-width:1600px;margin:auto}
+.world-copy .eyebrow{color:#b0c5d3;font-size:12px;letter-spacing:.18em;margin-bottom:28px}
+.world h2{font-size:clamp(42px,4.5vw,70px);font-weight:500;line-height:1.13;letter-spacing:-.055em;margin:0 0 28px}
+.world h2 span{color:#a8bcc8}.world-copy>p:not(.eyebrow){font-size:17px;line-height:1.8;color:#b5c1ca;max-width:420px}
+.world-link{display:inline-flex;align-items:center;gap:40px;padding:15px 0;margin-top:20px;font-size:15px;border-bottom:1px solid #8ea1af}.world-link:hover{color:#fff;border-color:#e94d2a}
+.world-stage{position:relative;height:clamp(480px,48vw,720px);min-width:0}
+.world-stage:before{content:"";position:absolute;inset:4%;border-radius:50%;background:url('/insan/earth/earth_surface.jpg') center/cover;box-shadow:inset -40px -15px 60px #000b,0 0 60px #398eb820;opacity:.7}
+.world-ready .world-stage:before{display:none}.world-stage canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y}.world-stage canvas:active{cursor:grabbing}.world-stage canvas:focus-visible{outline:1px solid #8ca7b9;outline-offset:-6px;border-radius:30px}
+.world-origin{position:absolute;pointer-events:none;transform:translate(16px,-50%);font-size:10px;letter-spacing:.16em;white-space:nowrap;text-shadow:0 1px 6px #000;opacity:0}.world-origin:before{content:"";display:block;width:28px;height:1px;background:#e94d2a;margin-bottom:7px}
+.world-bottom{max-width:1600px;margin:12px auto 0;display:flex;justify-content:space-between;align-items:center;gap:25px;border-top:1px solid #b3c7d522;padding-top:22px}
+.world-note{font-size:11px;color:#9cacb7;line-height:1.7;margin:0;max-width:440px}.world-controls{display:flex;gap:10px}.world-controls button{background:transparent;border:1px solid #bcced438;border-radius:30px;color:#c9d5dc;font-size:12px;min-height:44px;padding:10px 18px}.world-controls button:hover{border-color:#bacbd4;background:#ffffff08}.world-controls button:disabled{opacity:.45;cursor:default}.world:not(.world-ready) .world-controls{visibility:hidden}.world-fallback canvas,.world-fallback .world-origin{display:none}
+@media(max-width:900px){.world{padding:65px 24px 30px}.world-layout{grid-template-columns:1fr;gap:10px}.world-copy{max-width:640px}.world h2{font-size:clamp(38px,7vw,62px)}.world-stage{height:min(100vw,540px);margin:0 -14px}.world-copy>p:not(.eyebrow){font-size:16px}.world-bottom{flex-direction:column-reverse;align-items:flex-start;margin-top:0}.world-note{font-size:11px}.world-controls{width:100%}.world-controls button{flex:1}.world-origin{font-size:9px}}
+
+/* Night-flight stage: no card boundary between space and the section. */
+.world-stage{overflow:hidden;border-radius:2px}
+.world-origin{font-size:12px;font-weight:600;letter-spacing:.2em;color:#ffdfc7;text-shadow:0 2px 12px #000,0 0 20px #000}
+.world-stage:before{filter:brightness(.22) saturate(.7)}
+
+@media(min-width:1000px){
+ .world-layout{display:flex;align-items:center;min-height:740px;position:relative}
+ .world-copy{position:relative;z-index:2;width:39%;max-width:480px;pointer-events:none}
+ .world-link{pointer-events:auto}
+ .world-stage{position:absolute;inset:0;width:100%;height:100%;margin:0;border-radius:0}
+ .world-stage:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#02060c 0%,#02060ceb 23%,transparent 62%),linear-gradient(0deg,#02060c,transparent 10%,transparent 90%,#02060c)}
+}
+.world-stage canvas{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+@media(max-width:999px){.world-stage:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,#02060c,transparent 12%,transparent 88%,#02060c)}}
