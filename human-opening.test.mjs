@@ -23,6 +23,7 @@ Object.defineProperty(end.video,'currentTime',{get(){return 0;},set(){this.ended
 const html=fs.readFileSync(new URL('./public/insan/index.html',import.meta.url),'utf8');
 assert.ok(!/<video[^>]*\bloop\b/.test(html),'The film cannot loop');
 const built=fs.readFileSync(new URL('./dist/insan/index.html',import.meta.url),'utf8');
-assert.equal((built.match(/class="puzzle-piece /g)||[]).length,7,'Six expertise links plus the central brand');
+assert.ok(!built.includes('puzzle-piece'),'The editorial opening no longer uses puzzle navigation');
+assert.equal((built.match(/class="expertise-number"/g)||[]).length,6,'Six service groups remain discoverable');
 for(const [,href] of built.matchAll(/href="(\/[^"#]*)"/g)){const target=new URL('./dist'+href+(href.endsWith('/')?'index.html':''),import.meta.url);assert.ok(fs.existsSync(target),href);}
 console.log('PASS: muted playback, pause persistence, visibility, reduced motion, data saver, navigation targets');
