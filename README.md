@@ -1,4 +1,16 @@
-# Boraden — Birlikte, bütüne.
+# Boraden — güncel Design 6 kaydı
+
+Güncel tasarım, private [boradendesign6](https://github.com/uslumustafa/boradendesign6) deposunda saklanan insan filmiyle açılan tasarımdır. Yerel klasör adı `boradendesign2` olarak kalır. Hem `/` hem `/insan/` güncel ana sayfayı sunar.
+
+Taze checkout için `npm ci`, ardından `npm run build` ve `npm start`. Önizleme: http://127.0.0.1:4174/insan/.
+
+Kaldığımız yer: [DESIGN6_HANDOFF.md](DESIGN6_HANDOFF.md). Konuşma kararları ve bekleyen işler: [SESSION_NOTES_2026-09-16.md](SESSION_NOTES_2026-09-16.md). Uygulama/kontrol kaydı: [EDITORIAL_REVIEW.md](EDITORIAL_REVIEW.md). Son araştırma: [Deloitte Global incelemesi](research/DELOITTE_GLOBAL_REVIEW.md).
+
+## Tarihsel Design 2 notları
+
+Aşağıdaki açıklamalar eski puzzle tasarımının arşiv notlarıdır; güncel ana sayfayı, bağımlılıkları ve çalıştırma talimatlarını tanımlamaz. Güncel durum için yukarıdaki devam notları kullanılmalıdır.
+
+### Boraden — Birlikte, bütüne.
 
 Boraden’ın ikinci tasarım çalışması. Açık yüzeyler, Manrope ve italik Instrument Serif ile önceki 4173 tasarımının tipografisi korunur. Yapboz, özgün logonun mavi, kırmızı ve yeşil ailelerinden gelen altı tonu kullanır; beyaz etiketlerin okunabilirliği için parça renkleri koyulaştırılmıştır. SVG yüzeyleri, kenarlar, gölgeler ve CSS perspektifi derinlik sağlar.
 

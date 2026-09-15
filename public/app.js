@@ -19,8 +19,8 @@ dialog?.addEventListener('close',()=>returnFocus?.focus());
 dialog?.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
 function updateSearch(){const term=norm($('#global-search').value);let count=0;$$('.search-results>a').forEach(row=>{const match=norm(row.dataset.search).includes(term);row.hidden=!match;if(match)count++;});$('.search-count').textContent=count?`${count} sonuç`:'Bu aramayla eşleşen sonuç yok. Farklı bir sözcük deneyin.';}
 $('#global-search')?.addEventListener('input',updateSearch);
-document.addEventListener('click',event=>$$('.header details[open]').forEach(d=>{if(!d.contains(event.target))d.open=false;}));
-document.addEventListener('keydown',event=>{if(event.key==='Escape')$$('.header details[open]').forEach(d=>d.open=false);});
+document.addEventListener('click',event=>$$('.header:not(.discovery-header) details[open]').forEach(d=>{if(!d.contains(event.target))d.open=false;}));
+document.addEventListener('keydown',event=>{if(event.key==='Escape')$$('.header:not(.discovery-header) details[open]').forEach(d=>d.open=false);});
 const serviceInput=$('#service-search');
 serviceInput?.addEventListener('input',()=>{const term=norm(serviceInput.value);let count=0;$$('[data-filter-group]').forEach(group=>{let groupCount=0;group.querySelectorAll('[data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden){groupCount++;count++;}});group.hidden=!groupCount;});$('#service-count').textContent=count?`${count} hizmet`:'Sonuç bulunamadı. Başka bir terim deneyin.';});
 $('#archive-search')?.addEventListener('input',event=>{const term=norm(event.target.value);let count=0;$$('.archive-list [data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden)count++;});$('.archive-count').textContent=`${count} belge`;});
@@ -45,13 +45,13 @@ if(opening){
  matchMedia('(max-width: 600px)').addEventListener('change',()=>{active=false;syncOpening();});
  window.addEventListener('pageshow',event=>{if(event.persisted){active=false;syncOpening();}});
 }
-const header=$('.header');
+const header=$('.header:not(.discovery-header)');
 if(header){
  let state={lastY:window.scrollY,anchor:window.scrollY,direction:0,hidden:false},frame=0,atTopEdge=false,overHeader=false;
  function updateHeader(){
   frame=0;
   const y=Math.max(0,Math.min(window.scrollY,document.documentElement.scrollHeight-window.innerHeight));
-  const locked=atTopEdge||overHeader||header.contains(document.activeElement)||!!header.querySelector('details[open]')||!!dialog?.open;
+  const locked=atTopEdge||overHeader||header.contains(document.activeElement)||!!header.querySelector('details[open]:not(.mega-area)')||!!dialog?.open||!!document.querySelector('#discovery-search')?.open;
   state=headerScrollState(state,y,locked);
   header.classList.toggle('is-hidden',state.hidden);
  }

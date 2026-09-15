@@ -1,0 +1,9 @@
+# Career visual — 16 September 2026
+
+Method: built-in image_gen. Original generated image retained; JPEG export at quality 85, 1536 × 1024, approximately 501 KiB. No real office or employee is depicted.
+
+Website asset: `public/assets/career-next-step.jpg`.
+
+## Generation prompt
+
+Create one original premium architectural editorial image for the careers section of Boraden, a Turkish independent audit and consulting firm. Landscape 1536x1024. Theme: a person's next professional step, paths growing together. A photorealistic sculptural installation in a quiet monumental warm ivory studio: three large thick translucent glass ribbons / traversable gently ascending paths, one deep petroleum blue, one muted burnt orange, one rich leaf green, sweep from the foreground towards an elevated bright opening in the rear. Elegant believable architectural geometry, substantial glass thickness, exquisite caustics and color reflections on pale limestone, fine matte textures, soft strong afternoon side light and deep dimensional shadows. Two small realistically proportioned adult professionals in contemporary understated tailoring, one woman and one man, walking along the level floor towards the glass installation, natural candid posture, no talking or handshakes, they provide human scale but are not the focal point. Editorial art direction worthy of an architecture magazine or a luxury technology campaign. A single coherent scene, sophisticated restrained saturation and lots of breathing room, clearly legible at thumbnail size. Composition concentrated in central 80% with safe margins for 3:2 and mobile crops. Camera three-quarter frontal angle, not isometric miniature. No text, no lettering, no logos, no typography, no puzzle pieces, no financial charts, no stock-office scene, no rainbow halo, no cartoon, no plastic toy appearance. This is an evocative conceptual scene, not a depiction of the firm's real office or staff.

@@ -19,6 +19,4 @@
     const move=rail('.perspectives-rail','[data-perspective]',controls.querySelector('[data-perspective-prev]'),controls.querySelector('[data-perspective-next]'),(i,n)=>{select.value=String(i);count.textContent=String(i+1).padStart(2,'0')+' / '+n;});
     select.addEventListener('change',()=>move?.(Number(select.value)));
   }
-  const menu=document.querySelector('.knowledge-menu');
-  if(menu){document.addEventListener('click',e=>{if(!menu.contains(e.target))menu.open=false;});menu.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.open=false;menu.querySelector('summary').focus();}});}
 })();

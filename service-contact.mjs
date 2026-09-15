@@ -17,6 +17,12 @@ function safeEmail(value){
  const local=email.split('@')[0];if(local.length>64||local.endsWith('.')||local.includes('..'))return '';
  return email.split('@')[1].split('.').every(label=>/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label))?email:'';
 }
+function safePhone(value){
+ const phone=text(value);
+ if(!/^\+?[0-9 ()-]+$/.test(phone))return '';
+ const digits=phone.replace(/[^0-9]/g,'');
+ return digits.length>=10&&digits.length<=15?(phone.startsWith('+')?'+':'')+digits:'';
+}
 function safePhoto(value){
  const photo=text(value);
  if(!/^\/assets\/[a-z0-9_./-]+\.(?:avif|webp|png|jpe?g)$/i.test(photo)||photo.includes('//')||photo.split('/').some(part=>part==='.'||part==='..'))return '';
@@ -29,11 +35,11 @@ function safePhoto(value){
 // Group defaults apply first; a service can replace or explicitly clear any field.
 export function serviceContact({group='',title='',serviceId=''}={},directory=contacts){
  const person={...own(directory.groups,group),...own(directory.services,serviceId)};
- const name=text(person.name),role=text(person.role),email=safeEmail(person.email),photo=safePhoto(person.photo);
+ const name=text(person.name),role=text(person.role),email=safeEmail(person.email),photo=safePhoto(person.photo),phone=safePhone(person.phone);
  const id='service-contact-'+(text(serviceId)||text(group)||'service').replace(/[^a-z0-9_-]/gi,'-');
  const subject=text(title);
  return `<section class="service-contact" aria-labelledby="${id}"><div class="service-contact-inner wrap">
  <div class="service-contact-copy"><p class="service-contact-eyebrow">HİZMET İLETİŞİMİ</p><h2 id="${id}">Bu alanda nasıl yardımcı olabiliriz?</h2>${subject?`<p class="service-contact-subject">${esc(subject)}</p>`:''}</div>
- ${name?`<div class="service-contact-person">${photo?`<img class="service-contact-photo" src="${esc(photo)}" alt="" width="88" height="108" loading="lazy">`:''}<div class="service-contact-profile"><h3>${esc(name)}</h3>${role?`<p class="service-contact-role">${esc(role)}</p>`:''}${email?`<a class="service-contact-email" href="mailto:${esc(encodeURIComponent(email).replace('%40','@'))}">${esc(email)} ${arrow}</a>`:contactLink()}</div></div>`:`<div class="service-contact-actions">${contactLink()}</div>`}
+ ${name?`<div class="service-contact-person">${photo?`<img class="service-contact-photo" src="${esc(photo)}" alt="" width="88" height="108" loading="lazy">`:''}<div class="service-contact-profile"><h3>${esc(name)}</h3>${role?`<p class="service-contact-role">${esc(role)}</p>`:''}${phone?`<a class="service-contact-email" href="tel:${esc(phone)}">${esc(text(person.phone))} ${arrow}</a>`:''}${email?`<a class="service-contact-email" href="mailto:${esc(encodeURIComponent(email).replace('%40','@'))}">${esc(email)} ${arrow}</a>`:contactLink()}</div></div>`:`<div class="service-contact-person service-contact-empty"><div class="service-contact-placeholder" aria-label="Fotoğraf alanı"><svg viewBox="0 0 80 100" fill="none" aria-hidden="true"><circle cx="40" cy="32" r="14"/><path d="M13 88V77a27 27 0 0 1 54 0v11"/></svg></div><div class="service-contact-profile"><p class="service-contact-pending">PROFİL BİLGİLERİ EKLENECEK</p><h3>Ad Soyad</h3><p class="service-contact-role">Görev / uzmanlık</p><div class="service-contact-fields"><span>E-posta —</span><span>Telefon —</span></div>${contactLink()}</div></div>`}
  </div></section>`;
 }

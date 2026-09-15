@@ -60,10 +60,10 @@ test('wide expertise keeps labels unscaled and paints selection above a stable l
  document.activeElement=pieces[6];pieces[6].events.focusin();pieces[6].events.pointerleave();assert.equal(overlay.attrs.href,'#expertise-piece-boraden');
  document.activeElement=null;pieces[6].events.focusout();assert.equal(overlay.attrs.href,undefined);assert.deepEqual(pieces.map(p=>p.id),order);
 });
-test('service pieces preserve identity, isolate SVG ids and settle before reading',()=>{
+test('service pages replace puzzle artwork with brand lines and preserve contact and color',()=>{
  for(const service of D.services){
   const html=render('/hizmetler/'+service.id+'/',D,L).html;
-  assert.equal((html.match(/class="service-piece-svg"/g)||[]).length,1);
+  assert.equal((html.match(/class="brand-planes"/g)||[]).length,1);assert.ok(!html.includes('service-piece-svg'));assert.ok(!html.includes('data-service-backdrop'));
   const piece=servicePiece({group:service.group,title:service.title});
   assert.equal((piece.match(/class="piece-outline"/g)||[]).length,1);
   assert.ok(piece.includes('aria-hidden="true"'));
@@ -155,7 +155,7 @@ test('opening is a directly usable branded hero with optional CSS assembly',()=>
  assert.ok(opening.includes('Bağımsız Denetim ve Danışmanlık A.Ş.'));
  for(const g of D.groups)assert.ok(opening.includes('href="/hizmetler/alan/'+g.id+'/"'));
  for(const href of ['#uzmanlik','/hakkimizda/','#turkiye-is-dunyasi'])assert.ok(opening.includes('href="'+href+'"'));
- assert.ok(html.includes('<header'));assert.ok(html.includes('class="desktop-nav"'));
+ assert.ok(html.includes('<header'));assert.match(html,/class="desktop-nav nav-left"/);assert.match(html,/class="desktop-nav nav-right"/);
  assert.ok(html.includes('class="sector-film brand-film"'));assert.equal((html.match(/data-expertise-card=/g)||[]).length,6);
  assert.ok(!html.includes('id="brand-intro"'));assert.ok(!html.includes('/intro.js'));assert.ok(!opening.includes('inert'));
  assert.equal(fs.existsSync(new URL('public/intro.js',import.meta.url)),false);

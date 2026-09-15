@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {headerHidden} from './public/header-motion.js';
+assert.equal(headerHidden({y:0}),false);
+assert.equal(headerHidden({y:200}),true);
+assert.equal(headerHidden({y:200,reveal:true}),false);
+assert.equal(headerHidden({y:200,reveal:false}),true);
+assert.equal(headerHidden({y:200,held:true}),false);
+assert.equal(headerHidden({y:180,previousY:220,touch:true,wasHidden:true}),false);
+assert.equal(headerHidden({y:240,previousY:200,touch:true}),true);
+assert.equal(headerHidden({y:202,previousY:200,touch:true,wasHidden:true}),true);
+console.log('PASS: top visible, desktop hides/reveals/leaves, focus/menu lock, touch direction and jitter');

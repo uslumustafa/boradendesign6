@@ -51,3 +51,48 @@ Wagtail mapping: retain title, slug/id, summary, category, publication date, sta
 ## Validation
 
 `node build.mjs`, `node human-opening.test.mjs`, `node editorial.test.mjs`, `node vehicle.test.mjs`, `npm test`. Browser checks cover rail controls, first/last perspectives, mobile menu and the relocated vehicle form. Review notes were implemented by Codex after the Gemini worker exited before any file writes; no duplicate implementation or worker retry.
+
+## 16 Eylül — gezinme ve ana sayfa sadeleştirmesi
+
+- Değişiklik öncesi dönüş noktası: `c03afd74eebc13a9a4a340f0a27093698a5c804b`; private `uslumustafa/boradendesign6` deposunun `main` dalına push edildi.
+- Ortak hizmet menüsü ve Türkçe/ASCII arama; dört ihtiyaçtan ilgili hizmete yönlendirme; bir büyük + iki küçük yayın; kısa giriş ve logo çizgileri; hizmet detaylarında üç soruluk özet.
+- Film ve dünya animasyonu korunur. Hesaplama ve mevzuat içerikleri Bilgi Merkezi üzerinden erişilir. Wagtail bağlantısı bu ön yüz çalışmasının kapsamında değildir.
+- Node testleri, yayın filtreleri, arama sıralaması ve yerel bağlantı hedefleri kontrol edildi. Masaüstü ve mobil tarayıcıda menü, ihtiyaç seçimi, yayın düzeni ve arama incelendi.
+
+## 16 Eylül — navbar, uzman kartları ve yapbozdan çıkış
+
+- Ortak navbar: masaüstünde aşağı kaydırınca gizlenir, üst 18px alana gelince açılır, imleç ayrılınca kapanır. Klavye odağı ve arama açıkken korunur; dokunmatik kullanımda yukarı kaydırma ile erişilir.
+- Hizmet/grup, hakkımızda ve iletişim sayfalarında yapboz kaldırıldı; logo renklerinden üç mimari çizgi kullanıldı. Ana kök adres artık /insan/ ile aynı yeni tasarımı sunar; eski tasarım kaynakları Git'te korunur.
+- data/service-contacts.json alanları: name, role, photo, email, phone. Grup varsayılanı services[serviceId] ile özelleştirilebilir. Boş profiller tasarım yer tutucusudur; kişi veya iletişim bilgisi uydurulmaz. Telefon/e-posta ve yerel fotoğraf sınırları test edildi.
+- Kariyer menü ve ana sayfa bağlantısı, açıklama ve devre dışı başvuru alanı eklendi. Wagtail başvuru kaydı, yetkiler, saklama koşulları ve atanmış kişiye e-posta hâlâ backend aşamasıdır.
+- Referans incelemesi: https://www.deloitte.com/tr/tr.html (16 Eylül 2026); hizmet, görüş ve kurumsal menü ayrımı. Tasarım/metin kopyalanmadı.
+- Build, 11 mevcut Node testi, 4 uzman kartı testi, navbar durum testi, yayın/rota testleri ve video kontrol testi geçti. Masaüstü navbar gizleme/açma/ayrılma ve 390px uzman kartı tarayıcıda doğrulandı.
+
+## 16 Eylül — kartlar, perspektifler ve yayın tasarımı
+
+- [Deloitte Türkiye](https://www.deloitte.com/tr/tr.html): güçlü başlık, tek odaklı araştırma alanı ve video geçişi; [Sistem Global](https://sistemglobal.com.tr/): hizmet/kaynak grupları, kısa açıklama ve açık yönlendirme incelendi. Metin ve tasarımlar kopyalanmadı.
+- Bloglar ortalanmış başlık altında üç renkli kapaklarla yatay kayar; ok ve dokunmatik kaydırma çalışır. İhtiyaç seçimi dört görsel karta taşındı. Bilgi Merkezi kartlarında mavi → turuncu → yeşil hover/klavye odak sırası var.
+- Portrelerin siyah-beyaz filtresi kaldırıldı; kaynak fotoğraflar ve lisans bağlantıları korundu. Perspektifler kaynak, yorum, sorular ve ilgili hizmete ayrıldı; hizmet kapsamı kartlaştırıldı.
+- Ortak 6 Eylül / 4 dakika etiketleri perspektiflerden kaldırıldı. Buffett'ın 1989 faaliyet mektubu [2 Mart 1990 tarihinde imzalanmış](https://www.berkshirehathaway.com/letters/1989.html); kaynak tarihi bu nedenle 2 Mart 1990. Diğer tarihler doğrulanmadığında yalnız “Kaynak temelli okuma” yazılır. Blog yayın tarihi doğrulanmamışsa “Boraden görüşü” gösterilir.
+- [Tailwind CSS](https://tailwindcss.com/docs/installation/tailwind-cli) 4.3.3 build aracı olarak eklendi. Native HTML, CSS ve ES modules korunur; mevcut projeyi başka framework'e taşımak gerekmez. Kurulum/build: `npm ci`, `npm run build`. CSS kaynağı `styles/editorial.css`; derlenmiş dosya elle düzenlenmez.
+
+### Wagtail'e aktarılacak alanlar
+
+[StreamField](https://docs.wagtail.org/en/stable/topics/streamfield.html) bölüm sırası, başlık, açıklama ve kart listelerini; Django şablonları mevcut HTML/CSS yapısını karşılayabilir. [Headless](https://docs.wagtail.org/en/stable/advanced_topics/headless.html) ayrı bir mimari seçeneğidir, zorunluluk değildir.
+
+- Blog: mevcut id/slug, title, summary, category, body, sources, service; yayın tarihi `date` ve doğrulama `publicationDateVerified`. Haftalık gerçek yayınlarda editörün belirlediği tarih kullanılır. Ana sayfa son altı yayını gösterir, tümü blog listesinde bulunur.
+- Perspektif: source, sourceTitle, sourceDate/sourceYear, sourceDateVerified; kişi, fotoğraf/kredi/lisans, yorum, sorular ve ilgili hizmet. Kaynak tarihi Boraden yayın tarihinden ayrıdır.
+- Hizmet ve ihtiyaç kartları mevcut hizmet kimliklerine bağlanır; uzman alanları `data/service-contacts.json` üzerinden doldurulur. Görsel bileşenler Wagtail şablonuna aktarılabilir; canlı model, yönetim paneli, zamanlanmış yayın ve e-posta entegrasyonu henüz kurulmadı.
+- Doğrulama: 107 sayfa build; 11 mevcut Node testi; yayın/rota, kaynak tarihi ve video testleri geçti. 1280px ve 390px tarayıcı kontrollerinde blog geçişi, ihtiyaç seçimi, renk sırası, portre kadrajı ve hizmet kapsamı incelendi. Mobil yatay taşma bulunmadı. Gemini tarih yardımcı dosyasını yazdıktan sonra genel hatayla durdu; tekrar çağrılmadı, ürettiği modül yerelde test edilip kullanıldı.
+
+## 16 Eylül — sabit görselle hizmet keşfi
+
+- Dört ihtiyaç kartının yerini üç kısa anlatı aldı: denetim/vergi, kuruluş/değerleme, insan/sistemler. Altı uzmanlık alanı ve iki doğrudan hizmet bağlantısı mevcut veriden üretilir; detay içerikleri hizmet sayfalarında kalır.
+- Mevcut temsili denetim görseli masaüstünde CSS sticky ile sabitlenir; kartlar normal kaydırmayla ilerler. JS veya scroll kilidi eklenmedi. Mobilde ve reduced-motion tercihinde normal belge akışı kullanılır.
+- 1440px tarayıcı testinde scrollY 1932 ve 2562 iken görsel üstü 0px kaldı; bloga geçişte serbest kaldı. 390px mobilde taşma yok, bağlantılar en az 57px yüksekliğinde. Build, rota/kaçış ve video kontrolleri geçti. Worker hiçbir dosya yazmadan genel hatayla durduğu için uygulama Codex tarafından tamamlandı; ikinci API denemesi yapılmadı.
+
+## 16 Eylül — ilk portrenin kadrajı
+
+- `public/insan/people-framing-v2.mp4`: ilk 22 kare (0–0,9167 sn) 914×514, x184/y10 kırpılıp 1280×720'ye ölçeklendi. Yaklaşık %40 yakın plan; ilk portredeki fazla gövde/yan boşluğu azaltıldı. Kapak karesi aynı videodan `people-framing-v2.jpg` olarak çıkarıldı.
+- Orijinal `people.mp4` / `people.jpg` korunur. Yeni dosya H.264, 24 fps, 22 saniye, sessizdir. İlk plan dışındaki 506 kare kaynakla SSIM 0,998923; sıra, süre, slogan ve logo kapanışı korunur. Bu medya işlemi worker'ın izinli komutları dışında olduğu için yerel FFmpeg kullanıldı.
+- Ana sayfa kaynakları güncellendi; build ve video davranış testi geçti. Tarayıcıda yeni kaynak, süre, sessiz oynatma ve ilk portre kadrajı doğrulandı.

@@ -1,11 +1,47 @@
 {
   "groups": {
-    "vergi": { "name": "", "role": "", "email": "", "photo": "" },
-    "denetim": { "name": "", "role": "", "email": "", "photo": "" },
-    "danismanlik": { "name": "", "role": "", "email": "", "photo": "" },
-    "insan": { "name": "", "role": "", "email": "", "photo": "" },
-    "sistem": { "name": "", "role": "", "email": "", "photo": "" },
-    "akademi": { "name": "", "role": "", "email": "", "photo": "" }
+    "vergi": {
+      "name": "",
+      "role": "",
+      "email": "",
+      "photo": "",
+      "phone": ""
+    },
+    "denetim": {
+      "name": "",
+      "role": "",
+      "email": "",
+      "photo": "",
+      "phone": ""
+    },
+    "danismanlik": {
+      "name": "",
+      "role": "",
+      "email": "",
+      "photo": "",
+      "phone": ""
+    },
+    "insan": {
+      "name": "",
+      "role": "",
+      "email": "",
+      "photo": "",
+      "phone": ""
+    },
+    "sistem": {
+      "name": "",
+      "role": "",
+      "email": "",
+      "photo": "",
+      "phone": ""
+    },
+    "akademi": {
+      "name": "",
+      "role": "",
+      "email": "",
+      "photo": "",
+      "phone": ""
+    }
   },
   "services": {}
 }

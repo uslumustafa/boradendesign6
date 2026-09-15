@@ -24,6 +24,7 @@ const html=fs.readFileSync(new URL('./public/insan/index.html',import.meta.url),
 assert.ok(!/<video[^>]*\bloop\b/.test(html),'The film cannot loop');
 const built=fs.readFileSync(new URL('./dist/insan/index.html',import.meta.url),'utf8');
 assert.ok(!built.includes('puzzle-piece'),'The editorial opening no longer uses puzzle navigation');
-assert.equal((built.match(/class="expertise-number"/g)||[]).length,6,'Six service groups remain discoverable');
+assert.equal((built.match(/class="mega-area"/g)||[]).length,6,'Six service groups remain discoverable in navigation');
+assert.equal((built.match(/data-story-chapter=/g)||[]).length,3,'Three service chapters remain discoverable without interaction');
 for(const [,href] of built.matchAll(/href="(\/[^"#]*)"/g)){const target=new URL('./dist'+href+(href.endsWith('/')?'index.html':''),import.meta.url);assert.ok(fs.existsSync(target),href);}
 console.log('PASS: muted playback, pause persistence, visibility, reduced motion, data saver, navigation targets');
