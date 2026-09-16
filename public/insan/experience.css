@@ -1,0 +1,25 @@
+/* A's intact film and quiet brand lines; a shorter company and service chapter. */
+.opening-sequence{background:#f9faf8;isolation:isolate}
+.opening-sequence .hero-bottom.controls-covered{visibility:hidden}
+.opening-sequence .chapter{font-size:11px;letter-spacing:.1em}
+.opening-sequence .playback-label{font-size:12px}
+.opening-sequence .company-summary{padding:64px 6vw 58px;grid-template-columns:.8fr 1.7fr;gap:6vw}
+.company-summary .company-description{margin-bottom:22px}
+.company-summary .company-year{margin-top:34px}
+.company-summary .company-name{font-size:20px;max-width:38ch}
+.company-summary .company-description p{font-size:17px;line-height:1.75}
+.company-summary h1{font-size:clamp(40px,4vw,58px)}
+@media(max-width:760px){
+  .opening-sequence .cinema{position:relative}
+  .opening-sequence .company-summary{padding:46px 24px 36px;display:block}
+  .company-summary .approach-label{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 28px;padding:0}
+  .company-summary .color-ticks{margin:0}
+  .company-summary .company-year{font-size:28px;margin:0 0 0 auto;letter-spacing:-.04em}
+  .company-summary .company-year span{display:none}
+  .company-summary h1{font-size:38px;margin-bottom:22px}
+  .company-summary .company-name{font-size:18px}
+  .company-summary .company-description p{font-size:16px}
+  .opening-sequence .chapter{font-size:9px;gap:8px}
+  .opening-sequence .chapter>span:first-child{display:none}
+  .opening-sequence .playback-label{font-size:11px}
+}

@@ -4,8 +4,8 @@ import vm from 'node:vm';
 import * as THREE from './public/insan/vendor/three.module.js';
 // Exercise the actual globe lifecycle without WebGL or a browser dependency.
 const node=()=>({style:{},events:{},attrs:{},addEventListener(k,v){this.events[k]=v;},setAttribute(k,v){this.attrs[k]=v;}});
-const stage={...node(),clientWidth:600,clientHeight:600,prepend(){}},label=node(),pause=node(),home=node(),canvas=node();
-const classes=new Set(),section={querySelector:s=>({'.world-stage':stage,'.world-origin':label,'.world-pause':pause,'.world-home':home})[s],classList:{add:s=>classes.add(s)}};
+const stage={...node(),clientWidth:600,clientHeight:600,prepend(){}},label=node(),orbisLabel=node(),pause=node(),home=node(),canvas=node();
+const classes=new Set(),section={querySelector:s=>({'.world-stage':stage,'.world-origin':label,'.world-orbis':orbisLabel,'.world-pause':pause,'.world-home':home})[s],classList:{add:s=>classes.add(s)}};
 const media={matches:false,addEventListener(k,v){this.change=v;}},doc={hidden:false,querySelector:()=>section,addEventListener(k,v){this[k]=v;}};
 const observers=[],frames=new Map();let id=0,renders=0,lastScene,lastCamera,resize;
 const mock={...THREE,WebGLRenderer:class{domElement=canvas;setPixelRatio(){}setClearColor(){}setSize(){}render(s,c){renders++;lastScene=s;lastCamera=c;}},TextureLoader:class{async loadAsync(){return new THREE.Texture();}}};
@@ -31,8 +31,27 @@ for(const [w,h] of [[680,690],[355,390]]){
 media.matches=false;media.change();observers[1]([{isIntersecting:true}]);home.events.click();
 let now=100;
 function advance(count){for(let i=0;i<count;i++){const fn=frames.values().next().value;assert.ok(fn);frames.clear();now+=50;fn(now);}}
-const near=lastCamera.position.z;advance(261);const far=lastCamera.position.z;
-assert.ok(far-near>2,'Camera must visibly move away from Turkey');advance(260);assert.ok(Math.abs(lastCamera.position.z-near)<.03,'Camera must return to the close-up');
-pause.events.click();assert.equal(frames.size,0,'Pause stops the flight');
+advance(1); // Complete an already-home reset.
+const fixedDistance=lastCamera.position.z,initialRotation=globe.quaternion.clone();
+advance(1);assert.ok(globe.quaternion.angleTo(initialRotation)>0,'Rotation starts without a waiting period');
+for(let i=0;i<520;i++){advance(1);assert.equal(lastCamera.position.z,fixedDistance,'Camera distance never oscillates');}
+assert.ok(globe.quaternion.angleTo(initialRotation)>.5,'Earth rotates at fixed distance');
+assert.ok(globe.getObjectByName('turkey-orbis-route'),'Turkey to England route exists');
+const continents=['europe','asia','africa','north-america','south-america','australia','antarctica'];
+assert.equal(globe.children.filter(child=>child.name.startsWith('continent-')).length,7,'Seven continental routes in addition to Orbis');
+for(const name of continents){
+  const path=globe.getObjectByName('continent-'+name).geometry.parameters.path;
+  assert.ok(path.getPoint(0).distanceTo(origin.position)<1e-8,'Every continental route starts in Turkey');
+  assert.ok(path.getPoint(1).distanceTo(origin.position)>.1,'Each route reaches a distinct destination');
+}
+const arrow=globe.getObjectByName('orbis-arrow');assert.ok(arrow,'Directional arrow exists');
+const route=globe.getObjectByName('turkey-orbis-route').geometry.parameters.path;
+assert.ok(new THREE.Vector3(0,1,0).applyQuaternion(arrow.quaternion).dot(route.getTangent(.91))>.999,'Arrow points toward England');
+const html=fs.readFileSync(new URL('./public/insan/index.html',import.meta.url),'utf8');
+assert.match(html,/class="world-orbis"[^>]*><strong>ORBIS/);
+assert.match(html,/class="world-connection"[\s\S]*?<strong>Orbis/,'Orbis remains readable without WebGL');
+assert.doesNotMatch(html,/<a[^>]*href="[^"]*orbis/i,'Do not invent an Orbis URL');
+
+pause.events.click();assert.equal(frames.size,0,'Pause stops rotation');
 pause.events.click();const earlyFrame=frames.values().next().value;frames.clear();assert.doesNotThrow(()=>earlyFrame(99),'A same-frame callback may predate performance.now; progress must never be negative');assert.equal(frames.size,1);pause.events.click();
-console.log('PASS: 26-second near/far/near flight, lazy globe, pause persistence, background/offscreen stop, reduced motion, Turkey orientation, keyboard reset');
+console.log('PASS: fixed distance over 26 seconds, immediate rotation, Turkey–Orbis arrow, honest link fallback, lazy globe, pause, visibility, reduced motion, responsive fit, keyboard reset');

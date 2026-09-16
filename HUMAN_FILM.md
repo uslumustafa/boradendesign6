@@ -1,6 +1,23 @@
 # Boraden human-first opening film
 
-Preview: `/insan/`. Existing home and service pages are unchanged.
+Preview: `/insan/` and `/`.
+
+## Current cut — 16 September 2026
+
+- Active video: `public/insan/people-short-v4.mp4`; unchanged poster: `people-framing-v2.jpg`.
+- Approximately 15 seconds (14.63s): varied fictional portraits, followed by the slogan and centered Boraden ending. Four-frame dissolves soften the two newly edited cuts. No audio, no loop; final logo remains visible.
+- Keep original portrait motion/framing. Retain source seconds 0–10 and 14–15; reduce the 16–22s closing cards to four seconds. Previous 22-second file remains for rollback. No generation or credits used.
+- Previous hard-cut v3 recipe (preserved for reference):
+
+```sh
+ffmpeg -i public/insan/people-framing-v2.mp4 -filter_complex '[0:v]trim=start=0:end=10,setpts=PTS-STARTPTS[a];[0:v]trim=start=14:end=15,setpts=PTS-STARTPTS[b];[0:v]trim=start=16:end=22,setpts=(PTS-STARTPTS)/1.5[c];[a][b][c]concat=n=3:v=1:a=0,fps=24[v]' -map '[v]' -an -c:v libx264 -preset medium -crf 19 -pix_fmt yuv420p -movflags +faststart public/insan/people-short-v3.mp4
+```
+
+Current v4 uses the same three source intervals with constant 24fps on every input: crossfade 0.166667s at 9.833333s, then crossfade 0.166667s at 10.666667s. Normalize time bases with settb=AVTB and frame rate after each join. The export contains no audio; v3 and original sources are preserved.
+
+Service-story headings and descriptions now state the service areas directly, without promotional slogans. Existing visual composition and scroll layout remain.
+
+The entries below describe earlier versions. Current globe uses fixed-distance rotation, seven illustrative continental routes and a separate Turkey–England Orbis route; no camera zoom.
 
 ## Approved direction — 15 September 2026
 

@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {render,routeList} from './render.mjs';
-import {journal,perspectives,toolsStrip,navigation,needs,searchDialog} from './human-editorial.mjs';
+import {journal,perspectives,toolsStrip,navigation,needs,searchDialog,aboutSummary} from './human-editorial.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url)),out=path.join(root,'dist');
 const D=JSON.parse(fs.readFileSync(path.join(root,'data/boraden.json'),'utf8'));
 const L=JSON.parse(fs.readFileSync(path.join(root,'data/legacy.json'),'utf8'));
@@ -11,7 +11,7 @@ fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});
 fs.cpSync(path.join(root,'public'),out,{recursive:true});
 const concept=path.join(out,'insan/index.html');
 if(fs.existsSync(concept)){
- const html=fs.readFileSync(concept,'utf8').replace('<!-- editorial:journal -->',journal(D)).replace('<!-- editorial:perspectives -->',perspectives(D)).replace('<!-- editorial:needs -->',needs(D)).replace('<!-- editorial:tools -->',toolsStrip).replace('<!-- discovery:header -->',navigation(D)).replace('<!-- discovery:search -->',searchDialog(D));
+ const html=fs.readFileSync(concept,'utf8').replace('<!-- editorial:about -->',aboutSummary(D)).replace('<!-- editorial:journal -->',journal(D)).replace('<!-- editorial:perspectives -->',perspectives(D)).replace('<!-- editorial:needs -->',needs(D)).replace('<!-- editorial:tools -->',toolsStrip).replace('<!-- discovery:header -->',navigation(D)).replace('<!-- discovery:search -->',searchDialog(D));
  fs.writeFileSync(concept,html);
 }
 const toolsPage=path.join(out,'insan/araclar/index.html');

@@ -4,6 +4,8 @@
 
 Bu dosya konuşmanın karar ve iş özeti niteliğindedir; birebir mesaj dökümü değildir. Tamamlanan işler ile henüz uygulanmayan öneriler aşağıda ayrılmıştır.
 
+Son güncelleme: dünya zoom turu kaldırıldı; sabit mesafede dönüş, Türkiye’den yedi kıtaya temsili hatlar ve ayrıca Türkiye → İngiltere / Orbis hattı eklendi. Orbis şirketi kullanıcı tarafından bildirildi; URL ve kesin ofis adresi henüz verilmedi. Güncel öncelikler: [BORADEN_TODO.md](BORADEN_TODO.md).
+
 ## Çalışma ve kayıt yeri
 
 - Çalışma alanı: `/Users/mustafauslu/Desktop/Boraden`.
@@ -36,7 +38,7 @@ Bu dosya konuşmanın karar ve iş özeti niteliğindedir; birebir mesaj döküm
 ## Bu kayıtta mevcut uygulama
 
 - Ortalanmış siyah header, ortak navigasyon ve Türkçe/ASCII arama; hizmet, yayın ve Bilgi Merkezi yolları.
-- Sessiz 22 saniyelik insan filmi. Aktif kaynak `public/insan/people-framing-v2.mp4`, poster aynı isimli JPG. İlk 22 kare yakınlaştırıldı; orijinal medya korunur.
+- Sessiz 15 saniyelik insan filmi. Aktif kaynak `public/insan/people-short-v4.mp4`, poster `people-framing-v2.jpg`. Önceki 22 saniyelik film korunur. İlk 22 kare yakınlaştırıldı; orijinal medya korunur.
 - Filmden kısa Boraden anlatımına yukarı kayan açık yüzey geçişi.
 - Hizmet keşfinde sabit temsili görsel ve üç kısa anlatı; mobil ve reduced-motion normal akış. **Şu an bu üç anlatıda tek görsel var; farklı sahneli öneri henüz uygulanmadı.**
 - Ortalı yayın başlığı ve yatay renkli kartlar; mevcut üç yazı korunur, uygun yayınlar veriden seçilir. Henüz gerçek haftalık canlı yayın sistemi yok.

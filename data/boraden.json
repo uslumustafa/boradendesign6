@@ -4693,7 +4693,7 @@
         "category": "Şirket değerlemesi",
         "title": "Bir rakamdan önce, beş doğru soru.",
         "summary": "Şirket değerlemesine hazırlanırken amaç, tarih, veri, varsayım ve karar ilişkisini birlikte düşünmek.",
-        "cover": "assets/pages/blog-degerleme.jpg",
+        "cover": "assets/pages/blog-degerleme-editorial-v2.webp",
         "body": [
           "Değerleme görüşmesini “Şirketimiz ne kadar eder?” sorusuyla açmak doğaldır. Ancak kullanılabilir bir sonuç için önce o rakamın hangi kararı destekleyeceğini açıklamak gerekir. Pay devri, yeni ortak veya iç planlama farklı çalışma çerçeveleri gerektirebilir.",
           "İlk soru amaçtır: Sonucu kim, hangi işlemde kullanacak? İkincisi tarihtir: Değer hangi günün koşullarını yansıtacak? Üçüncüsü veridir: Finansal tablolar, borçlar, nakit ve işletme sermayesi ne kadar tutarlı?",
@@ -4716,7 +4716,7 @@
         "category": "Kuruluş & büyüme",
         "title": "Şirketi kurarken, işleyişi de kurun.",
         "summary": "Tescilin ötesinde: ortaklık, temsil, defter, kayıt ve ilk dönem sorumlulukları.",
-        "cover": "assets/pages/blog-kurulus.jpg",
+        "cover": "assets/pages/blog-kurulus-editorial-v2.webp",
         "body": [
           "Kuruluşu yalnızca bir tescil işlemi olarak görmek, sonraki adımları belirsiz bırakabilir. Faaliyet modelinin, ortakların beklentilerinin ve karar yetkilerinin birlikte konuşulması, daha sağlam bir hazırlık sağlar.",
           "Şirket türü seçilirken maliyetin yanında yönetim yapısı, pay devri ve finansman beklentileri değerlendirilmelidir. Unvan, faaliyet kodları, adres ve gerekli izinler için bir kontrol listesi hazırlanabilir.",
@@ -4743,7 +4743,7 @@
         "category": "İnsan & bordro",
         "title": "Bordroda güven, doğru veriyle başlar.",
         "summary": "Puantajdan onaya uzanan akışta görünür sorumluluklar ve çalışan bilgilerinin korunması.",
-        "cover": "assets/pages/blog-bordro.jpg",
+        "cover": "assets/pages/blog-bordro-editorial-v2.webp",
         "body": [
           "Bordro hesaplamasının doğruluğu, sisteme giren bilginin doğruluğuyla başlar. Ücret değişiklikleri, puantaj, izin, yan hak ve işe giriş–çıkış bilgileri aynı döneme ve aynı onay düzenine bağlanmalıdır.",
           "Kimin hangi veriyi hazırladığı, kimin kontrol ettiği ve değişikliklerin hangi tarihe kadar kabul edildiği açık olmalıdır. Bu düzen, son dakika düzeltmelerinin nedenini takip etmeyi kolaylaştırır.",
@@ -5206,7 +5206,7 @@
         "category": "Şirket değerlemesi",
         "title": "Bir rakamdan önce, beş doğru soru.",
         "summary": "Şirket değerlemesine hazırlanırken amaç, tarih, veri, varsayım ve karar ilişkisini birlikte düşünmek.",
-        "cover": "assets/pages/blog-degerleme.jpg",
+        "cover": "assets/pages/blog-degerleme-editorial-v2.webp",
         "body": [
           "Değerleme görüşmesini “Şirketimiz ne kadar eder?” sorusuyla açmak doğaldır. Ancak kullanılabilir bir sonuç için önce o rakamın hangi kararı destekleyeceğini açıklamak gerekir. Pay devri, yeni ortak veya iç planlama farklı çalışma çerçeveleri gerektirebilir.",
           "İlk soru amaçtır: Sonucu kim, hangi işlemde kullanacak? İkincisi tarihtir: Değer hangi günün koşullarını yansıtacak? Üçüncüsü veridir: Finansal tablolar, borçlar, nakit ve işletme sermayesi ne kadar tutarlı?",
@@ -5228,7 +5228,7 @@
         "category": "Kuruluş & büyüme",
         "title": "Şirketi kurarken, işleyişi de kurun.",
         "summary": "Tescilin ötesinde: ortaklık, temsil, defter, kayıt ve ilk dönem sorumlulukları.",
-        "cover": "assets/pages/blog-kurulus.jpg",
+        "cover": "assets/pages/blog-kurulus-editorial-v2.webp",
         "body": [
           "Kuruluşu yalnızca bir tescil işlemi olarak görmek, sonraki adımları belirsiz bırakabilir. Faaliyet modelinin, ortakların beklentilerinin ve karar yetkilerinin birlikte konuşulması, daha sağlam bir hazırlık sağlar.",
           "Şirket türü seçilirken maliyetin yanında yönetim yapısı, pay devri ve finansman beklentileri değerlendirilmelidir. Unvan, faaliyet kodları, adres ve gerekli izinler için bir kontrol listesi hazırlanabilir.",
@@ -5254,7 +5254,7 @@
         "category": "İnsan & bordro",
         "title": "Bordroda güven, doğru veriyle başlar.",
         "summary": "Puantajdan onaya uzanan akışta görünür sorumluluklar ve çalışan bilgilerinin korunması.",
-        "cover": "assets/pages/blog-bordro.jpg",
+        "cover": "assets/pages/blog-bordro-editorial-v2.webp",
         "body": [
           "Bordro hesaplamasının doğruluğu, sisteme giren bilginin doğruluğuyla başlar. Ücret değişiklikleri, puantaj, izin, yan hak ve işe giriş–çıkış bilgileri aynı döneme ve aynı onay düzenine bağlanmalıdır.",
           "Kimin hangi veriyi hazırladığı, kimin kontrol ettiği ve değişikliklerin hangi tarihe kadar kabul edildiği açık olmalıdır. Bu düzen, son dakika düzeltmelerinin nedenini takip etmeyi kolaylaştırır.",
@@ -6046,5 +6046,33 @@
       "context": "assets/pages/alan-akademi.jpg",
       "alt": "Profesyonel öğrenme üzerine temsili eğitim"
     }
+  },
+  "about": {
+    "name": "Boraden Bağımsız Denetim ve Danışmanlık A.Ş.",
+    "foundation": "Temelleri 1993 yılında atılan Boraden; kamu kurum ve kuruluşlarına, özel sektöre, gerçek ve tüzel kişilere hizmet verir.",
+    "overview": "Faaliyetleri; bağımsız denetim ve yeminli mali müşavirlik, vergi ve muhasebe, mali, hukuki ve yönetim danışmanlığı, insan kaynakları ve bordro, muhasebe ve veri analiz sistemleri ile mesleki eğitim alanlarını kapsar.",
+    "scope": {
+      "vergi": "Yeminli mali müşavirlik ve tam tasdik, muhasebe, KDV iadesi, kurumlar vergisi, transfer fiyatlandırması ve Ar-Ge danışmanlığı.",
+      "denetim": "Bağımsız denetim, finansal tablo denetimi, UFRS/TFRS raporlama, iç denetim, iç kontrol ve suistimal incelemeleri.",
+      "danismanlik": "Şirket kuruluşu ve değerlemesi, ticaret sicil işlemleri, mali ve yönetim danışmanlığı; hukuki danışmanlık, sözleşme ve tahsilat süreçleri.",
+      "insan": "İnsan kaynakları ve bordro, özlük ve SGK işlemleri, istihdam teşvikleri, emeklilik danışmanlığı ve çalışma izni süreçleri.",
+      "sistem": "Muhasebe sistemlerinin kurulması ve sürdürülmesi, veri analiz sistemleri, iş zekâsı ve çözüm prosedürleri.",
+      "akademi": "Muhasebe ve vergi, UFRS/TFRS, finansal analiz, iç denetim ve insan kaynakları alanlarında eğitim."
+    },
+    "method": "Çalışmanın kapsamı; kurumun faaliyetleri, mevcut süreçleri ve ihtiyaçları değerlendirilerek belirlenir. İlgili uzmanlık alanları bu kapsam doğrultusunda birlikte ele alınır.",
+    "principles": [
+      [
+        "Şeffaflık ve gizlilik",
+        "Bilginin açık biçimde paylaşılması ve özel bilgilerin korunması."
+      ],
+      [
+        "Dürüstlük ve sorumluluk",
+        "Mesleki ilkeler doğrultusunda çalışma ve üstlenilen sorumlulukları yerine getirme."
+      ],
+      [
+        "Birlikte çalışma",
+        "Farklı görüşleri değerlendirme, bulguları paylaşma ve ilgili uzmanlıklarla birlikte çalışma."
+      ]
+    ]
   }
 }

@@ -7,6 +7,7 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 let userPaused = false;
 let explicitPlay = false;
 let visible = false;
+let covered = false;
 function syncControl() {
   const playing = !video.paused;
   const text = video.ended ? 'Yeniden izle' : playing ? 'Filmi durdur' : 'Filmi oynat';
@@ -18,7 +19,7 @@ function syncControl() {
 async function updatePlayback() {
   if (video.ended) { syncControl(); return; }
   const restricted = reduced.matches || navigator.connection?.saveData;
-  if (!visible || document.hidden || userPaused || (restricted && !explicitPlay)) {
+  if (!visible || covered || document.hidden || userPaused || (restricted && !explicitPlay)) {
     video.pause();
     return;
   }
@@ -51,3 +52,8 @@ reduced.addEventListener('change', () => { explicitPlay = false; updatePlayback(
 document.querySelectorAll('.mobile-menu a').forEach(link => link.addEventListener('click', () => {
   document.querySelector('.mobile-menu').open = false;
 }));
+
+document.addEventListener('boraden:film-visibility', event => {
+  covered = event.detail.covered;
+  updatePlayback();
+});

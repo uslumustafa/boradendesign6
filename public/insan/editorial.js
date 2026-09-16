@@ -13,7 +13,7 @@
     new ResizeObserver(sync).observe(element);sync();return move;
   }
   const journalControls=document.querySelector('.rail-controls');
-  if(journalControls){journalControls.hidden=false;rail('.journal-track','[data-journal-story]',journalControls.querySelector('[data-journal-prev]'),journalControls.querySelector('[data-journal-next]'));}
+  if(journalControls){const track=document.querySelector('.journal-track');rail('.journal-track','[data-journal-story]',journalControls.querySelector('[data-journal-prev]'),journalControls.querySelector('[data-journal-next]'),()=>{journalControls.hidden=track.scrollWidth<=track.clientWidth+2;});}
   const controls=document.querySelector('.perspectives-controls');
   if(controls){const select=controls.querySelector('select'),count=controls.querySelector('[data-perspective-count]');controls.hidden=false;
     const move=rail('.perspectives-rail','[data-perspective]',controls.querySelector('[data-perspective-prev]'),controls.querySelector('[data-perspective-next]'),(i,n)=>{select.value=String(i);count.textContent=String(i+1).padStart(2,'0')+' / '+n;});

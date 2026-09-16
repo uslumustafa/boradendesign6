@@ -3,6 +3,12 @@ import fs from 'node:fs';
 import {selectedPosts,journal,perspectives,searchData,needs} from './human-editorial.mjs';
 import {isPublished,routeList} from './render.mjs';
 const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url)));
+// Home and both corporate routes must retain the same complete service coverage.
+for(const file of ['insan/index.html','hakkimizda/index.html','biz-kimiz/index.html']){
+ const html=fs.readFileSync(new URL('dist/'+file,import.meta.url),'utf8');
+ assert.ok(html.includes('1993')&&html.includes('hukuki')&&html.includes('yeminli mali müşavirlik'));
+ for(const g of D.groups){assert.ok(D.about.scope[g.id]);assert.ok(html.includes(`/hizmetler/alan/${g.id}/`));}
+}
 const today='2026-09-16';
 const serviceStory=needs(D);
 for(const g of D.groups)assert.ok(serviceStory.includes(`href="/hizmetler/alan/${g.id}/"`));
