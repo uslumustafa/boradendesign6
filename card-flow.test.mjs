@@ -10,8 +10,8 @@ const eventTarget=extra=>Object.assign({events:{},addEventListener(n,fn){(this.e
 const doc=eventTarget({hidden:false,activeElement:null}),reduced=eventTarget({matches:false}),frames=new Map();let id=0,observer,observed,observerOptions;
 const track=eventTarget({scrollLeft:0,scrollWidth:1080,clientWidth:600,getBoundingClientRect:()=>({left:0}),scrollTo({left}){this.scrollLeft=left;},children:[]});
 track.children=[0,360,720].map(x=>({getBoundingClientRect:()=>({left:x-track.scrollLeft})}));
-const pause=eventTarget({attrs:{},setAttribute(n,v){this.attrs[n]=v;}}),prev=eventTarget({}),next=eventTarget({});
-const section=eventTarget({dataset:{},contains:e=>e===pause,querySelector:s=>({'[data-flow-track]':track,'[data-flow-pause]':pause,'[data-flow-prev]':prev,'[data-flow-next]':next}[s]||null),querySelectorAll:()=>[]});
+const prev=eventTarget({}),next=eventTarget({});
+const section=eventTarget({dataset:{},contains:e=>e===next,querySelector:s=>({'[data-flow-track]':track,'[data-flow-prev]':prev,'[data-flow-next]':next}[s]||null),querySelectorAll:()=>[]});
 doc.querySelectorAll=()=>[section];
 const code=fs.readFileSync('public/insan/editorial.js','utf8').replace('export function','function');
 vm.runInNewContext(code,{document:doc,matchMedia:()=>reduced,requestAnimationFrame:fn=>{frames.set(++id,fn);return id;},cancelAnimationFrame:n=>frames.delete(n),ResizeObserver:class{observe(){}},IntersectionObserver:class{constructor(fn,options){observer=fn;observerOptions=options;}observe(target){observed=target;}}});
@@ -22,11 +22,10 @@ section.fire('pointerenter',{pointerType:'mouse'});assert.equal(section.dataset.
 const before=track.scrollLeft;track.fire('pointerenter',{pointerType:'mouse'});tick(200);assert.equal(track.scrollLeft,before);assert.equal(frames.size,0);
 track.fire('pointerleave');doc.activeElement={matches:()=>false};section.fire('focusin');assert.equal(track.scrollLeft,before);assert.equal(section.dataset.flowState,'running');
 doc.activeElement={matches:()=>true};section.fire('focusin');assert.equal(section.dataset.flowState,'paused');doc.activeElement=null;section.fire('focusout');tick(250);assert.equal(section.dataset.flowState,'running');
-pause.fire('click');assert.equal(section.dataset.flowState,'manual');assert.equal(pause.textContent,'Akışı başlat');observer([{isIntersecting:false}]);observer([{isIntersecting:true}]);assert.equal(section.dataset.flowState,'manual');assert.equal(track.scrollLeft,before);
-pause.fire('click');doc.hidden=true;doc.fire('visibilitychange');assert.equal(frames.size,0);doc.hidden=false;doc.fire('visibilitychange');assert.equal(section.dataset.flowState,'running');
-reduced.matches=true;reduced.fire('change');assert.equal(section.dataset.flowState,'reduced');assert.equal(frames.size,0);assert.equal(pause.hidden,true);
+doc.hidden=true;doc.fire('visibilitychange');assert.equal(frames.size,0);doc.hidden=false;doc.fire('visibilitychange');assert.equal(section.dataset.flowState,'running');
+reduced.matches=true;reduced.fire('change');assert.equal(section.dataset.flowState,'reduced');assert.equal(frames.size,0);
 reduced.matches=false;reduced.fire('change');next.fire('click');assert.equal(track.scrollLeft,360);assert.equal(section.dataset.flowState,'manual');
-pause.fire('click');track.fire('pointerdown',{pointerType:'touch'});assert.equal(section.dataset.flowState,'manual');
+observer([{isIntersecting:false}]);observer([{isIntersecting:true}]);assert.equal(section.dataset.flowState,'manual');track.fire('pointerdown',{pointerType:'touch'});assert.equal(section.dataset.flowState,'manual');
 const home=fs.readFileSync('dist/insan/index.html','utf8'),reports=fs.readFileSync('dist/sektorler/index.html','utf8');
 assert.equal((home.match(/data-card-flow/g)||[]).length,3);assert.equal((reports.match(/data-card-flow/g)||[]).length,1);
 assert.equal((home.match(/class="tool-card"/g)||[]).length,6);
@@ -37,3 +36,5 @@ console.log('PASS: slow rail bounds, hover/focus/manual/touch pause, resume posi
 
 for(const html of [home,reports])assert.ok(html.indexOf('class="flow-toolbar"')<html.indexOf('data-flow-track'),'Controls appear before the first card rail');
 for(const heading of ['Boraden <em>Blog.</em>','çalışma alanları.</em>','Boraden hakkında.</h1>'])assert.ok(!home.includes(heading));
+
+for(const html of [home,reports])assert.ok(!html.includes('data-flow-pause'),'Start/stop buttons removed');

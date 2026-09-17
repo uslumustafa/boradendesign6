@@ -6,8 +6,8 @@ export function advanceRail(position,max,direction,seconds){
 if(typeof document!=='undefined'){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  document.querySelectorAll('[data-card-flow]').forEach(section=>{
-  const track=section.querySelector('[data-flow-track]'),pause=section.querySelector('[data-flow-pause]');
-  if(!track||!pause)return;
+  const track=section.querySelector('[data-flow-track]');
+  if(!track)return;
   const items=[...track.children],previous=section.querySelector('[data-flow-prev]'),next=section.querySelector('[data-flow-next]'),select=section.querySelector('[data-flow-select]');
   let visible=false,hovered=false,focused=false,manual=false,frame=0,last=0,position=track.scrollLeft,direction=1;
   const maximum=()=>Math.max(0,track.scrollWidth-track.clientWidth);
@@ -28,14 +28,11 @@ if(typeof document!=='undefined'){
    cancelAnimationFrame(frame);frame=0;last=0;position=track.scrollLeft;
    const state=reduced.matches?'reduced':maximum()<2?'static':manual?'manual':!visible||document.hidden?'offscreen':hovered||focused?'paused':'running';
    section.dataset.flowState=state;
-   pause.hidden=reduced.matches||maximum()<2;
-   pause.textContent=manual?'Akışı başlat':'Akışı durdur';
    if(state==='running')frame=requestAnimationFrame(tick);
   }
   function move(index){manual=true;sync();track.scrollTo({left:Math.min(maximum(),offset(items[Math.max(0,Math.min(index,items.length-1))])),behavior:reduced.matches?'instant':'smooth'});}
   previous?.addEventListener('click',()=>move(controls()-1));next?.addEventListener('click',()=>move(controls()+1));
   select?.addEventListener('change',()=>move(Number(select.value)));
-  pause.hidden=false;pause.addEventListener('click',()=>{manual=!manual;sync();});
   for(const target of [track,section.querySelector('.flow-toolbar')].filter(Boolean)){
    target.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'){hovered=true;sync();}});
    target.addEventListener('pointerleave',()=>{hovered=false;sync();});
