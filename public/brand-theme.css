@@ -1,9 +1,9 @@
 /* Boraden's three checks guide the colour. The page remains light and readable. */
 @font-face{font-family:Instrument;src:url('/assets/font-0.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
-:root{--paper:#f7f9fb;--ink:#103c57;--muted:#4d6475;--line:#d5dfe6;--sage:#d0e7d5;--blue:#00547c;--green:#177e32;--red:#c74328;--logo-red:#e94d2a;--logo-green:#259e3c}
+:root{--paper:#f7f7f4;--ink:#202b31;--muted:#53616a;--line:#d9dfdf;--sage:#d0e7d5;--blue:#00547c;--green:#177e32;--red:#c74328;--logo-red:#e94d2a;--logo-green:#259e3c}
 body{font-family:Manrope,Arial,sans-serif}
 #main:focus{outline:none}
-em{font-family:Instrument,Georgia,serif;font-style:italic;color:var(--blue)}
+em{font-family:Manrope,Arial,sans-serif;font-style:normal;color:var(--blue)}
 .header{background:#f7f9fbf2}
 .brand-dot,.status-dot{color:var(--green)}
 .status-dot{background:var(--green)}

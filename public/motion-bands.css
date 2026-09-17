@@ -1,0 +1,61 @@
+/* The earlier design's service and official-source ribbons, with native pause states. */
+.motion-band{position:relative;overflow:hidden}
+.motion-window{overflow-x:auto;scrollbar-width:thin}
+.motion-loop{display:flex;width:max-content}
+.motion-loop-group{display:flex;align-items:center;flex-shrink:0;min-width:100vw}
+.motion-loop-group[aria-hidden="true"]{display:none}
+.motion-loop-group>a{flex-shrink:0}
+.motion-band.is-ready:not(.is-static,.is-focused,.is-paused) .motion-window{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.motion-band.is-ready:not(.is-static,.is-focused,.is-paused) .motion-loop{animation:boraden-source-flow var(--loop-duration,44s) linear infinite;animation-play-state:paused}
+.motion-band.is-ready:not(.is-static,.is-focused,.is-paused) .motion-loop-group[aria-hidden="true"]{display:flex}
+.motion-band.is-active:not(.is-static,.is-focused,.is-paused) .motion-loop{animation-play-state:running}
+.motion-band .motion-window:is(:hover,:focus-within) .motion-loop{animation-play-state:paused}
+.band-pause{flex-shrink:0;display:grid;place-items:center;width:44px;height:44px;border:1px solid currentColor;border-radius:50%;background:transparent;font-size:14px;font-family:inherit;line-height:1;transition:background .2s,color .2s}
+.discipline-band{display:flex;align-items:center;gap:18px;--loop-duration:42s;background:#193b50;color:#f4f7f5;padding-block:18px}
+.discipline-band .motion-window{flex:1;min-width:0}
+.discipline-band .band-pause{margin-right:var(--gutter);color:#d3e4e9;border-color:#d3e4e966}
+.discipline-band .band-pause:hover{color:#193b50;background:#f4f7f5}
+.discipline-band .motion-loop-group>a{display:flex;align-items:center;gap:22px;min-height:68px;padding:10px 38px;white-space:nowrap;font-size:clamp(21px,2.3vw,34px);letter-spacing:-.035em}
+.discipline-band:is(.is-static,.is-focused,.is-paused) .motion-loop-group>a{max-width:calc(100vw - 86px);white-space:normal}
+.discipline-band .motion-loop-group>a>svg{flex-shrink:0}
+.discipline-band .discipline-icon{width:36px;height:36px;fill:none;stroke:color-mix(in srgb,var(--ribbon-tone) 35%,white);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.discipline-band .motion-loop-group>a>svg:last-child{width:25px;height:25px;margin-left:10px;stroke:#c8e1d5}
+.discipline-band a:hover{color:#fff;text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:1px}
+.discipline-band a:focus-visible{outline-color:#fff;outline-offset:-5px}
+.institution-band{background:#f0f4f7;padding-block:54px 42px;--loop-duration:48s;border-block:1px solid var(--line)}
+.institution-heading{display:flex;align-items:end;gap:28px;margin-bottom:34px}
+.institution-heading>div{margin-right:auto}
+.institution-heading .eyebrow{font-size:11px;margin-bottom:18px}
+.institution-heading h2{font-size:clamp(36px,4vw,54px)}
+.institution-heading>p{font-size:13px;line-height:1.8;color:var(--muted);margin-bottom:3px}
+.institution-heading .band-pause{color:var(--ink);border-color:#8da6b5;margin-bottom:4px}
+.institution-heading .band-pause:hover{background:#dce6ed}
+.institution-link{display:flex;align-items:center;gap:18px;width:250px;min-height:114px;margin-inline:14px;padding:16px 12px 22px;border-bottom:1px solid #bdcdd6;color:var(--ink)}
+.institution-link img{width:108px;height:76px;object-fit:contain;flex-shrink:0}
+.institution-link>span{font-size:13px;white-space:nowrap}
+.institution-link>svg{width:19px;height:19px;margin-left:auto;flex-shrink:0}
+.institution-link:hover{border-color:var(--ink);background:#ffffff85}
+.institution-link:focus-visible{outline-offset:-3px}
+@keyframes boraden-source-flow{to{transform:translateX(-50%)}}
+@media(max-width:600px){.discipline-band{padding-block:12px;gap:8px}.discipline-band .motion-loop-group>a{font-size:21px;padding-inline:24px;gap:16px;min-height:58px}.discipline-band .discipline-icon{width:30px;height:30px}.discipline-band .motion-loop-group>a>svg:last-child{width:21px;margin-left:0}.discipline-band .band-pause{margin-right:14px}.institution-band{padding-block:34px 26px}.institution-heading{gap:20px;flex-wrap:wrap;margin-bottom:20px}.institution-heading>div{flex-basis:100%}.institution-heading .eyebrow{font-size:10px;margin-bottom:14px}.institution-heading h2{font-size:36px}.institution-heading>p{font-size:12px;margin-right:auto}.institution-link{width:224px;margin-inline:10px;gap:14px}.institution-link img{width:94px;height:74px}}
+@media(prefers-reduced-motion:reduce){.motion-band .motion-loop{animation:none!important}.motion-band .motion-loop-group[aria-hidden="true"]{display:none!important}.motion-band .motion-window{overflow-x:auto!important;mask-image:none!important}}
+
+
+/* Compact placement between the knowledge tools and the world section. */
+.institution-band{--ink:#173440;--muted:#526771;--line:#d5e0e3;background:#f7f7f4;color:var(--ink);padding-block:30px 26px;font-family:Manrope,Arial,sans-serif}
+.institution-heading.wrap{margin:0 6vw 22px;max-width:none;width:auto;align-items:center}
+.institution-heading .eyebrow{font-size:10px;letter-spacing:.14em;margin:0 0 8px;color:var(--muted)}
+.institution-heading h2{font:600 clamp(24px,2.6vw,34px)/1.2 Manrope,Arial,sans-serif;letter-spacing:-.035em;margin:0}
+.institution-heading>p{font-size:13px;line-height:1.6;margin:0;max-width:300px}
+.institution-band .band-pause[hidden]{display:none}
+.institution-band .band-pause{cursor:pointer;margin:0;color:var(--ink)}
+.institution-link{box-sizing:border-box;min-height:94px;width:242px;padding:12px 16px;margin-inline:8px;border:1px solid #d8e1e5;border-radius:5px;background:#fff;text-decoration:none;color:#173440;gap:12px;transition:border-color .2s,box-shadow .2s}
+.institution-link:hover{border-color:#00547c;box-shadow:inset 0 -3px #00547c;background:#fff}
+.institution-link img{width:86px;height:62px;object-fit:contain}
+.institution-link>span{font-size:12px;font-weight:650}
+.institution-link>svg{fill:none;stroke:currentColor;stroke-width:1.3}
+.institution-emblem{display:grid;place-items:center;width:60px;height:62px;flex-shrink:0;color:#00547c}
+.institution-emblem svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:1.3}
+.institution-band :is(a,button):focus-visible{outline:3px solid #e94d2a;outline-offset:-3px}
+@media(max-width:600px){.institution-band{padding-block:26px 22px}.institution-heading.wrap{margin-inline:24px;gap:15px}.institution-heading>div{flex-basis:auto;flex:1}.institution-heading>p{display:none}.institution-heading h2{font-size:26px}.institution-heading .eyebrow{font-size:9px}.institution-link{width:224px;min-height:88px}.institution-link img{height:58px;width:76px}}
+@media(prefers-reduced-motion:reduce){.institution-link{transition:none}}

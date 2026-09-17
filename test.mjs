@@ -6,6 +6,7 @@ import {shapes,palette,edgeControls,progressAt,servicePiece,puzzle} from './puzz
 import {serviceMotionAt} from './public/service-motion.js';
 import {headerScrollState} from './public/app.js';
 import {render,routeList,safeURL} from './render.mjs';
+const escapeText=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url))),L=JSON.parse(fs.readFileSync(new URL('data/legacy.json',import.meta.url)));
 test('homepage bands pause independently, expose focused links and resume without scroll drift',()=>{
  const target=extra=>Object.assign({events:{},addEventListener(n,fn){(this.events[n]??=[]).push(fn);},fire(n,event){for(const fn of this.events[n]||[])fn(event);}},extra);
@@ -15,8 +16,9 @@ test('homepage bands pause independently, expose focused links and resume withou
   const band={classList:{add:n=>names.add(n),toggle(n,on){on?names.add(n):names.delete(n);},contains:n=>names.has(n)},querySelector:s=>s==='.motion-window'?window:button};
   return {band,window,button};
  });
- const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');
- vm.runInNewContext(app.slice(app.indexOf('const motionBands='),app.indexOf('const world=')),{$$:()=>bands.map(b=>b.band),document:doc,reduced,requestAnimationFrame:fn=>fn(),IntersectionObserver:class{constructor(callback){this.callback=callback;observers.push(this);}observe(target){this.target=target;}show(on){this.callback([{target:this.target,isIntersecting:on}]);}}});
+ const app=fs.readFileSync(new URL('public/motion-bands.js',import.meta.url),'utf8');
+ doc.querySelectorAll=()=>bands.map(b=>b.band);
+ vm.runInNewContext(app,{document:doc,matchMedia:()=>reduced,requestAnimationFrame:fn=>fn(),IntersectionObserver:class{constructor(callback){this.callback=callback;observers.push(this);}observe(target){this.target=target;}show(on){this.callback([{target:this.target,isIntersecting:on}]);}}});
  const [a,b]=bands;for(const item of bands)assert.equal(item.band.classList.contains('is-ready'),true);observers.forEach(o=>o.show(true));assert.equal(a.window.scrollLeft,0);assert.equal(a.band.classList.contains('is-active'),true);
  a.button.fire('click');assert.equal(a.band.classList.contains('is-paused'),true);assert.equal(b.band.classList.contains('is-paused'),false);assert.equal(a.button.attrs['aria-pressed'],'true');assert.equal(a.button.attrs['aria-label'],'Hizmet akışı: Başlat');
  a.window.scrollLeft=210;a.button.fire('click');assert.equal(a.window.scrollLeft,0);
@@ -46,7 +48,7 @@ test('wide expertise keeps labels unscaled and paints selection above a stable l
  const cards=shapes.slice(0,6).map((_,i)=>item(i,true)),pieces=shapes.map((_,i)=>item(i,false)),overlay={attrs:{},style:{setProperty(n,v){this[n]=v;},removeProperty(n){delete this[n];}},setAttribute(name,value){this.attrs[name]=value;},removeAttribute(name){delete this.attrs[name];},animate(frames,options){const a={frames,options,cancelled:false,cancel(){this.cancelled=true;}};animations.push(a);return a;}};
  const mobile=shapes.map((_,i)=>Object.assign(item(i,false),{id:''}));
  const expertise={querySelectorAll:s=>s==='[data-expertise-card]'?cards:[...mobile,...pieces],querySelector:()=>overlay},document={activeElement:null};
- const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');vm.runInNewContext(app.slice(app.indexOf("const expertise="),app.indexOf("const motionBands=")),{$:()=>expertise,document,reduced,requestAnimationFrame:fn=>fn()});
+ const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');vm.runInNewContext(app.slice(app.indexOf("const expertise="),app.indexOf("const world=")),{$:()=>expertise,document,reduced,requestAnimationFrame:fn=>fn()});
  const order=pieces.map(p=>p.id);
  cards[3].events.pointerenter({pointerType:'mouse'});assert.equal(overlay.attrs.href,'#'+pieces[3].id);assert.equal(cards[3].classList.selected,true);assert.equal(pieces[3].classList.selected,true);
  assert.equal(overlay.style['--cx'],'250px');assert.equal(overlay.style['--cy'],'200px');assert.equal(animations[0].frames[1].transform,'translateY(-12px) scale(1.28)');assert.equal(animations[0].options.duration,300);
@@ -60,10 +62,11 @@ test('wide expertise keeps labels unscaled and paints selection above a stable l
  document.activeElement=pieces[6];pieces[6].events.focusin();pieces[6].events.pointerleave();assert.equal(overlay.attrs.href,'#expertise-piece-boraden');
  document.activeElement=null;pieces[6].events.focusout();assert.equal(overlay.attrs.href,undefined);assert.deepEqual(pieces.map(p=>p.id),order);
 });
-test('service pages replace puzzle artwork with brand lines and preserve contact and color',()=>{
+test('service pages use distinct field graphics and preserve contact, scope and color',()=>{
  for(const service of D.services){
   const html=render('/hizmetler/'+service.id+'/',D,L).html;
-  assert.equal((html.match(/class="brand-planes"/g)||[]).length,1);assert.ok(!html.includes('service-piece-svg'));assert.ok(!html.includes('data-service-backdrop'));
+  assert.equal((html.match(/class="field-art"/g)||[]).length,1);assert.ok(html.includes('class="scope-disclosure"'));assert.ok(html.includes('id="hizmet-iletisim"'));
+  for(const [title,body] of service.scope||[]){assert.ok(html.includes(escapeText(title)));assert.ok(html.includes(escapeText(body)));}assert.ok(!html.includes('service-piece-svg'));assert.ok(!html.includes('data-service-backdrop'));
   const piece=servicePiece({group:service.group,title:service.title});
   assert.equal((piece.match(/class="piece-outline"/g)||[]).length,1);
   assert.ok(piece.includes('aria-hidden="true"'));
@@ -224,4 +227,36 @@ test('section films synchronize cues, respect poster preferences and recover fro
  s.connection.saveData=false;s.connection.fire('change');await s.flush();brand.video.finish();await s.flush();
  brand.rect.top=1000;brand.rect.bottom=1600;office.rect.top=0;office.rect.bottom=600;s.global.fire('scroll');await s.flush();office.video.finish();await s.flush();
  assert.equal(brand.video.paused,true);assert.equal(office.video.paused,false);
+});
+
+test('service directory search opens matching fields and sector archive excludes invented guides',()=>{
+ const rows=D.services.map(s=>({dataset:{filterText:s.title+' '+s.lead},hidden:false}));
+ const groups=D.groups.map(g=>({hidden:false,open:false,matches:tag=>tag==='details',querySelectorAll:()=>rows.filter((_,i)=>D.services[i].group===g.id)}));
+ let input;const field={value:'',addEventListener:(_,fn)=>input=fn},count={textContent:''};
+ const app=fs.readFileSync(new URL('public/app.js',import.meta.url),'utf8');
+ vm.runInNewContext(app.slice(app.indexOf('const serviceInput='),app.indexOf("$('#archive-search')")),{$:selector=>selector==='#service-search'?field:count,$$:()=>groups,norm:s=>s.toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replaceAll('ı','i').trim()});
+ field.value='bordro';input();assert.equal(count.textContent,'2 hizmet');assert.equal(groups.filter(g=>!g.hidden&&g.open).length,1);
+ field.value='eşleşmeyen-örnek';input();assert.ok(groups.every(g=>g.hidden&&!g.open));assert.ok(count.textContent.startsWith('Sonuç bulunamadı'));
+ field.value='';input();assert.equal(rows.filter(r=>!r.hidden).length,47);assert.ok(groups.every(g=>!g.hidden&&!g.open));
+ const catalogue=render('/hizmetler/',D,L).html;assert.equal((catalogue.match(/data-filter-group/g)||[]).length,6);
+ for(const s of D.services)assert.ok(catalogue.includes('href="/hizmetler/'+s.id+'/"'));
+ const sectors=render('/sektorler/',D,L).html;assert.ok(sectors.includes('Son Raporlar'));assert.ok(!sectors.includes('2017'));assert.ok(!sectors.includes('boraden.com.tr/sektor-birincileri'));assert.ok(!sectors.includes('class="sector-choices"'));
+ assert.ok(sectors.includes('Ağustos 2026'));assert.ok(sectors.includes('VERİ DÖNEMİ · 2025'));for(const report of D.sectorReports){assert.ok(sectors.includes(report.url));assert.ok(report.publisher);assert.ok(report.checkedAt);if(report.publishedAt)assert.ok(sectors.includes('datetime="'+report.publishedAt+'"'));}
+ for(const s of D.sectors){const html=render('/sektorler/'+s.id+'/',D,L).html;assert.ok(html.includes('Sektör Raporları.'));assert.ok(!html.includes('KONU REHBERİ'));}
+});
+
+test('active homepage restores one official-source ribbon after tools with eight usable destinations',()=>{
+ const institutions=JSON.parse(fs.readFileSync(new URL('data/institutions.json',import.meta.url)));
+ for(const file of ['dist/index.html','dist/insan/index.html']){
+  const html=fs.readFileSync(new URL(file,import.meta.url),'utf8');
+  assert.equal((html.match(/id="resmi-kaynaklar"/g)||[]).length,1);
+  assert.ok(html.indexOf('id="tools-title"')<html.indexOf('id="resmi-kaynaklar"'));
+  assert.ok(html.indexOf('id="resmi-kaynaklar"')<html.indexOf('id="dunyaya-bakis"'));
+  assert.ok(html.includes('src="/motion-bands.js"'));assert.ok(html.includes('href="/motion-bands.css"'));
+  const section=html.split('id="resmi-kaynaklar"')[1].split('</section>')[0];
+  assert.equal((section.match(/class="institution-link"/g)||[]).length,16);
+  assert.equal((section.match(/tabindex="-1"/g)||[]).length,8);
+  for(const item of institutions){assert.ok(section.includes(item.href));if(item.logo)assert.ok(fs.existsSync(new URL('public'+item.logo,import.meta.url)));}
+  assert.ok(section.includes('/assets/institutions/resmi-gazete.svg'));assert.ok(section.includes('Resmî Gazete'));assert.ok(section.includes('GİB'));assert.ok(section.includes('/assets/institutions/tspb.svg'));
+ }
 });

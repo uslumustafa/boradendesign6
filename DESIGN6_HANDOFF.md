@@ -37,3 +37,48 @@ This work is local and has not been committed or pushed. Existing service pages 
 The user preferred the screenshot showing a light service card moving over a stationary meeting image. The six-row directory was replaced with the previous three-card service story. All six service groups and the two company establishment/valuation shortcuts remain real links. Redundant explanatory sentences and large inter-card gaps were reduced; the photograph and card styling are preserved. Mobile and reduced-motion use ordinary document flow instead of a pinned background.
 
 The compact company introduction and intact film transition remain unchanged. The 6,005px/732px measurements above describe the now-superseded directory iteration, not this card layout. Checkpoint: parent `.agent/checkpoints/20260917-service-story-return/before.zip`. Build and opening/experience/editorial checks passed; desktop scrolling and the mobile layout were visually inspected. No commit or push.
+
+## Current local revision — 17 September: service menu and typography
+
+The earlier unpushed work above is now checkpointed and pushed to **private `uslumustafa/boradendesign6`, main, `b0273fc`**. Remote `design6` is the intended destination; do not push the old `origin` for this project.
+
+After that checkpoint the shared services menu was changed to a click-based drilldown: six initially collapsed fields, selected field's links, back navigation and an intrinsic-height transition. The three service cards over the meeting image remain. Instrument display styles were replaced with existing Manrope; perspectives now use a strong blue surface, and publication/tool cards carry clear three-colour brand accents. Mobile portrait space was reduced. No new dependency, section, photograph or backend integration.
+
+Scope, references and checks: [research/DESIGN_DIRECTION_2026-09-17.md](research/DESIGN_DIRECTION_2026-09-17.md). New runnable check: `node service-menu.test.mjs`. These post-checkpoint edits are local, not yet pushed. The older “no push” statements and directory-layout metrics above are historical.
+
+## 2026-09-17 — service / sector interface revision (local)
+Service directory and all shared group/detail templates now use direct cards, native scope disclosures and original field graphics. Sector provenance corrected: old Sektörler is a historical reports page, the six new sector pages are editorial guides. Source archive stored in `data/boraden.json` sectorReports. Homepage keeps scrolling card layout with new human-free brand architecture image. See `research/SERVICE_SECTOR_REVIEW_2026-09-17.md` for evidence, media prompt, validation and rollback. No push in this turn; Wagtail backend is still pending.
+
+## 2026-09-17 — official-source ribbon restored (local)
+Reused institutionsBand on active root and /insan/ immediately after tools, before globe. Added Resmî Gazete with a neutral newspaper icon; preserved seven original institution records/logos including TSPB SVG. Extracted existing motion CSS/JS into shared motion-bands files; legacy app uses the same behavior. Compact 247px desktop / 225px mobile strip; all logos preloaded (about 55KB unique assets) to avoid empty cards during animation. Hover/focus/manual pause and reduced-motion behavior retained. Build and targeted animation, old expertise isolation and active-homepage integration tests passed. Actual desktop/mobile checks: eight destinations, all logos load, no horizontal page overflow, stop/resume work. Changes remain local.
+
+## 17 Eylül — açık içerik paleti ve tam sayfa taraması
+- Kullanıcı koyu sektör temasını ve büyük mavi perspektif zeminini reddetti. Siyah film/navbar korunuyor; içerik paleti kırık beyaz, beyaz kartlar, koyu nötr yazı ve üç marka vurgusu.
+- /sektorler/ artık yalnız eski Boraden'de doğrulanan üç tarihsel raporu sunuyor. Altı sonradan üretilmiş sektör rehberi ana sayfadan/aramadan kaldırıldı; eski alt URL'ler aynı rapor arşivini açarak boşa düşmüyor. Menü etiketi Sektör Raporları. Jost bu arşivde korunuyor.
+- Bilgi Merkezi büyük ortalı başlık, açıklama ve üç geniş karta dönüştürüldü. Mobil tek sütun.
+- Resmî Gazete için yerel gazete SVG simgesi eklendi (resmî logo olduğu iddia edilmez); kurum şeridinde görsel olarak kontrol edildi, hareket/durdurma çalışıyor.
+- Dokuz haber/sirküler/duyuru detayı mevcut okuma paneli düzenine alındı. Doğrulanmamış yayın tarihi ayrıntı başlığında gösterilmiyor.
+- İki bağımsız ajan raporu: research/DESIGN_REVIEW_2026-09-17.md ve research/ROUTE_AUDIT_2026-09-17.md. 109 route gerçek masaüstü tarayıcıda açıldı; seçili aileler ayrıca ekran görüntüsüyle incelendi. Ana sayfa araçları ve sektör arşivi 390px'de kontrol edildi. Son build109HTML/11.453 yerel referans, sıfır eksik hedef; npm test13/13 başarılı.
+- SEO açıklamaları, gerçek yayın tarihleri ve Wagtail kariyer kaydı/e-posta ayrı kalan işlerdir. cozum-prosedurleri legacy anket metni içerik doğrulaması bekliyor. Git push yapılmadı.
+
+## 17 Eylül — Son Raporlar / 2025–2026
+Kullanıcının güncelleme talebi üzerine yukarıdaki 2017 arşiv kararı değiştirildi. Üç tarihsel kart, data/boraden.json sectorReports içinden kaldırıldı; /sektorler/ ve korunan alt URL'ler artık Son Raporlar bölümünü gösteriyor. Arama özeti de güncellendi.
+
+Doğrulanan birincil kaynaklar:
+- Türkiye Sektörel PMI, Ağustos 2026. Yayın 1 Eylül 2026. https://www.iso.org.tr/haberler/diger-haberler/iso-turkiye-imalat-pmi-agustos-2026-raporu-ile-turkiye-sektorel-pmi-raporu-aciklandi/ — rapor PDF: https://www.iso.org.tr/file/TRSektorelPMI_2026.08_TUR-13639.pdf
+- TİM Türkiye'nin İlk 1000 İhracatçısı, veri yılı 2025. Resmî sayfa tarayıcıda açıldı ve 2025 kitap/Excel bağlantıları doğrulandı. Kesin yayın günü gösterilmediği için publishedAt null. https://tim.org.tr/tr/turkiyenin-ilk-1000-ihracatci-arastirmasi-2025 — kitabın tamamı okunmadı; kart yalnız kapsamı özetler.
+- İSO Türkiye'nin 500 Büyük Sanayi Kuruluşu, veri yılı 2025. Sonuçlar: https://www.iso500.org.tr/500-buyuk-sanayi-kurulusu?yil=2025 — 17 Haziran 2026 yayın tarihi: https://www.iso.org.tr/basin/basin-bultenleri/iso-turkiyenin-500-buyuk-sanayi-kurulusu-arastirmasi2025-sonuclarini-acikladi/
+
+Veri dönemi, yayın tarihi ve kaynak kontrol tarihi ayrı alanlardır. Raporların tamamı kopyalanmadı; kurumun özgün yayınına bağlantı verilir. Yeni kütüphane yok. Build ve service directory search odaklı testi geçti; masaüstü ve 390px mobil görünüm kontrol edildi, yatay taşma/2017 kartı yok. Karşılaştırma önizlemesi tekrar dist/__compare içine kopyalandı. Değişiklikler yerel önizlemede; Git push veya üretim yayını yapılmadı.
+
+## 17 Eylül — hareketli bilgi kartları ve sade kurum anlatımı
+- Güncel resmî yayınlar 3'ten 10'a çıktı; 2025/2026 veri dönemleri, yayın tarihleri ve yayın türleri ayrı tutuldu. Kaynaklar: research/CURRENT_REPORTS_AND_CONTENT_FLOW_2026-09-17.md.
+- Blog, perspektifler, Bilgi Merkezi ve Son Raporlar ortak yavaş yatay akış kullanır. Sonda yön değiştirir; klon yok. Hover/klavye odağı/dokunma/manuel durdurma ve reduced-motion desteklenir. Native kaydırma ve oklar her karta eriştirir. JS yalnız görünürken çalışır.
+- Bilgi Merkezi: amortisman, vergi/ücret hesaplaması, Resmî Gazete, doğrudan GİB özelge araması, sirküler ve son raporlar. Menü/ana sayfa uzatılmadan ayrı kartlar.
+- Reklam tonundaki ana sayfa, blog, kariyer, iletişim ve altbilgi ifadeleri sadeleştirildi. Hakkımızda ihtiyaçlar ve çalışma süreciyle genişletildi; kişiler değişmedi.
+- Kontroller: build, mevcut13test, editorial ve yeni card-flow.test.mjs. Masaüstü ve seçili390px görsel kontrol; yerel değişiklikler, push yok. Film, hizmet sahnesi, dünya ve önceki yedek korunur.
+
+## 17 Eylül — site ve müşteri tanıtım videosu GitHub kaydı
+Bu checkpoint yukarıdaki yerel tasarım, hizmet menüsü, resmî kaynak şeridi, güncel raporlar, hareketli kartlar ve sade metin düzenlemelerini birlikte kaydeder. Hedef mevcut özel `uslumustafa/boradendesign6` deposunun `main` dalıdır; önceki yerel/push yok notları tarihsel durumları anlatır.
+
+Müşteri sunumu: [source-media/site-overview/Boraden-Web-Sitesi-Tanitimi.mp4](source-media/site-overview/Boraden-Web-Sitesi-Tanitimi.mp4). Sessiz H.264, 1280×720, 82.875 saniye; tam 14.625 saniyelik girişin ardından ana sayfa ve alt sayfalardan 15 kısa plan ve logo kapanışı. Video ayrıntıları aynı klasördeki README'dedir. Siteye gömülmez ve üretim yayını yapılmaz. Başvuru altyapısı ve diğer bekleyen işler yukarıdaki gibi devam eder.

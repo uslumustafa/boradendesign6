@@ -1,3 +1,4 @@
+import './motion-bands.js';
 // A reversal must travel 20px before it changes the header; the first 96px stay visible.
 export function headerScrollState(state,y,locked=false){
  y=Math.max(0,y);
@@ -22,7 +23,7 @@ $('#global-search')?.addEventListener('input',updateSearch);
 document.addEventListener('click',event=>$$('.header:not(.discovery-header) details[open]').forEach(d=>{if(!d.contains(event.target))d.open=false;}));
 document.addEventListener('keydown',event=>{if(event.key==='Escape')$$('.header:not(.discovery-header) details[open]').forEach(d=>d.open=false);});
 const serviceInput=$('#service-search');
-serviceInput?.addEventListener('input',()=>{const term=norm(serviceInput.value);let count=0;$$('[data-filter-group]').forEach(group=>{let groupCount=0;group.querySelectorAll('[data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden){groupCount++;count++;}});group.hidden=!groupCount;});$('#service-count').textContent=count?`${count} hizmet`:'Sonuç bulunamadı. Başka bir terim deneyin.';});
+serviceInput?.addEventListener('input',()=>{const term=norm(serviceInput.value);let count=0;$$('[data-filter-group]').forEach(group=>{let groupCount=0;group.querySelectorAll('[data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden){groupCount++;count++;}});group.hidden=!groupCount;if(group.matches('details'))group.open=!!term&&!!groupCount;});$('#service-count').textContent=count?`${count} hizmet`:'Sonuç bulunamadı. Başka bir terim deneyin.';});
 $('#archive-search')?.addEventListener('input',event=>{const term=norm(event.target.value);let count=0;$$('.archive-list [data-filter-text]').forEach(row=>{row.hidden=!norm(row.dataset.filterText).includes(term);if(!row.hidden)count++;});$('.archive-count').textContent=`${count} belge`;});
 
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -132,35 +133,6 @@ if(expertise){
   item.addEventListener('focusout',()=>requestAnimationFrame(selectFocused));
  });
 }
-
-const motionBands=$$('[data-motion-band]');
-motionBands.forEach(band=>{
- const windowEl=band.querySelector('.motion-window'),button=band.querySelector('[data-band-pause]');
- if(!windowEl||!button)return;
- band.classList.add('is-ready');
- let visible=false,manualPause=false,focused=false,running=false;
- function syncBand(){
-  const active=visible&&!document.hidden&&!reduced.matches;
-  const nextRunning=active&&!manualPause&&!focused;
-  if(nextRunning&&!running)windowEl.scrollLeft=0;
-  running=nextRunning;
-  band.classList.toggle('is-active',active);
-  band.classList.toggle('is-paused',manualPause);
-  band.classList.toggle('is-focused',focused);
-  band.classList.toggle('is-static',reduced.matches);
-  button.hidden=reduced.matches;button.disabled=reduced.matches;
-  button.setAttribute('aria-pressed',String(manualPause));
-  button.setAttribute('aria-label',`${button.dataset.label}: ${manualPause?'Başlat':'Durdur'}`);
-  button.textContent=manualPause?'▷':'Ⅱ';
- }
- button.addEventListener('click',()=>{manualPause=!manualPause;syncBand();});
- windowEl.addEventListener('focusin',event=>{focused=event.target.matches(':focus-visible');syncBand();if(focused)requestAnimationFrame(()=>{if(document.activeElement===event.target)event.target.scrollIntoView({behavior:'instant',block:'nearest',inline:'nearest'});});});
- windowEl.addEventListener('focusout',()=>requestAnimationFrame(()=>{focused=windowEl.contains(document.activeElement)&&document.activeElement.matches(':focus-visible');syncBand();}));
- document.addEventListener('visibilitychange',syncBand);
- reduced.addEventListener('change',syncBand);
- new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;syncBand();},{threshold:0}).observe(band);
- syncBand();
-});
 
 const world=$('.world-perspectives'),slides=$$('[data-perspective-slide]');
 if(world&&slides.length){

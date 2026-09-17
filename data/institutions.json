@@ -1,5 +1,23 @@
 [
   {
+    "id": "gib",
+    "label": "GİB",
+    "name": "Gelir İdaresi Başkanlığı",
+    "href": "https://www.gib.gov.tr/",
+    "logo": "/assets/institutions/gib.png",
+    "source": "https://boraden.com.tr/upload/banner-2.png",
+    "checked": "2026-09-09",
+    "note": "Korunan görsel Gelir İdaresi Başkanlığını gösterir; eski HMB bağlantısı yerine GİB ana sayfası kullanılır."
+  },
+  {
+    "id": "resmigazete",
+    "label": "Resmî Gazete",
+    "name": "T.C. Resmî Gazete",
+    "href": "https://www.resmigazete.gov.tr/",
+    "logo": "/assets/institutions/resmi-gazete.svg",
+    "note": "Resmî logo yerine tarafsız gazete simgesi kullanılır. Bağlantı Bilgi Merkezi ile aynı resmî kaynağa gider."
+  },
+  {
     "id": "spk",
     "label": "SPK",
     "name": "Sermaye Piyasası Kurulu",
@@ -25,16 +43,6 @@
     "logo": "/assets/institutions/tcmb.png",
     "source": "https://boraden.com.tr/upload/banner-9.png",
     "checked": "2026-09-09"
-  },
-  {
-    "id": "gib",
-    "label": "GİB",
-    "name": "Gelir İdaresi Başkanlığı",
-    "href": "https://www.gib.gov.tr/",
-    "logo": "/assets/institutions/gib.png",
-    "source": "https://boraden.com.tr/upload/banner-2.png",
-    "checked": "2026-09-09",
-    "note": "Korunan görsel Gelir İdaresi Başkanlığını gösterir; eski HMB bağlantısı yerine GİB ana sayfası kullanılır."
   },
   {
     "id": "epdk",

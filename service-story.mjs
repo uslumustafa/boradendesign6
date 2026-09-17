@@ -11,7 +11,7 @@ export function serviceStory(D){
   return `<section class="service-story" id="ihtiyaciniz" aria-labelledby="needs-title">
     <header class="service-story-heading"><div><p class="eyebrow">BORADEN / UZMANLIK</p><h2 id="needs-title">Hizmetler ve <em>çalışma alanları.</em></h2></div><a href="/hizmetler/">Tüm hizmetler <span aria-hidden="true">↗</span></a></header>
     <div class="service-story-stage">
-      <figure class="service-story-visual"><img src="/assets/services/bagimsiz-denetim.jpg" width="1672" height="941" loading="lazy" decoding="async" alt="Denetim dosyaları üzerinde birlikte çalışan profesyonelleri gösteren temsili sahne"><figcaption><small>Temsili çalışma ortamı.</small></figcaption></figure>
+      <figure class="service-story-visual"><img src="/assets/brand/boraden-perspectives-v1.webp" width="1672" height="941" loading="lazy" decoding="async" alt="Boraden’in mavi, turuncu ve yeşil renkleriyle mimari kompozisyon"><figcaption><small>Boraden / Farklı uzmanlıklar.</small></figcaption></figure>
       <div class="service-story-chapters">${chapters.map((c,i)=>`<article class="service-story-chapter" data-story-chapter="${i+1}"><p class="eyebrow"><span>0${i+1}</span> ${esc(c.label)}</p><h3>${esc(c.title)}</h3><p class="service-story-description">${esc(c.text)}</p><nav aria-label="${esc(c.label)} hizmetleri">${c.links.filter(Boolean).map(l=>`<a href="${esc(l.url)}">${esc(l.label)}<span aria-hidden="true">↗</span></a>`).join('')}</nav></article>`).join('')}</div>
     </div>
   </section>`;

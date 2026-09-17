@@ -4691,7 +4691,7 @@
         "status": "published",
         "date": "2026-09-06",
         "category": "Şirket değerlemesi",
-        "title": "Bir rakamdan önce, beş doğru soru.",
+        "title": "Şirket değerlemesine hazırlık",
         "summary": "Şirket değerlemesine hazırlanırken amaç, tarih, veri, varsayım ve karar ilişkisini birlikte düşünmek.",
         "cover": "assets/pages/blog-degerleme-editorial-v2.webp",
         "body": [
@@ -4714,7 +4714,7 @@
         "status": "published",
         "date": "2026-09-06",
         "category": "Kuruluş & büyüme",
-        "title": "Şirketi kurarken, işleyişi de kurun.",
+        "title": "Şirket kuruluşunda temel süreçler",
         "summary": "Tescilin ötesinde: ortaklık, temsil, defter, kayıt ve ilk dönem sorumlulukları.",
         "cover": "assets/pages/blog-kurulus-editorial-v2.webp",
         "body": [
@@ -4741,7 +4741,7 @@
         "status": "published",
         "date": "2026-09-06",
         "category": "İnsan & bordro",
-        "title": "Bordroda güven, doğru veriyle başlar.",
+        "title": "Bordroda veri ve kayıt düzeni",
         "summary": "Puantajdan onaya uzanan akışta görünür sorumluluklar ve çalışan bilgilerinin korunması.",
         "cover": "assets/pages/blog-bordro-editorial-v2.webp",
         "body": [
@@ -5204,7 +5204,7 @@
         "status": "published",
         "date": "2026-09-06",
         "category": "Şirket değerlemesi",
-        "title": "Bir rakamdan önce, beş doğru soru.",
+        "title": "Şirket değerlemesine hazırlık",
         "summary": "Şirket değerlemesine hazırlanırken amaç, tarih, veri, varsayım ve karar ilişkisini birlikte düşünmek.",
         "cover": "assets/pages/blog-degerleme-editorial-v2.webp",
         "body": [
@@ -5226,7 +5226,7 @@
         "status": "published",
         "date": "2026-09-06",
         "category": "Kuruluş & büyüme",
-        "title": "Şirketi kurarken, işleyişi de kurun.",
+        "title": "Şirket kuruluşunda temel süreçler",
         "summary": "Tescilin ötesinde: ortaklık, temsil, defter, kayıt ve ilk dönem sorumlulukları.",
         "cover": "assets/pages/blog-kurulus-editorial-v2.webp",
         "body": [
@@ -5252,7 +5252,7 @@
         "status": "published",
         "date": "2026-09-06",
         "category": "İnsan & bordro",
-        "title": "Bordroda güven, doğru veriyle başlar.",
+        "title": "Bordroda veri ve kayıt düzeni",
         "summary": "Puantajdan onaya uzanan akışta görünür sorumluluklar ve çalışan bilgilerinin korunması.",
         "cover": "assets/pages/blog-bordro-editorial-v2.webp",
         "body": [
@@ -6074,5 +6074,120 @@
         "Farklı görüşleri değerlendirme, bulguları paylaşma ve ilgili uzmanlıklarla birlikte çalışma."
       ]
     ]
-  }
+  },
+  "sectorReports": [
+    {
+      "id": "tuik-sektor-bilancolari-2025",
+      "title": "Sektör Bilançoları",
+      "period": "2025",
+      "publisher": "TÜİK · TCMB",
+      "publishedAt": "2026-09-16",
+      "url": "https://veriportali.tuik.gov.tr/tr/press/58019",
+      "summary": "Firmaların bilanço ve gelir tablolarından derlenen sektör bazında varlık, borç, öz kaynak, satış ve kârlılık göstergeleri.",
+      "kind": "İstatistik",
+      "checkedAt": "2026-09-17"
+    },
+    {
+      "id": "tuik-girisim-bilisim-2026",
+      "title": "Girişimlerde Bilişim Teknolojileri Kullanımı",
+      "period": "2025–2026",
+      "publisher": "TÜİK",
+      "publishedAt": "2026-09-10",
+      "url": "https://veriportali.tuik.gov.tr/tr/press/58021",
+      "summary": "Girişimlerin internet, bulut bilişim ve bilgi güvenliği kullanımı ile e-satış faaliyetleri. Göstergelere göre 2025 ve 2026 dönemleri kapsanır.",
+      "kind": "İstatistik",
+      "checkedAt": "2026-09-17"
+    },
+    {
+      "id": "tuik-dolayli-arge-2025",
+      "title": "Dolaylı Ar-Ge Teşvikleri",
+      "period": "2025",
+      "publisher": "TÜİK",
+      "publishedAt": "2026-09-04",
+      "url": "https://veriportali.tuik.gov.tr/tr/press/58305",
+      "summary": "Ar-Ge vergi teşviklerinin türlerine, ekonomik faaliyetlere ve işletme büyüklüğüne göre dağılımı.",
+      "kind": "İstatistik",
+      "checkedAt": "2026-09-17"
+    },
+    {
+      "id": "sektorel-pmi-2026-08",
+      "title": "Türkiye Sektörel PMI",
+      "period": "Ağustos 2026",
+      "publisher": "İstanbul Sanayi Odası · S&P Global",
+      "publishedAt": "2026-09-01",
+      "checkedAt": "2026-09-17",
+      "summary": "İmalat sektörlerinde üretim, yeni siparişler, istihdam ve maliyet eğilimlerini karşılaştıran aylık rapor.",
+      "url": "https://www.iso.org.tr/haberler/diger-haberler/iso-turkiye-imalat-pmi-agustos-2026-raporu-ile-turkiye-sektorel-pmi-raporu-aciklandi/",
+      "reportUrl": "https://www.iso.org.tr/file/TRSektorelPMI_2026.08_TUR-13639.pdf",
+      "kind": "Rapor"
+    },
+    {
+      "id": "tcmb-enflasyon-2026-3",
+      "title": "Enflasyon Raporu 2026-III",
+      "period": "Ağustos 2026 değerlendirmesi",
+      "publisher": "Türkiye Cumhuriyet Merkez Bankası",
+      "publishedAt": "2026-08-13",
+      "url": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Yayinlar/Raporlar/Enflasyon%2BRaporu/2026/Enflasyon%2BRaporu%2B2026%2B-%2BIII/",
+      "summary": "Ekonomik görünüm, finansal koşullar, fiyat gelişmeleri ve orta vadeli tahminler. Tahminler gerçekleşmiş verilerden ayrı sunulur.",
+      "kind": "Rapor",
+      "checkedAt": "2026-09-17"
+    },
+    {
+      "id": "iso-ikinci500-2025",
+      "title": "Türkiye’nin İkinci 500 Büyük Sanayi Kuruluşu",
+      "period": "2025",
+      "publisher": "İstanbul Sanayi Odası",
+      "publishedAt": "2026-07-20",
+      "url": "https://www.iso.org.tr/haberler/basin-aciklamalari/iso-turkiyenin-ikinci-500-buyuk-sanayi-kurulusu2025-arastirmasinin-sonuclarini-acikladi/",
+      "summary": "İSO İkinci 500 kapsamındaki sanayi kuruluşlarının üretimden satış, ihracat, istihdam ve finansal sonuçları.",
+      "kind": "Araştırma",
+      "checkedAt": "2026-09-17"
+    },
+    {
+      "id": "iso500-2025",
+      "title": "Türkiye’nin 500 Büyük Sanayi Kuruluşu",
+      "period": "2025",
+      "publisher": "İstanbul Sanayi Odası",
+      "publishedAt": "2026-06-17",
+      "checkedAt": "2026-09-17",
+      "summary": "Üretimden satışlar, ihracat, istihdam ve finansal göstergelerle büyük sanayi kuruluşlarının 2025 sonuçları.",
+      "url": "https://www.iso500.org.tr/500-buyuk-sanayi-kurulusu?yil=2025",
+      "announcementUrl": "https://www.iso.org.tr/basin/basin-bultenleri/iso-turkiyenin-500-buyuk-sanayi-kurulusu-arastirmasi2025-sonuclarini-acikladi/",
+      "kind": "Araştırma"
+    },
+    {
+      "id": "tcmb-finansal-istikrar-2026-1",
+      "title": "Finansal İstikrar Raporu",
+      "period": "Mayıs 2026",
+      "publisher": "Türkiye Cumhuriyet Merkez Bankası",
+      "publishedAt": "2026-05-22",
+      "url": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Yayinlar/Raporlar/Finansal%2BIstikrar%2BRaporu/2026/Sayi%2B42",
+      "summary": "Reel sektör, hanehalkı ve finansal kesimde borçluluk, kredi, likidite ve risk gelişmelerini ele alan 42. sayı.",
+      "kind": "Rapor",
+      "checkedAt": "2026-09-17"
+    },
+    {
+      "id": "ticaret-eticaret-2025",
+      "title": "Türkiye’de E-Ticaretin Görünümü",
+      "period": "2025",
+      "publisher": "T.C. Ticaret Bakanlığı",
+      "publishedAt": "2026-05-14",
+      "url": "https://icticaret.ticaret.gov.tr/haberler/turkiyede-e-ticaretin-gorunumu-raporu-2025-yayinlandi",
+      "summary": "E-ticaret hacmi, işletmeler, perakende satışlar ve sektör dağılımlarını inceleyen 2025 yılı raporu.",
+      "kind": "Rapor",
+      "checkedAt": "2026-09-17"
+    },
+    {
+      "id": "tim-ilk1000-2025",
+      "title": "Türkiye’nin İlk 1000 İhracatçısı",
+      "period": "2025",
+      "publisher": "Türkiye İhracatçılar Meclisi",
+      "publishedAt": null,
+      "checkedAt": "2026-09-17",
+      "summary": "İhracatçı firmaların 2025 sıralaması, sektör dağılımları ve araştırma sonuçları. Kaynak sayfada rapor kitabı ile Excel listesi yer alır.",
+      "url": "https://tim.org.tr/tr/turkiyenin-ilk-1000-ihracatci-arastirmasi-2025",
+      "reportUrl": "https://tim.org.tr/files/downloads/Ihracat1000/2025/ILK_1000_2025_Kitabi.pdf",
+      "kind": "Araştırma"
+    }
+  ]
 }

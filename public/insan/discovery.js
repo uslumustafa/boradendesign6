@@ -1,3 +1,4 @@
+import {initServiceMenu} from './service-menu.js';
 import '../header-motion.js';
 import {searchItems} from './search-core.js';
 const header=document.querySelector('.discovery-header');
@@ -7,10 +8,7 @@ if(header){
  menus.forEach(menu=>menu.addEventListener('toggle',()=>{if(menu.open)menus.filter(x=>x!==menu).forEach(x=>x.open=false);}));
  document.addEventListener('click',e=>menus.forEach(menu=>{if(!menu.contains(e.target))menu.open=false;}));
  menus.forEach(menu=>menu.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.open=false;menu.querySelector('summary').focus();e.stopPropagation();}}));
- // Keep a selected expertise visible even in browsers without named-details exclusivity.
- const areas=[...header.querySelectorAll('.mega-area')];
- areas.forEach(area=>area.addEventListener('toggle',()=>{if(area.open)areas.filter(x=>x!==area).forEach(x=>x.open=false);}));
- header.querySelector('.service-menu')?.addEventListener('toggle',()=>{if(!areas.some(x=>x.open)&&areas[0])areas[0].open=true;});
+ initServiceMenu(header.querySelector('.service-menu'));
 }
 const choices=[...document.querySelectorAll('.need-choice')];
 choices.forEach(choice=>choice.addEventListener('toggle',()=>{if(choice.open)choices.filter(x=>x!==choice).forEach(x=>x.open=false);}));

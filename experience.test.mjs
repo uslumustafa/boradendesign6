@@ -5,7 +5,8 @@ import {serviceStory} from './service-story.mjs';
 const D=JSON.parse(fs.readFileSync(new URL('data/boraden.json',import.meta.url)));
 const content=serviceStory(D);
 assert.equal((content.match(/<img /g)||[]).length,1);
-assert.ok(content.includes('Temsili çalışma ortamı.'));
+assert.ok(content.includes('/assets/brand/boraden-perspectives-v1.webp'));
+assert.ok(!content.includes('bagimsiz-denetim.jpg'));
 assert.equal((content.match(/data-story-chapter=/g)||[]).length,3);
 assert.ok(!/<button|data-field-panel/.test(content));
 for(const g of D.groups){
