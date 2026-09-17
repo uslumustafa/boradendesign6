@@ -5,6 +5,7 @@ import * as THREE from './public/insan/vendor/three.module.js';
 // Exercise the actual globe lifecycle without WebGL or a browser dependency.
 const node=()=>({style:{},events:{},attrs:{},addEventListener(k,v){this.events[k]=v;},setAttribute(k,v){this.attrs[k]=v;}});
 const stage={...node(),clientWidth:600,clientHeight:600,prepend(){}},label=node(),orbisLabel=node(),pause=node(),home=node(),canvas=node();
+const captured=new Set();canvas.setPointerCapture=id=>captured.add(id);canvas.hasPointerCapture=id=>captured.has(id);canvas.releasePointerCapture=id=>captured.delete(id);
 const classes=new Set(),section={querySelector:s=>({'.world-stage':stage,'.world-origin':label,'.world-orbis':orbisLabel,'.world-pause':pause,'.world-home':home})[s],classList:{add:s=>classes.add(s)}};
 const media={matches:false,addEventListener(k,v){this.change=v;}},doc={hidden:false,querySelector:()=>section,addEventListener(k,v){this[k]=v;}};
 const textureURLs=[],observers=[],frames=new Map();let id=0,renders=0,lastScene,lastCamera,resize;
@@ -57,6 +58,31 @@ const html=fs.readFileSync(new URL('./public/insan/index.html',import.meta.url),
 assert.match(html,/class="world-orbis"[^>]*><strong>ORBIST<\/strong>/);
 assert.match(html,/class="world-connection"[\s\S]*?<strong>ORBIST<\/strong>/,'Orbis remains readable without WebGL');
 assert.doesNotMatch(html,/<a[^>]*href="[^"]*orbis/i,'Do not invent an Orbis URL');
+
+// Drag follows screen axes even when the Earth is tilted or upside down.
+const beforeDrag=globe.quaternion.clone();
+const orientations=[beforeDrag,new THREE.Quaternion().setFromEuler(new THREE.Euler(.9,1.7,2.5))];
+const pointer=(x,y,id=1)=>({clientX:x,clientY:y,pointerId:id,pointerType:'mouse',button:0});
+for(const orientation of orientations){
+ for(const [dx,dy] of [[40,0],[-40,0],[0,40],[0,-40]]){
+  globe.quaternion.copy(orientation);
+  const front=new THREE.Vector3(0,0,1.5).applyQuaternion(orientation.clone().invert());
+  canvas.events.pointerdown(pointer(100,100));
+  canvas.events.pointermove(pointer(100+dx,100+dy));
+  const moved=front.applyQuaternion(globe.quaternion);
+  if(dx){assert.ok(moved.x*dx>0,'Horizontal drag follows the pointer');assert.ok(Math.abs(moved.y)<1e-9,'Horizontal drag cannot drift vertically after tilt');}
+  else{assert.ok(moved.y*dy<0,'Vertical drag follows screen direction');assert.ok(Math.abs(moved.x)<1e-9,'Vertical drag cannot drift sideways after tilt');}
+  const held=globe.quaternion.clone();advance(1);assert.ok(globe.quaternion.angleTo(held)<1e-7,'Automatic spin stays suspended during drag');
+  canvas.events.pointerup(pointer(100+dx,100+dy));
+  assert.equal(captured.size,0,'Release clears pointer capture');
+ }
+}
+globe.quaternion.copy(beforeDrag);
+canvas.events.pointerdown({...pointer(100,100),button:2});canvas.events.pointermove(pointer(200,100));assert.ok(globe.quaternion.angleTo(beforeDrag)<1e-7,'Right button cannot rotate');
+canvas.events.pointerdown(pointer(100,100));canvas.events.pointermove(pointer(200,100,2));assert.ok(globe.quaternion.angleTo(beforeDrag)<1e-7,'Other pointers cannot hijack drag');
+canvas.events.pointercancel(pointer(100,100));canvas.events.pointermove(pointer(200,100));assert.ok(globe.quaternion.angleTo(beforeDrag)<1e-7,'Cancelled drag stops accepting motion');
+canvas.events.pointerdown(pointer(100,100));captured.delete(1);canvas.events.lostpointercapture(pointer(100,100));advance(1);assert.ok(globe.quaternion.angleTo(beforeDrag)>0,'Capture loss resumes automatic spin');
+globe.quaternion.copy(orientations[1]);const keyFront=new THREE.Vector3(0,0,1.5).applyQuaternion(globe.quaternion.clone().invert());canvas.events.keydown({key:'ArrowRight',preventDefault(){}});const keyMoved=keyFront.applyQuaternion(globe.quaternion);assert.ok(keyMoved.x>0&&Math.abs(keyMoved.y)<1e-9,'Keyboard shares screen axes');
 
 pause.events.click();assert.equal(frames.size,0,'Pause stops rotation');
 pause.events.click();const earlyFrame=frames.values().next().value;frames.clear();assert.doesNotThrow(()=>earlyFrame(99),'A same-frame callback may predate performance.now; progress must never be negative');assert.equal(frames.size,1);pause.events.click();

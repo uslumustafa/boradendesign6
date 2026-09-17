@@ -138,16 +138,35 @@ async function start() {
   pause.addEventListener('click',()=>{paused=!paused;sync();});
   const reset=()=>{elapsed=0;returning=true;if(!frame){globe.quaternion.copy(home);returning=false;draw();}};
   section.querySelector('.world-home').addEventListener('click',reset);
+  const screenX=new THREE.Vector3(1,0,0),screenY=new THREE.Vector3(0,1,0);
+  function rotateScreen(horizontal,vertical){
+    globe.rotateOnWorldAxis(screenY,horizontal);
+    globe.rotateOnWorldAxis(screenX,vertical);
+    draw();
+  }
   canvas.addEventListener('keydown',e=>{
     if(e.key==='Home'){e.preventDefault();reset();return;}
     if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
     e.preventDefault();returning=false;elapsed=0;
-    if(e.key==='ArrowLeft'||e.key==='ArrowRight')globe.rotateY(e.key==='ArrowLeft'?-.12:.12);
-    else globe.rotateX(e.key==='ArrowUp'?-.12:.12);
-    draw();
+    rotateScreen(e.key==='ArrowLeft'?-.12:e.key==='ArrowRight'?.12:0,e.key==='ArrowUp'?-.12:e.key==='ArrowDown'?.12:0);
   });
-  canvas.addEventListener('pointerdown',e=>{if(e.pointerType==='touch')return;drag=[e.clientX,e.clientY];returning=false;canvas.setPointerCapture(e.pointerId);});
-  canvas.addEventListener('pointermove',e=>{if(!drag)return;globe.rotateY((e.clientX-drag[0])*.004);globe.rotateX((e.clientY-drag[1])*.004);drag=[e.clientX,e.clientY];elapsed=0;draw();});
-  const release=()=>{drag=null;};canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
+  canvas.addEventListener('pointerdown',e=>{
+    if(drag||e.pointerType==='touch'||e.button!==0)return;
+    drag={id:e.pointerId,x:e.clientX,y:e.clientY};returning=false;
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove',e=>{
+    if(!drag||e.pointerId!==drag.id)return;
+    rotateScreen((e.clientX-drag.x)*.004,(e.clientY-drag.y)*.004);
+    drag.x=e.clientX;drag.y=e.clientY;elapsed=0;
+  });
+  const release=e=>{
+    if(!drag||e.pointerId!==drag.id)return;
+    drag=null;
+    if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);
+  };
+  canvas.addEventListener('pointerup',release);
+  canvas.addEventListener('pointercancel',release);
+  canvas.addEventListener('lostpointercapture',release);
   section.classList.add('world-ready');
 }
