@@ -1,8 +1,4 @@
 const video = document.querySelector('#people');
-const toggle = document.querySelector('.playback');
-const label = toggle.querySelector('.playback-label');
-const symbol = toggle.querySelector('.playback-symbol');
-const progress = document.querySelector('.film-progress span');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 let userPaused = false;
 let explicitPlay = false;
@@ -11,10 +7,7 @@ let covered = false;
 function syncControl() {
   const playing = !video.paused;
   const text = video.ended ? 'Yeniden izle' : playing ? 'Filmi durdur' : 'Filmi oynat';
-  toggle.setAttribute('aria-label', text);
-  toggle.setAttribute('aria-pressed', String(playing));
-  label.textContent = text;
-  symbol.textContent = playing ? 'Ⅱ' : '▶';
+  video.setAttribute('aria-label', 'Sessiz Boraden filmi. ' + text + ' — tıklayın veya Enter / boşluk tuşunu kullanın.');
 }
 async function updatePlayback() {
   if (video.ended) { syncControl(); return; }
@@ -26,23 +19,21 @@ async function updatePlayback() {
   try { video.muted = true; await video.play(); }
   catch { syncControl(); }
 }
-toggle.addEventListener('click', () => {
+function togglePlayback() {
   if (video.ended) { video.currentTime = 0; userPaused = false; explicitPlay = true; updatePlayback(); return; }
   userPaused = !video.paused;
   explicitPlay = !userPaused;
   updatePlayback();
+}
+video.addEventListener('click', togglePlayback);
+video.addEventListener('keydown', event => {
+  if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); togglePlayback(); }
 });
 video.addEventListener('play', syncControl);
 video.addEventListener('pause', syncControl);
 video.addEventListener('ended', syncControl);
-video.addEventListener('error', () => {
-  toggle.disabled = true;
-  label.textContent = 'Film yüklenemedi';
-  toggle.setAttribute('aria-label', 'Film yüklenemedi');
-});
-video.addEventListener('timeupdate', () => {
-  progress.style.transform = `scaleX(${Number.isFinite(video.duration) ? video.currentTime / video.duration : 0})`;
-});
+video.addEventListener('error', () => video.setAttribute('aria-label', 'Film yüklenemedi'));
+syncControl();
 new IntersectionObserver(([entry]) => {
   visible = entry.isIntersecting;
   updatePlayback();

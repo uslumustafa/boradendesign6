@@ -18,15 +18,14 @@ assert.ok(!fs.readFileSync(new URL('public/insan/index.html',import.meta.url),'u
 const events={},changes=[];
 let edge=800,filmTop=0;
 const cinema={getBoundingClientRect:()=>({top:filmTop,bottom:filmTop+800,height:800})};
-const controls={getBoundingClientRect:()=>({bottom:filmTop+760}),classList:{toggle(){}}};
 const about={getBoundingClientRect:()=>({top:edge})};
-const opening={querySelector:s=>s==='.cinema'?cinema:s==='.approach'?about:controls};
+const opening={querySelector:s=>s==='.cinema'?cinema:s==='.approach'?about:null};
 const context={document:{querySelector:()=>opening,dispatchEvent:e=>changes.push(e.detail.covered)},window:{addEventListener:(n,f)=>events[n]=f},requestAnimationFrame:fn=>fn(),ResizeObserver:class{observe(){}},CustomEvent:class{constructor(name,options){this.detail=options.detail;}}};
 vm.runInNewContext(fs.readFileSync(new URL('public/insan/experience.js',import.meta.url),'utf8'),context);
-assert.equal(cinema.inert,false);assert.equal(controls.inert,false);
-edge=500;events.scroll();assert.equal(cinema.inert,false);assert.equal(controls.inert,true);
+assert.equal(cinema.inert,false);
+edge=500;events.scroll();assert.equal(cinema.inert,false);
 edge=100;events.scroll();assert.equal(cinema.inert,true);assert.equal(changes.at(-1),true);
-edge=800;events.scroll();assert.equal(cinema.inert,false);assert.equal(controls.inert,false);assert.equal(changes.at(-1),false);
+edge=800;events.scroll();assert.equal(cinema.inert,false);assert.equal(changes.at(-1),false);
 // In normal mobile/reduced-motion flow the film itself scrolls off screen.
 filmTop=-750;edge=50;events.scroll();assert.equal(cinema.inert,true);
 filmTop=0;edge=800;events.resize();assert.equal(cinema.inert,false);

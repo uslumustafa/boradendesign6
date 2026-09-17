@@ -2,9 +2,15 @@
 
 Preview: `/insan/` and `/`.
 
-## Current cut — 16 September 2026
+## Delivery update — 17 September 2026
 
-- Active video: `public/insan/people-short-v4.mp4`; unchanged poster: `people-framing-v2.jpg`.
+Active file: `public/insan/people-short-v5.mp4`, 1920×1080, 24 fps, 351 frames / 14.625 seconds, no audio. Re-encoded from the preserved v2 edit with the v4 timing and dissolves, Lanczos scaling, mild 0.25 luma sharpening and H.264 CRF 16 / slow. Approximately 4.1 MB. Slogan, logo and descriptor are re-rendered at native 1080p by `source-media/human-opening/render-ending.py`; the second source replaces v2 seconds 16–22 at the same 1.5× closing pace. The portrait source is still native 720p: this is an upscaled delivery file, not native 1080p detail. No generation or credits used. The v4 file is preserved in Git but excluded from the release.
+
+Visible video overlay buttons and progress indicator were removed. Clicking the video or pressing Enter/Space pauses, plays or replays; keyboard focus, reduced-motion/data-saving and covered/background pause remain.
+
+## Previous cut — 16 September 2026
+
+- Previous video: `public/insan/people-short-v4.mp4`; unchanged poster: `people-framing-v2.jpg`.
 - Approximately 15 seconds (14.63s): varied fictional portraits, followed by the slogan and centered Boraden ending. Four-frame dissolves soften the two newly edited cuts. No audio, no loop; final logo remains visible.
 - Keep original portrait motion/framing. Retain source seconds 0–10 and 14–15; reduce the 16–22s closing cards to four seconds. Previous 22-second file remains for rollback. No generation or credits used.
 - Previous hard-cut v3 recipe (preserved for reference):

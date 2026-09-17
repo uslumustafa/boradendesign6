@@ -6,7 +6,7 @@ import {transform} from 'esbuild';
 const root = new URL('./dist/', import.meta.url);
 // Keep provenance in source control; ship licenses and on-page attributions.
 const excluded = ['__compare', 'route-manifest.json', 'assets/SOURCES.md',
-  'insan/people.mp4', 'insan/people-framing-v2.mp4', 'insan/people-short-v3.mp4',
+  'insan/people.mp4', 'insan/people-framing-v2.mp4', 'insan/people-short-v3.mp4', 'insan/people-short-v4.mp4',
   'assets/meeting-scroll-demo.mp4'];
 for (const file of excluded) await fs.rm(new URL(file, root), {recursive:true, force:true});
 
@@ -37,7 +37,7 @@ for (const entry of files) {
   }
   checked++;
 }
-for (const required of ['index.html','404.html','insan/index.html','insan/people-short-v4.mp4',
+for (const required of ['index.html','404.html','insan/index.html','insan/people-short-v5.mp4',
   'insan/world.js','insan/vendor/THREE-LICENSE.txt','assets/fonts/jost/OFL.txt']) {
   await fs.access(new URL(required, root));
 }

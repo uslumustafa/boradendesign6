@@ -22,6 +22,9 @@ export function vehicleSchedule({cost,month,kind,year=2026}){
 }
 const form=typeof document==='undefined'?null:document.querySelector('#vehicle-form');
 if(form){
+ const reveal=()=>{if(location.hash==='#arac-amortisman')form.closest('details').open=true;};
+ reveal();
+ window.addEventListener('hashchange',reveal);
  const result=document.querySelector('.vehicle-result'),error=document.querySelector('.vehicle-error');
  const money=n=>n.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2})+' TL';
  form.addEventListener('submit',e=>{
