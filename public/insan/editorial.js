@@ -36,15 +36,17 @@ if(typeof document!=='undefined'){
   previous?.addEventListener('click',()=>move(controls()-1));next?.addEventListener('click',()=>move(controls()+1));
   select?.addEventListener('change',()=>move(Number(select.value)));
   pause.hidden=false;pause.addEventListener('click',()=>{manual=!manual;sync();});
-  section.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'){hovered=true;sync();}});
-  section.addEventListener('pointerleave',()=>{hovered=false;sync();});
+  for(const target of [track,section.querySelector('.flow-toolbar')].filter(Boolean)){
+   target.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'){hovered=true;sync();}});
+   target.addEventListener('pointerleave',()=>{hovered=false;sync();});
+  }
   section.addEventListener('focusin',()=>{focused=Boolean(document.activeElement?.matches(':focus-visible'));sync();});
   section.addEventListener('focusout',()=>requestAnimationFrame(()=>{focused=section.contains(document.activeElement)&&document.activeElement.matches(':focus-visible');sync();}));
   track.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'){manual=true;sync();}},{passive:true});
   track.addEventListener('wheel',event=>{if(Math.abs(event.deltaX)>Math.abs(event.deltaY)){manual=true;sync();}},{passive:true});
   track.addEventListener('scroll',controls,{passive:true});
   new ResizeObserver(()=>{controls();sync();}).observe(track);
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:.15}).observe(track);
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:0}).observe(section);
   document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);
   section.querySelectorAll('[data-flow-controls]').forEach(el=>el.hidden=false);
   controls();sync();
