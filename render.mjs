@@ -11,7 +11,7 @@ const calculators=calculatorContext.window.BoradenExperience;
 const calculatorModes={'gelir-vergisi':'income',kdv:'vat','brut-net-maas':'salary'};
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const safeURL=s=>typeof s==='string'&&(/^(https?:\/\/|mailto:|tel:|\/(?!\/)|#)/i.test(s))?s:'#';
-const arrow='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg>';
+export const arrow='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg>';
 const chevron='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5"/></svg>';
 const mark='<svg viewBox="0 0 66 45" aria-hidden="true"><path d="m3 27 11 11L37 9" stroke="#00547c"/><path d="m18 27 11 11L52 9" stroke="#e94d2a"/><path d="m33 27 11 11L63 9" stroke="#259e3c"/></svg>';
 const logo=`<a class="brand" href="/" aria-label="Boraden ana sayfa">${mark}<span>BORADEN</span></a>`;
