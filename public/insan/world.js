@@ -41,7 +41,7 @@ async function start() {
   const fill = new THREE.DirectionalLight(0x326b9d,.25);
   fill.position.set(3,-1,4);scene.add(fill);
   const textures = new THREE.TextureLoader();
-  const load = name => textures.loadAsync('./earth/'+name);
+  const load = name => textures.loadAsync('/insan/earth/'+name);
   const [lights,clouds] = await Promise.all([load(stage.clientWidth<800?'nasa-night-mobile.jpg':'nasa-night.jpg'),load('earth_clouds.png')]);
   lights.colorSpace=THREE.SRGBColorSpace;
   globe.add(new THREE.Mesh(new THREE.SphereGeometry(1.5,64,48),new THREE.MeshPhongMaterial({map:lights,emissiveMap:lights,emissive:0xffffff,emissiveIntensity:.95,shininess:12})));

@@ -7,12 +7,18 @@ const node=()=>({style:{},events:{},attrs:{},addEventListener(k,v){this.events[k
 const stage={...node(),clientWidth:600,clientHeight:600,prepend(){}},label=node(),orbisLabel=node(),pause=node(),home=node(),canvas=node();
 const classes=new Set(),section={querySelector:s=>({'.world-stage':stage,'.world-origin':label,'.world-orbis':orbisLabel,'.world-pause':pause,'.world-home':home})[s],classList:{add:s=>classes.add(s)}};
 const media={matches:false,addEventListener(k,v){this.change=v;}},doc={hidden:false,querySelector:()=>section,addEventListener(k,v){this[k]=v;}};
-const observers=[],frames=new Map();let id=0,renders=0,lastScene,lastCamera,resize;
-const mock={...THREE,WebGLRenderer:class{domElement=canvas;setPixelRatio(){}setClearColor(){}setSize(){}render(s,c){renders++;lastScene=s;lastCamera=c;}},TextureLoader:class{async loadAsync(){return new THREE.Texture();}}};
+const textureURLs=[],observers=[],frames=new Map();let id=0,renders=0,lastScene,lastCamera,resize;
+const mock={...THREE,WebGLRenderer:class{domElement=canvas;setPixelRatio(){}setClearColor(){}setSize(){}render(s,c){renders++;lastScene=s;lastCamera=c;}},TextureLoader:class{async loadAsync(url){textureURLs.push(url);return new THREE.Texture();}}};
 const source=fs.readFileSync(new URL('./public/insan/world.js',import.meta.url),'utf8').replace("await import('./vendor/three.module.js')",'MOCK');
 vm.runInNewContext(source,{document:doc,matchMedia:()=>media,MOCK:mock,devicePixelRatio:2,performance:{now:()=>100},requestAnimationFrame:fn=>{frames.set(++id,fn);return id;},cancelAnimationFrame:i=>frames.delete(i),IntersectionObserver:class{constructor(fn){observers.push(fn);}observe(){}disconnect(){}},ResizeObserver:class{constructor(fn){resize=fn;}observe(){}}});
 assert.equal(renders,0,'Globe must not load until near viewport');
 await observers[0]([{isIntersecting:true}]);assert.ok(classes.has('world-ready'));
+assert.equal(textureURLs.length,2);
+for(const route of ['/', '/insan/']) for(const url of textureURLs){
+  const resolved=new URL(url,'https://boraden.example'+route);
+  assert.ok(resolved.pathname.startsWith('/insan/earth/'),'Textures resolve from root and /insan/');
+  assert.ok(fs.existsSync(new URL('./public'+resolved.pathname,import.meta.url)),'Texture exists in published assets');
+}
 observers[1]([{isIntersecting:true}]);assert.equal(frames.size,1);
 pause.events.click();assert.equal(frames.size,0);observers[1]([{isIntersecting:false}]);observers[1]([{isIntersecting:true}]);assert.equal(frames.size,0,'Manual pause survives return');
 pause.events.click();assert.equal(frames.size,1);doc.hidden=true;doc.visibilitychange();assert.equal(frames.size,0);doc.hidden=false;doc.visibilitychange();assert.equal(frames.size,1);
