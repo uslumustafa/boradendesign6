@@ -18,7 +18,7 @@ async function start() {
   const canvas = renderer.domElement;
   canvas.tabIndex = 0;
   canvas.setAttribute('role','img');
-  canvas.setAttribute('aria-label','Türkiye’den yedi kıtaya ve ayrıca İngiltere’deki Orbis’e uzanan dünya küresi. Ok tuşlarıyla döndürün; Home ile Türkiye’ye dönün.');
+  canvas.setAttribute('aria-label','Türkiye’den yedi kıtaya ve ayrıca İngiltere’deki ORBIST’e uzanan dünya küresi. Ok tuşlarıyla döndürün; Home ile Türkiye’ye dönün.');
   stage.prepend(canvas);
   const scene = new THREE.Scene();
   // Stars remain still behind the rotating Earth.

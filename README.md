@@ -51,3 +51,18 @@ Hizmet sonlarındaki sorumlu kişi alanı hazırdır. `data/service-contacts.jso
 Son görsel durum: daha belirgin açık zeminler, geniş uzmanlık ve kapanış yapbozları, kompakt perspektifler, hizmet renginde arka plan geçişleri ve görünürlükle başlayan açılış birleşmesi. Yeni müşteri geri bildirimleri buradan sürdürülecek; gerçek kişi bilgileri ve canlı Wagtail bağlantısı henüz tamamlanmış değildir.
 
 9 Eylül 2026 tarihli kaynaklı tasarım önerileri: [DESIGN_RECOMMENDATIONS.md](DESIGN_RECOMMENDATIONS.md).
+
+## Vercel client preview
+
+Use this repository (`boradendesign6`) as the Vercel project root. `vercel.json`
+selects `npm run build:production` and publishes only `dist/`. No environment
+variables are required for this static preview; do not add Gemini or other API keys.
+
+The release step minifies browser JS/CSS, retains license comments, removes debug
+logging and unused video versions, and rejects source maps, development files,
+local paths and common credential signatures. Source/provenance notes stay in Git.
+`npm run build` remains the normal development build. Preview pages remain noindex;
+this is not access control. The Wagtail backend and application delivery are not enabled.
+
+Validation: `npm run build:production && npm test`. Hosting has not been deployed
+by this change; verify Vercel routes and headers after the first deployment.

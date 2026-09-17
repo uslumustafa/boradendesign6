@@ -48,8 +48,8 @@ const arrow=globe.getObjectByName('orbis-arrow');assert.ok(arrow,'Directional ar
 const route=globe.getObjectByName('turkey-orbis-route').geometry.parameters.path;
 assert.ok(new THREE.Vector3(0,1,0).applyQuaternion(arrow.quaternion).dot(route.getTangent(.91))>.999,'Arrow points toward England');
 const html=fs.readFileSync(new URL('./public/insan/index.html',import.meta.url),'utf8');
-assert.match(html,/class="world-orbis"[^>]*><strong>ORBIS/);
-assert.match(html,/class="world-connection"[\s\S]*?<strong>Orbis/,'Orbis remains readable without WebGL');
+assert.match(html,/class="world-orbis"[^>]*><strong>ORBIST<\/strong>/);
+assert.match(html,/class="world-connection"[\s\S]*?<strong>ORBIST<\/strong>/,'Orbis remains readable without WebGL');
 assert.doesNotMatch(html,/<a[^>]*href="[^"]*orbis/i,'Do not invent an Orbis URL');
 
 pause.events.click();assert.equal(frames.size,0,'Pause stops rotation');

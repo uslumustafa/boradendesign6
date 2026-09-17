@@ -1,0 +1,14 @@
+.git
+.gemini
+.agent
+.vercel
+.env
+.env.*
+node_modules
+dist
+source-media
+research
+output
+*.test.mjs
+test.mjs
+*.md

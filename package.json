@@ -7,10 +7,12 @@
     "build": "npm run build:css && node build.mjs",
     "start": "node server.mjs",
     "test": "node --test test.mjs",
-    "build:css": "tailwindcss -i styles/editorial.css -o public/insan/editorial-design.css --minify"
+    "build:css": "tailwindcss -i styles/editorial.css -o public/insan/editorial-design.css --minify",
+    "build:production": "npm run build && node release.mjs"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
+    "esbuild": "^0.28.2",
     "tailwindcss": "^4.3.3"
   }
 }
