@@ -78,7 +78,7 @@ Veri dönemi, yayın tarihi ve kaynak kontrol tarihi ayrı alanlardır. Raporlar
 - Reklam tonundaki ana sayfa, blog, kariyer, iletişim ve altbilgi ifadeleri sadeleştirildi. Hakkımızda ihtiyaçlar ve çalışma süreciyle genişletildi; kişiler değişmedi.
 - Kontroller: build, mevcut13test, editorial ve yeni card-flow.test.mjs. Masaüstü ve seçili390px görsel kontrol; yerel değişiklikler, push yok. Film, hizmet sahnesi, dünya ve önceki yedek korunur.
 
-## 17 Eylül — site ve müşteri tanıtım videosu GitHub kaydı
+## 17 Eylül — site GitHub kaydı
 Bu checkpoint yukarıdaki yerel tasarım, hizmet menüsü, resmî kaynak şeridi, güncel raporlar, hareketli kartlar ve sade metin düzenlemelerini birlikte kaydeder. Hedef mevcut özel `uslumustafa/boradendesign6` deposunun `main` dalıdır; önceki yerel/push yok notları tarihsel durumları anlatır.
 
-Müşteri sunumu: [source-media/site-overview/Boraden-Web-Sitesi-Tanitimi.mp4](source-media/site-overview/Boraden-Web-Sitesi-Tanitimi.mp4). Sessiz H.264, 1280×720, 82.875 saniye; tam 14.625 saniyelik girişin ardından ana sayfa ve alt sayfalardan 15 kısa plan ve logo kapanışı. Video ayrıntıları aynı klasördeki README'dedir. Siteye gömülmez ve üretim yayını yapılmaz. Başvuru altyapısı ve diğer bekleyen işler yukarıdaki gibi devam eder.
+Kullanıcının talebiyle müşteri tanıtım ekran kaydı ve arşiv notları güncel depodan kaldırıldı; kayıt bilgisayarda korunur ve tekrar Git'e eklenmemelidir. Sitede kullanılan giriş filmi bu değişikliğin kapsamında değildir. Başvuru altyapısı ve diğer bekleyen işler yukarıdaki gibi devam eder.
